@@ -4729,7 +4729,7 @@ CellandCapacityAssistInfo-ExtIEs X2AP-PROTOCOL-EXTENSION ::= {
 	...
 }
 
-CellAssistanceInformation ::= CHOICE {				
+CellAssistanceInformation ::= CHOICE {				
 	limited-list				Limited-list,
 	full-list				ENUMERATED {allServedNRcells, ...},
 	...
