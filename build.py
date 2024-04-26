@@ -1,8 +1,9 @@
+import subprocess
 import requests
 from bs4 import BeautifulSoup
 import tempfile
 import zipfile
-from os import mkdir, listdir, system
+from os import mkdir, listdir
 from os.path import exists, join, isfile, basename
 from docx_asn1 import extract_text_from_docx
 from sys import argv
@@ -79,8 +80,6 @@ def write_asn1(path, asn1):
         f.write(asn1)
     if asn1 == "":
         print(f"Empty ASN1 {one_key} ({spec_ids[one_key]['desc']})")
-    else:
-        print(f"Extracted ASN1 {one_key} ({spec_ids[one_key]['desc']})")
     return asn_path
 
 
@@ -89,16 +88,17 @@ def translate_to_code(asn_path, code):
     if not exists(code_path):
         mkdir(code_path)
     try:
-        code = code_path + "/" + code
-        system(
-            f"hampi-rs-asn1c  --codec  uper --derive serialize --derive deserialize --module {code} -- {asn_path}"
-        )
+        path_code = code_path + "/" + code
+        cmd = f"hampi-rs-asn1c  --codec  uper --derive serialize --derive deserialize --module {path_code} -- {asn_path} > /tmp/gpp"
+        with open(f"/tmp/gpp_{code}", "w") as outfile:
+            subprocess.run(cmd, stdout=outfile, stderr=outfile, shell=True)
     except Exception as _e:
-        print(f"Error {one_key} ({spec_ids[one_key]['desc']})")
+        print(f"Error asn1 translation {one_key} ({spec_ids[one_key]['desc']})")
 
 
 for one_key in spec_ids.keys():
-    path_asn = f"{one_key}_spec_{spec_ids[one_key]['desc']}.asn"
+    desc = spec_ids[one_key]["desc"]
+    path_asn = f"{one_key}_spec_{desc}.asn"
     if "--compile" not in argv:
         docx = download_one_spec(one_key)
         path = basename(docx).split(".")[0]
@@ -106,9 +106,10 @@ for one_key in spec_ids.keys():
         if asn1 is None or asn1 == "":
             print(f"Error {one_key}")
             continue
+        asn1 = asn1.replace("\U000000a0", " ")
         write_asn1(path_asn, asn1)
     path_asn = "asn/" + path_asn
-    translate_to_code(path_asn, f"spec_{spec_ids[one_key]['desc'].lower()}.rs")
+    translate_to_code(path_asn, f"spec_{desc.lower()}.rs")
 
 
 file = "lib.rs"
@@ -118,5 +119,6 @@ with open("src/" + file, "w") as f:
     for one_code in list_code:
         name = one_code.split(".")[0]
         f.write(f"""pub mod {name} {{
+    #![allow(warnings)]
     include!("./{name}.rs");
 }}\n""")

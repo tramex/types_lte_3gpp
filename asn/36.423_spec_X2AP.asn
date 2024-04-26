@@ -7737,7 +7737,7 @@ PC5QoSParameters ::= SEQUENCE {
 }
 
 PC5QoSParameters-ExtIEs X2AP-PROTOCOL-EXTENSION ::= {
-    ...
+    ...
 }
 
 PC5QoSFlowList ::= SEQUENCE (SIZE(1..maxnoofPC5QoSFlows)) OF PC5QoSFlowItem
@@ -7751,7 +7751,7 @@ PC5QoSFlowItem::= SEQUENCE {
 }
 
 PC5QoSFlowItem-ExtIEs X2AP-PROTOCOL-EXTENSION ::= {
-             ...
+             ...
 }
 
 PC5FlowBitRates ::= SEQUENCE {
@@ -7762,7 +7762,7 @@ PC5FlowBitRates ::= SEQUENCE {
 }
 
 PC5FlowBitRates-ExtIEs X2AP-PROTOCOL-EXTENSION ::= {
-             ...
+             ...
 }
 
 PDCPChangeIndication ::= ENUMERATED {s-KgNB-update-required, pDCP-data-recovery-required,...}
@@ -8244,7 +8244,7 @@ SgNBResourceCoordinationInformationExtIEs X2AP-PROTOCOL-EXTENSION ::= {
 	...
 }
 
-SgNB-UE-X2AP-ID ::= INTEGER (0..4294967295)
+SgNB-UE-X2AP-ID ::= INTEGER (0..4294967295)
 
 SIPTOBearerDeactivationIndication ::= ENUMERATED {
 	true,
