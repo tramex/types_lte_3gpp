@@ -2,8 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 import tempfile
 import zipfile
-import os
+from os import mkdir, listdir, system
+from os.path import exists, join, isfile, basename
 from docx_asn1 import extract_text_from_docx
+from sys import argv
 
 
 def download_one_spec(serie):
@@ -18,19 +20,15 @@ def download_one_spec(serie):
     tbody = table.find("tbody")
     link = tbody.find("a")
     path_to_zip = tempfile.gettempdir() + "/3gpp_build"
-    if not os.path.exists(path_to_zip):
-        os.mkdir(path_to_zip)
+    if not exists(path_to_zip):
+        mkdir(path_to_zip)
     path_to_zip_file = path_to_zip + "/3gpp.zip"
     with open(path_to_zip_file, "wb") as f:
         f.write(requests.get(link["href"]).content)
     out = path_to_zip + f"/output_{serie}"
     with zipfile.ZipFile(path_to_zip_file, "r") as zip_ref:
         zip_ref.extractall(out)
-    files = [
-        os.path.join(out, f)
-        for f in os.listdir(out)
-        if os.path.isfile(os.path.join(out, f))
-    ]
+    files = [join(out, f) for f in listdir(out) if isfile(join(out, f))]
     return files[0]
 
 
@@ -72,8 +70,8 @@ spec_ids = {
 
 def write_asn1(path, asn1):
     code_asn1 = "asn"
-    if not os.path.exists(code_asn1):
-        os.mkdir(code_asn1)
+    if not exists(code_asn1):
+        mkdir(code_asn1)
     if asn1 is None:
         print(f"Error {one_key}")
     asn_path = code_asn1 + "/" + path
@@ -88,11 +86,11 @@ def write_asn1(path, asn1):
 
 def translate_to_code(asn_path, code):
     code_path = "src"
-    if not os.path.exists(code_path):
-        os.mkdir(code_path)
+    if not exists(code_path):
+        mkdir(code_path)
     try:
         code = code_path + "/" + code
-        os.system(
+        system(
             f"hampi-rs-asn1c  --codec  uper --derive serialize --derive deserialize --module {code} -- {asn_path}"
         )
     except Exception as _e:
@@ -100,17 +98,20 @@ def translate_to_code(asn_path, code):
 
 
 for one_key in spec_ids.keys():
-    docx = download_one_spec(one_key)
-    path = os.path.basename(docx).split(".")[0]
-    asn1 = extract_text_from_docx(docx)
-    if asn1 is None or asn1 == "":
-        print(f"Error {one_key}")
-        continue
-    path_asn = write_asn1(f"{one_key}_spec_{spec_ids[one_key]['desc']}.asn", asn1)
+    path_asn = f"{one_key}_spec_{spec_ids[one_key]['desc']}.asn"
+    if "--compile" not in argv:
+        docx = download_one_spec(one_key)
+        path = basename(docx).split(".")[0]
+        asn1 = extract_text_from_docx(docx)
+        if asn1 is None or asn1 == "":
+            print(f"Error {one_key}")
+            continue
+        write_asn1(path_asn, asn1)
+    path_asn = "asn/" + path_asn
     translate_to_code(path_asn, f"spec_{spec_ids[one_key]['desc'].lower()}.rs")
 
 
-list_code = os.listdir("src")
+list_code = listdir("src")
 with open("src/lib.rs", "w") as f:
     for one_code in list_code:
         f.write(f"mod {one_code.split('.')[0]};\n")
