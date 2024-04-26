@@ -53,6 +53,9 @@ spec_ids = {
     "36.413": {
         "spec": "2441",
         "desc": "S1AP",
+        "start": "-- ***************",
+        "end": "END",
+        "add": True,
     },
     "36.423": {
         "spec": "2452",
@@ -87,13 +90,20 @@ def translate_to_code(asn_path, code):
     code_path = "src"
     if not exists(code_path):
         mkdir(code_path)
+    print("Translating", asn_path, "to", code, end="...")
     try:
         path_code = code_path + "/" + code
         cmd = f"hampi-rs-asn1c  --codec  uper --derive serialize --derive deserialize --module {path_code} -- {asn_path} > /tmp/gpp"
         with open(f"/tmp/gpp_{code}", "w") as outfile:
             subprocess.run(cmd, stdout=outfile, stderr=outfile, shell=True)
+        if exists(path_code):
+            print("done")
+        else:
+            raise Exception("Error file not created")
     except Exception as _e:
-        print(f"Error asn1 translation {one_key} ({spec_ids[one_key]['desc']})")
+        print(
+            f"Error asn1 translation {one_key} ({spec_ids[one_key]['desc']}) see more at /tmp/gpp_{code}"
+        )
 
 
 for one_key in spec_ids.keys():
@@ -102,9 +112,17 @@ for one_key in spec_ids.keys():
     if "--compile" not in argv:
         docx = download_one_spec(one_key)
         path = basename(docx).split(".")[0]
-        asn1 = extract_text_from_docx(docx)
+        if "start" in spec_ids[one_key]:
+            asn1 = extract_text_from_docx(
+                docx,
+                spec_ids[one_key]["start"],
+                spec_ids[one_key]["end"],
+                spec_ids[one_key]["add"],
+            )
+        else:
+            asn1 = extract_text_from_docx(docx)
         if asn1 is None or asn1 == "":
-            print(f"Error {one_key}")
+            print(f"Error no asn1 {one_key} ({desc})")
             continue
         asn1 = asn1.replace("\U000000a0", " ")
         write_asn1(path_asn, asn1)
