@@ -111,7 +111,12 @@ for one_key in spec_ids.keys():
     translate_to_code(path_asn, f"spec_{spec_ids[one_key]['desc'].lower()}.rs")
 
 
-list_code = listdir("src")
-with open("src/lib.rs", "w") as f:
+file = "lib.rs"
+
+list_code = [one_path for one_path in listdir("src") if one_path != file]
+with open("src/" + file, "w") as f:
     for one_code in list_code:
-        f.write(f"mod {one_code.split('.')[0]};\n")
+        name = one_code.split(".")[0]
+        f.write(f"""pub mod {name} {{
+    include!("./{name}.rs");
+}}\n""")
