@@ -5659,6 +5659,7 @@ CQI-ReportPeriodic-v1130 ::=	SEQUENCE {
 
 CQI-ReportPeriodic-v1310 ::=	SEQUENCE {
 	cri-ReportConfig-r13			CRI-ReportConfig-r13				OPTIONAL,	-- Need OR
+
 }
 
 CQI-ReportPeriodic-v1320 ::=	SEQUENCE {

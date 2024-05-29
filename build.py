@@ -1,7 +1,9 @@
+#!/bin/env python3
 import subprocess
 import requests
 from bs4 import BeautifulSoup
 import tempfile
+import re
 import zipfile
 from os import mkdir, listdir
 from os.path import exists, join, isfile, basename
@@ -30,7 +32,19 @@ def download_one_spec(serie):
     with zipfile.ZipFile(path_to_zip_file, "r") as zip_ref:
         zip_ref.extractall(out)
     files = [join(out, f) for f in listdir(out) if isfile(join(out, f))]
+    print("Downloaded", files[0])
     return files[0]
+
+
+def sa1p_patch(text):
+    new_text = text.replace("id-CSGMembershipStatus", "id-CSGStatus")
+    new_text = text.replace("CSGMembershipStatus", "CSGStatus")
+    return new_text
+
+
+def rrc_patch(text):
+    new_text = re.sub(r".*simultaneousAckNackAndCQI-Format4-Format5-r13.*", "", text)
+    return new_text
 
 
 spec_ids = {
@@ -49,6 +63,7 @@ spec_ids = {
     "36.331": {
         "spec": "2440",
         "desc": "RRC",
+        "patch": rrc_patch,
     },
     "36.413": {
         "spec": "2441",
@@ -56,6 +71,7 @@ spec_ids = {
         "start": "-- ***************",
         "end": "END",
         "add": True,
+        "patch": sa1p_patch,
     },
     "36.423": {
         "spec": "2452",
@@ -86,6 +102,7 @@ def write_asn1(path, asn1):
         f.write(asn1)
     if asn1 == "":
         print(f"Empty ASN1 {one_key} ({spec_ids[one_key]['desc']})")
+    print("ASN1", path, "written")
     return asn_path
 
 
@@ -124,6 +141,8 @@ for one_key in spec_ids.keys():
             )
         else:
             asn1 = extract_text_from_docx(docx)
+        if "patch" in spec_ids[one_key]:
+            asn1 = spec_ids[one_key]["patch"](asn1)
         if asn1 is None or asn1 == "":
             print(f"Error no asn1 {one_key} ({desc})")
             continue

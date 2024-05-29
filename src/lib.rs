@@ -1,3 +1,7 @@
+pub mod spec_s1ap {
+    #![allow(warnings)]
+    include!("./spec_s1ap.rs");
+}
 pub mod spec_lppa {
     #![allow(warnings)]
     include!("./spec_lppa.rs");
