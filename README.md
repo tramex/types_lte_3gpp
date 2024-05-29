@@ -7,6 +7,9 @@ python build.py
 
 #compile only
 python build.py --compile
+
+#download only
+python build.py --download
 ```
 
 ## Release

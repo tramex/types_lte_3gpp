@@ -133,10 +133,13 @@ def translate_to_code(asn_path, code):
         )
 
 
+should_download = "--download" in argv and len(argv) == 2 or len(argv) == 1
+should_compile = "--compile" in argv and len(argv) == 2 or len(argv) == 1
+
 for one_key in spec_ids.keys():
     desc = spec_ids[one_key]["desc"]
     path_asn = f"{one_key}_spec_{desc}.asn"
-    if "--compile" not in argv:
+    if should_download:
         docx = download_one_spec(one_key)
         path = basename(docx).split(".")[0]
         if "start" in spec_ids[one_key]:
@@ -155,8 +158,9 @@ for one_key in spec_ids.keys():
             continue
         asn1 = asn1.replace("\U000000a0", " ")
         write_asn1(path_asn, asn1)
-    path_asn = "asn/" + path_asn
-    translate_to_code(path_asn, f"spec_{desc.lower()}.rs")
+    if should_compile:
+        path_asn = "asn/" + path_asn
+        translate_to_code(path_asn, f"spec_{desc.lower()}.rs")
 
 
 file = "lib.rs"
