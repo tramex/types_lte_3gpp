@@ -42,6 +42,12 @@ def sa1p_patch(text):
     return new_text
 
 
+def x2ap_patch(text):
+    new_text = text.replace("id-CSGMembershipStatus", "id-CSGStatus")
+    new_text = text.replace("CSGMembershipStatus", "CSGStatus")
+    return new_text
+
+
 def rrc_patch(text):
     new_text = re.sub(r".*simultaneousAckNackAndCQI-Format4-Format5-r13.*", "", text)
     return new_text
@@ -76,6 +82,7 @@ spec_ids = {
     "36.423": {
         "spec": "2452",
         "desc": "X2AP",
+        "patch": x2ap_patch,
     },
     "36.443": {
         "spec": "2458",

@@ -2417,7 +2417,7 @@ SeNBAdditionRequest-IEs X2AP-PROTOCOL-IES ::= {
 	{ ID id-ServingPLMN						CRITICALITY ignore	TYPE PLMN-Identity						PRESENCE optional}|
 	{ ID id-E-RABs-ToBeAdded-List			CRITICALITY reject	TYPE E-RABs-ToBeAdded-List				PRESENCE mandatory}|
 	{ ID id-MeNBtoSeNBContainer				CRITICALITY reject	TYPE MeNBtoSeNBContainer				PRESENCE mandatory}|
-	{ ID id-CSGMembershipStatus				CRITICALITY reject	TYPE CSGMembershipStatus				PRESENCE optional}|
+	{ ID id-CSGStatus				CRITICALITY reject	TYPE CSGStatus				PRESENCE optional}|
 	{ ID id-SeNB-UE-X2AP-ID					CRITICALITY reject	TYPE UE-X2AP-ID							PRESENCE optional}|
 	{ ID id-SeNB-UE-X2AP-ID-Extension		CRITICALITY reject	TYPE UE-X2AP-ID-Extension				PRESENCE optional}|
 	{ ID id-ExpectedUEBehaviour				CRITICALITY ignore	TYPE ExpectedUEBehaviour				PRESENCE optional}|
@@ -2620,7 +2620,7 @@ SeNBModificationRequest-IEs X2AP-PROTOCOL-IES ::= {
 	{ ID id-ServingPLMN							CRITICALITY ignore	TYPE PLMN-Identity							PRESENCE optional}|
 	{ ID id-UE-ContextInformationSeNBModReq		CRITICALITY reject	TYPE UE-ContextInformationSeNBModReq	PRESENCE optional}|
 	{ ID id-MeNBtoSeNBContainer					CRITICALITY ignore	TYPE MeNBtoSeNBContainer					PRESENCE optional}|
-	{ ID id-CSGMembershipStatus					CRITICALITY reject	TYPE CSGMembershipStatus					PRESENCE optional}|
+	{ ID id-CSGStatus					CRITICALITY reject	TYPE CSGStatus					PRESENCE optional}|
 	{ ID id-MeNB-UE-X2AP-ID-Extension			CRITICALITY reject	TYPE UE-X2AP-ID-Extension					PRESENCE optional}|
 	{ ID id-SeNB-UE-X2AP-ID-Extension			CRITICALITY reject	TYPE UE-X2AP-ID-Extension					PRESENCE optional},
 	...

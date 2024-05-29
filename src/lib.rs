@@ -14,3 +14,7 @@ pub mod spec_rrc {
     #![allow(warnings)]
     include!("./spec_rrc.rs");
 }
+pub mod spec_x2ap {
+    #![allow(warnings)]
+    include!("./spec_x2ap.rs");
+}
