@@ -11,4 +11,4 @@ python build.py --compile
 
 ## Notes
 
-- rrc should be [manually patched](https://github.com/tramex/types_lte_3gpp/commit/0e13de441e98f35f0937ef1bcd8a705e101ddd40#r141406205)
+- some asn files should be manually patched (see `*_patch` functions in `build.py`)
