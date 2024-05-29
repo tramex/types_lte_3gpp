@@ -1,4 +1,4 @@
-# types_lte_3gpp
+# types_lte_3gpp [![badge](https://img.shields.io/crates/v/types_lte_3gpp)](https://crates.io/crates/types_lte_3gpp)
 
 ## Generate 3GPP types
 
