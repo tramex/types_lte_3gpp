@@ -166,6 +166,7 @@ for one_key in spec_ids.keys():
                 mkdir(out_path)
             if translate_to_code(one_codec, path_asn, desc.lower()):
                 with open(out_path + "mod.rs", "a") as f:
+                    f.write(f"""#[cfg(feature = "{desc.lower()}")]\n""")
                     f.write(f"pub mod spec_{desc.lower()} {{\n")
                     f.write("    #![allow(warnings)]\n")
                     f.write(f"""    include!("./spec_{desc.lower()}.rs");\n""")

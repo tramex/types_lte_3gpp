@@ -1,3 +1,4 @@
+#[cfg(feature = "rrc")]
 // tests
 #[cfg(test)]
 mod tests {

@@ -19,6 +19,13 @@ cargo publish -j 4
 # force reduce the number of processes
 ```
 
+## Tests
+
+```sh
+# install cargo hack
+cargo hack test --feature-powerset --all-targets
+```
+
 ## Notes
 
 - some asn files should be manually patched (see `*_patch` functions in `build.py`)

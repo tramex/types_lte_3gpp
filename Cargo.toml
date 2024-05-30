@@ -1,6 +1,6 @@
 [package]
 name = "types_lte_3gpp"
-version = "1.0.3"
+version = "1.0.4"
 edition = "2021"
 license = "MIT"
 authors = [
@@ -14,6 +14,13 @@ repository = "https://github.com/tramex/types_3gpp"
 homepage = "https://github.com/tramex/types_3gpp"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[features]
+rrc = []
+s1ap = []
+x2ap = []
+m2ap = []
+lppa = []
 
 [dependencies]
 asn1-codecs = "0.6.1"
