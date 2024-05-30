@@ -46,7 +46,7 @@ pub const ID_CN_TYPE_RESTRICTIONS: u16 = 301;
 
 pub const ID_CSG_ID: u16 = 70;
 
-pub const ID_CSG_STATUS: u16 = 71;
+pub const ID_CSG_MEMBERSHIP_STATUS: u16 = 71;
 
 pub const ID_CSI_RS_TRANSMISSION_INDICATION: u16 = 380;
 
@@ -518,7 +518,7 @@ pub const ID_RRC_CONTAINER: u16 = 237;
 
 pub const ID_RSRPMR_LIST: u16 = 110;
 
-pub const ID_RE_ESTABLISHNT_CELL_ECGI: u16 = 49;
+pub const ID_RE_ESTABLISHMENT_CELL_ECGI: u16 = 49;
 
 pub const ID_RECEIVE_STATUS_OF_ULPDCPSD_US_EXTENDED: u16 = 91;
 
@@ -1440,8 +1440,8 @@ pub struct CSG_Id(pub bitvec::vec::BitVec<u8, bitvec::order::Msb0>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "1")]
-pub struct CSGStatus(pub u8);
-impl CSGStatus {
+pub struct CSGMembershipStatus(pub u8);
+impl CSGMembershipStatus {
     pub const MEMBER: u8 = 0u8;
     pub const NOT_MEMBER: u8 = 1u8;
 }
@@ -12585,7 +12585,7 @@ pub enum HandoverReportProtocolIEs_EntryValue {
     #[asn(key = 82)]
     Id_MobilityInformation(MobilityInformation),
     #[asn(key = 49)]
-    Id_Re_establishntCellECGI(ECGI),
+    Id_Re_establishmentCellECGI(ECGI),
     #[asn(key = 83)]
     Id_SourceCellCRNTI(CRNTI),
     #[asn(key = 52)]
@@ -12626,7 +12626,7 @@ pub enum HandoverRequestProtocolIEs_EntryValue {
     #[asn(key = 361)]
     Id_CHOinformation_REQ(CHOinformation_REQ),
     #[asn(key = 71)]
-    Id_CSGStatus(CSGStatus),
+    Id_CSGMembershipStatus(CSGMembershipStatus),
     #[asn(key = 5)]
     Id_Cause(Cause),
     #[asn(key = 104)]
@@ -14337,7 +14337,7 @@ pub enum RLFIndicationProtocolIEs_EntryValue {
     #[asn(key = 75)]
     Id_RRCConnSetupIndicator(RRCConnSetupIndicator),
     #[asn(key = 49)]
-    Id_Re_establishntCellECGI(ECGI),
+    Id_Re_establishmentCellECGI(ECGI),
     #[asn(key = 51)]
     Id_ShortMAC_I(ShortMAC_I),
     #[asn(key = 60)]
@@ -15402,7 +15402,7 @@ pub struct ScheduledCommunicationTimeIE_Extensions(
 #[asn(type = "OPEN")]
 pub enum SeNBAdditionRequestProtocolIEs_EntryValue {
     #[asn(key = 71)]
-    Id_CSGStatus(CSGStatus),
+    Id_CSGMembershipStatus(CSGMembershipStatus),
     #[asn(key = 117)]
     Id_E_RABs_ToBeAdded_List(E_RABs_ToBeAdded_List),
     #[asn(key = 104)]
@@ -15638,7 +15638,7 @@ pub struct SeNBModificationRefuseProtocolIEs(pub Vec<SeNBModificationRefuseProto
 #[asn(type = "OPEN")]
 pub enum SeNBModificationRequestProtocolIEs_EntryValue {
     #[asn(key = 71)]
-    Id_CSGStatus(CSGStatus),
+    Id_CSGMembershipStatus(CSGMembershipStatus),
     #[asn(key = 5)]
     Id_Cause(Cause),
     #[asn(key = 111)]

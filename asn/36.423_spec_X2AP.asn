@@ -764,7 +764,7 @@ IMPORTS
 	AerialUEsubscriptionInformation,
 	CriticalityDiagnostics,
 	CRNTI,
-	CSGStatus,
+	CSGMembershipStatus,
 	CSG-Id,
 	DeactivationIndication,
 	DL-Forwarding,
@@ -1053,7 +1053,7 @@ FROM X2AP-Containers
 	id-ENB1-Mobility-Parameters,
 	id-ENB2-Mobility-Parameters-Modification-Range,
 	id-FailureCellPCI,
-	id-Re-establishntCellECGI,
+	id-Re-establishmentCellECGI,
 	id-FailureCellCRNTI,
 	id-ShortMAC-I,
 	id-SourceCellECGI,
@@ -1066,7 +1066,7 @@ FROM X2AP-Containers
 	id-MeasurementFailureCause-Item,
 	id-CompleteFailureCauseInformation-List,
 	id-CompleteFailureCauseInformation-Item,
-	id-CSGStatus,
+	id-CSGMembershipStatus,
 	id-CSG-Id,
 	id-MDTConfiguration,
 	id-ManagementBasedMDTallowed,
@@ -1365,7 +1365,7 @@ HandoverRequest-IEs X2AP-PROTOCOL-IES ::= {
 	{ ID id-UE-HistoryInformation						CRITICALITY ignore	TYPE UE-HistoryInformation								PRESENCE mandatory}|
 	{ ID id-TraceActivation								CRITICALITY ignore	TYPE TraceActivation										PRESENCE optional}|
 	{ ID id-SRVCCOperationPossible						CRITICALITY ignore	TYPE SRVCCOperationPossible								PRESENCE optional}|
-	{ ID id-CSGStatus							CRITICALITY reject	TYPE CSGStatus									PRESENCE optional}|
+	{ ID id-CSGMembershipStatus							CRITICALITY reject	TYPE CSGMembershipStatus									PRESENCE optional}|
 	{ ID id-MobilityInformation							CRITICALITY ignore	TYPE MobilityInformation									PRESENCE optional}|
 	{ ID id-Masked-IMEISV								CRITICALITY ignore	TYPE Masked-IMEISV											PRESENCE optional}|
 	{ ID id-UE-HistoryInformationFromTheUE				CRITICALITY ignore	TYPE UE-HistoryInformationFromTheUE					PRESENCE optional}|
@@ -1558,7 +1558,7 @@ HandoverReport-IEs X2AP-PROTOCOL-IES ::= {
 	{ ID id-Cause										CRITICALITY ignore	TYPE Cause													PRESENCE mandatory}|
 	{ ID id-SourceCellECGI								CRITICALITY ignore	TYPE ECGI													PRESENCE mandatory}|
 	{ ID id-FailureCellECGI								CRITICALITY ignore	TYPE ECGI													PRESENCE mandatory}|
-	{ ID id-Re-establishntCellECGI					CRITICALITY ignore	TYPE ECGI													PRESENCE conditional} -- The IE shall be present if the Handover Report Type IE is set to “HO to Wrong Cell” -- |
+	{ ID id-Re-establishmentCellECGI					CRITICALITY ignore	TYPE ECGI													PRESENCE conditional} -- The IE shall be present if the Handover Report Type IE is set to “HO to Wrong Cell” -- |
 	{ ID id-TargetCellInUTRAN							CRITICALITY ignore	TYPE TargetCellInUTRAN									PRESENCE conditional} -- The IE shall be present if the Handover Report Type IE is set to "InterRAT ping-pong" --|
 	{ ID id-SourceCellCRNTI								CRITICALITY ignore	TYPE CRNTI													PRESENCE optional}|
 	{ ID id-MobilityInformation							CRITICALITY ignore	TYPE MobilityInformation									PRESENCE optional}|
@@ -2264,7 +2264,7 @@ RLFIndication ::= SEQUENCE {
 
 RLFIndication-IEs X2AP-PROTOCOL-IES ::= {
 	{ ID id-FailureCellPCI								CRITICALITY ignore	TYPE PCI														PRESENCE mandatory}|
-	{ ID id-Re-establishntCellECGI					CRITICALITY ignore	TYPE ECGI														PRESENCE mandatory}|
+	{ ID id-Re-establishmentCellECGI					CRITICALITY ignore	TYPE ECGI														PRESENCE mandatory}|
 	{ ID id-FailureCellCRNTI							CRITICALITY ignore	TYPE CRNTI														PRESENCE mandatory}|
 	{ ID id-ShortMAC-I									CRITICALITY ignore	TYPE ShortMAC-I													PRESENCE optional}|
 	{ ID id-UE-RLF-Report-Container						CRITICALITY ignore	TYPE UE-RLF-Report-Container								PRESENCE optional}|
@@ -2417,7 +2417,7 @@ SeNBAdditionRequest-IEs X2AP-PROTOCOL-IES ::= {
 	{ ID id-ServingPLMN						CRITICALITY ignore	TYPE PLMN-Identity						PRESENCE optional}|
 	{ ID id-E-RABs-ToBeAdded-List			CRITICALITY reject	TYPE E-RABs-ToBeAdded-List				PRESENCE mandatory}|
 	{ ID id-MeNBtoSeNBContainer				CRITICALITY reject	TYPE MeNBtoSeNBContainer				PRESENCE mandatory}|
-	{ ID id-CSGStatus				CRITICALITY reject	TYPE CSGStatus				PRESENCE optional}|
+	{ ID id-CSGMembershipStatus				CRITICALITY reject	TYPE CSGMembershipStatus				PRESENCE optional}|
 	{ ID id-SeNB-UE-X2AP-ID					CRITICALITY reject	TYPE UE-X2AP-ID							PRESENCE optional}|
 	{ ID id-SeNB-UE-X2AP-ID-Extension		CRITICALITY reject	TYPE UE-X2AP-ID-Extension				PRESENCE optional}|
 	{ ID id-ExpectedUEBehaviour				CRITICALITY ignore	TYPE ExpectedUEBehaviour				PRESENCE optional}|
@@ -2620,7 +2620,7 @@ SeNBModificationRequest-IEs X2AP-PROTOCOL-IES ::= {
 	{ ID id-ServingPLMN							CRITICALITY ignore	TYPE PLMN-Identity							PRESENCE optional}|
 	{ ID id-UE-ContextInformationSeNBModReq		CRITICALITY reject	TYPE UE-ContextInformationSeNBModReq	PRESENCE optional}|
 	{ ID id-MeNBtoSeNBContainer					CRITICALITY ignore	TYPE MeNBtoSeNBContainer					PRESENCE optional}|
-	{ ID id-CSGStatus					CRITICALITY reject	TYPE CSGStatus					PRESENCE optional}|
+	{ ID id-CSGMembershipStatus					CRITICALITY reject	TYPE CSGMembershipStatus					PRESENCE optional}|
 	{ ID id-MeNB-UE-X2AP-ID-Extension			CRITICALITY reject	TYPE UE-X2AP-ID-Extension					PRESENCE optional}|
 	{ ID id-SeNB-UE-X2AP-ID-Extension			CRITICALITY reject	TYPE UE-X2AP-ID-Extension					PRESENCE optional},
 	...
@@ -6315,7 +6315,7 @@ CriticalityDiagnostics-IE-List-ExtIEs X2AP-PROTOCOL-EXTENSION ::= {
 
 CRNTI ::= BIT STRING (SIZE (16))
 
-CSGStatus ::= ENUMERATED { 
+CSGMembershipStatus ::= ENUMERATED { 
 	member,
 	not-member
 }
@@ -9331,7 +9331,7 @@ id-ENB2-Proposed-Mobility-Parameters										ProtocolIE-ID ::= 45
 id-ENB1-Mobility-Parameters													ProtocolIE-ID ::= 46
 id-ENB2-Mobility-Parameters-Modification-Range								ProtocolIE-ID ::= 47
 id-FailureCellPCI															ProtocolIE-ID ::= 48
-id-Re-establishntCellECGI													ProtocolIE-ID ::= 49
+id-Re-establishmentCellECGI													ProtocolIE-ID ::= 49
 id-FailureCellCRNTI															ProtocolIE-ID ::= 50
 id-ShortMAC-I																ProtocolIE-ID ::= 51
 id-SourceCellECGI															ProtocolIE-ID ::= 52
@@ -9353,7 +9353,7 @@ id-MeasurementFailureCause-Item												ProtocolIE-ID ::= 67
 id-CompleteFailureCauseInformation-List										ProtocolIE-ID ::= 68
 id-CompleteFailureCauseInformation-Item										ProtocolIE-ID ::= 69
 id-CSG-Id																	ProtocolIE-ID ::= 70
-id-CSGStatus														ProtocolIE-ID ::= 71
+id-CSGMembershipStatus														ProtocolIE-ID ::= 71
 id-MDTConfiguration															ProtocolIE-ID ::= 72
 id-ManagementBasedMDTallowed												ProtocolIE-ID ::= 74
 id-RRCConnSetupIndicator													ProtocolIE-ID ::= 75

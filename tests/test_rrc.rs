@@ -5,7 +5,7 @@ mod tests {
     pub fn test_decode() {
         use asn1_codecs::{uper::UperCodec, PerCodecData};
         use std::io::Read;
-        use types_lte_3gpp::spec_rrc as rrc;
+        use types_lte_3gpp::uper::spec_rrc as rrc;
         let _ = env_logger::init();
 
         // LTE SIB1 value
