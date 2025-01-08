@@ -4,8 +4,8 @@
 mod tests {
     #[test]
     pub fn test_decode() {
-        use asn1_codecs::{uper::UperCodec, PerCodecData};
         use std::io::Read;
+        use types_lte_3gpp::asn1_codecs::{uper::UperCodec, PerCodecData};
         use types_lte_3gpp::uper::spec_rrc as rrc;
         let _ = env_logger::init();
 

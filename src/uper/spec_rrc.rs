@@ -62,7 +62,7 @@ pub const MAX_CSI_RS_NZP_V1310: i64 = 21;
 
 pub const MAX_CSI_RS_ZP_R11: i64 = 4;
 
-pub const MAX_CELL_BLACK: i64 = 16;
+pub const MAX_CELL_ALLOWED_NR_R16: i64 = 16;
 
 pub const MAX_CELL_HISTORY_R12: i64 = 16;
 
@@ -80,11 +80,13 @@ pub const MAX_CELL_MEAS: i64 = 32;
 
 pub const MAX_CELL_MEAS_IDLE_R15: i64 = 8;
 
+pub const MAX_CELL_NR_R17: i64 = 8;
+
+pub const MAX_CELL_RA_REPORT_NR_R18: i64 = 8;
+
 pub const MAX_CELL_REPORT: i64 = 8;
 
 pub const MAX_CELL_SFTD: i64 = 3;
-
-pub const MAX_CELL_WHITE_NR_R16: i64 = 16;
 
 pub const MAX_COMB_IDC_R11: i64 = 128;
 
@@ -113,6 +115,8 @@ pub const MAX_EARFCN_PLUS1: i64 = 65536;
 pub const MAX_EARFCN2: i64 = 262143;
 
 pub const MAX_EPDCCH_SET_R11: i64 = 2;
+
+pub const MAX_EXCLUDED_CELL: i64 = 16;
 
 pub const MAX_FBI: i64 = 64;
 
@@ -179,6 +183,10 @@ pub const MAX_LCG_R13: i64 = 4;
 pub const MAX_LOG_MEAS_R10: i64 = 4060;
 
 pub const MAX_LOG_MEAS_REPORT_R10: i64 = 520;
+
+pub const MAX_LOWER_MSD_INFO_R18: i64 = 64;
+
+pub const MAX_LOWER_MSD_R18: i64 = 256;
 
 pub const MAX_MBMS_SERVICE_LIST_PER_UE_R13: i64 = 15;
 
@@ -362,6 +370,8 @@ pub const MAX_SL_V2X_TX_POOL_PRECONF_R14: i64 = 8;
 
 pub const MAX_STAG_R11: i64 = 3;
 
+pub const MAX_SAT_R17: i64 = 4;
+
 pub const MAX_SERV_CELL_R10: i64 = 5;
 
 pub const MAX_SERV_CELL_R13: i64 = 32;
@@ -379,6 +389,10 @@ pub const MAX_SESSION_PER_PMCH_1: i64 = 28;
 pub const MAX_SIMULTANEOUS_BANDS_R10: i64 = 64;
 
 pub const MAX_SUBFRAME_PATTERN_IDC_R11: i64 = 8;
+
+pub const MAX_TAC_NB_R17: i64 = 12;
+
+pub const MAX_TAC_R17: i64 = 12;
 
 pub const MAX_TRAFFIC_PATTERN_R14: i64 = 8;
 
@@ -510,20 +524,20 @@ impl ACK_NACK_NumRepetitions_NB_r13 {
 pub struct AMF_Identifier_r15(pub bitvec::vec::BitVec<u8, bitvec::order::Msb0>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
-#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
-pub struct ANR_BlackCellList_NB_r16(pub Vec<PhysCellId>);
-
-#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
 pub struct ANR_Carrier_NB_r16 {
     pub carrier_freq_index_r16: ANR_Carrier_NB_r16CarrierFreqIndex_r16,
     #[asn(optional_idx = 0)]
-    pub black_cell_list_r16: Option<ANR_BlackCellList_NB_r16>,
+    pub excluded_cell_list_r16: Option<ANR_ExcludedCellList_NB_r16>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "2")]
 pub struct ANR_CarrierList_NB_r16(pub Vec<ANR_Carrier_NB_r16>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
+pub struct ANR_ExcludedCellList_NB_r16(pub Vec<PhysCellId>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = true)]
@@ -667,6 +681,13 @@ pub struct AS_Config_v1550 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct AS_Config_v1700 {
+    #[asn(optional_idx = 0)]
+    pub scg_state_r17: Option<AS_Config_v1700Scg_State_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
 pub struct AS_Config_v9e0 {
     pub source_dl_carrier_freq_v9e0: ARFCN_ValueEUTRA_v9e0,
@@ -788,8 +809,8 @@ impl AccessStratumRelease_NB_r13 {
     pub const REL14: u8 = 1u8;
     pub const REL15: u8 = 2u8;
     pub const REL16: u8 = 3u8;
-    pub const SPARE4: u8 = 4u8;
-    pub const SPARE3: u8 = 5u8;
+    pub const REL17: u8 = 4u8;
+    pub const REL18: u8 = 5u8;
     pub const SPARE2: u8 = 6u8;
     pub const SPARE1: u8 = 7u8;
 }
@@ -824,12 +845,24 @@ pub struct AdditionalSI_Info_r9 {
 pub struct AdditionalSpectrumEmission(pub u8);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "1", ub = "288")]
+pub struct AdditionalSpectrumEmission_r18(pub u16);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "33", ub = "288")]
 pub struct AdditionalSpectrumEmission_v10l0(pub u16);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "0", ub = "7")]
 pub struct AdditionalSpectrumEmissionNR_r15(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "39")]
+pub struct AdditionalSpectrumEmissionNR_r18(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "8", ub = "39")]
+pub struct AdditionalSpectrumEmissionNR_v1760(pub u8);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
@@ -897,6 +930,21 @@ pub struct AffectedCarrierFreqList_r11(pub Vec<AffectedCarrierFreq_r11>);
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "32")]
 pub struct AffectedCarrierFreqList_v1310(pub Vec<AffectedCarrierFreq_v1310>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
+pub struct AllowedCellListNR_r16(pub Vec<PhysCellIdNR_r15>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct AllowedCellsToAddMod_r13 {
+    pub cell_index_r13: AllowedCellsToAddMod_r13CellIndex_r13,
+    pub phys_cell_id_range_r13: PhysCellIdRange,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "32")]
+pub struct AllowedCellsToAddModList_r13(pub Vec<AllowedCellsToAddMod_r13>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "5")]
@@ -1022,6 +1070,19 @@ pub struct AntennaInfoUL_r10 {
     pub transmission_mode_ul_r10: Option<AntennaInfoUL_r10TransmissionModeUL_r10>,
     #[asn(optional_idx = 1)]
     pub four_antenna_port_activated_r10: Option<AntennaInfoUL_r10FourAntennaPortActivated_r10>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "3", extensible = false)]
+pub enum ApplicableDisasterInfo_r17 {
+    #[asn(key = 0, extended = false)]
+    NoDisasterRoaming_r17(ApplicableDisasterInfo_r17_noDisasterRoaming_r17),
+    #[asn(key = 1, extended = false)]
+    DisasterRelatedIndication_r17(ApplicableDisasterInfo_r17_disasterRelatedIndication_r17),
+    #[asn(key = 2, extended = false)]
+    CommonPLMNs_r17(ApplicableDisasterInfo_r17_commonPLMNs_r17),
+    #[asn(key = 3, extended = false)]
+    DedicatedPLMNs_r17(ApplicableDisasterInfo_r17_dedicatedPLMNs_r17),
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -1439,6 +1500,13 @@ pub struct BandCombinationParameters_v1630 {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct BandCombinationParameters_v1800 {
+    #[asn(optional_idx = 0)]
+    pub meas_gap_info_nr_r18: Option<MeasGapInfoNR_r18>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
 pub struct BandCombinationParametersExt_r10 {
     #[asn(optional_idx = 0)]
     pub supported_bandwidth_combination_set_r10: Option<SupportedBandwidthCombinationSet_r10>,
@@ -1630,11 +1698,23 @@ pub struct BandParametersDL_r10(pub Vec<CA_MIMO_ParametersDL_r10>);
 pub type BandParametersDL_r13 = CA_MIMO_ParametersDL_r13;
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct BandParametersRxA2X_r18 {
+    pub a2x_bandwidth_class_rx_sl_r18: V2X_BandwidthClassSL_r14,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
 pub struct BandParametersRxSL_r14 {
     pub v2x_bandwidth_class_rx_sl_r14: V2X_BandwidthClassSL_r14,
     #[asn(optional_idx = 0)]
     pub v2x_high_reception_r14: Option<BandParametersRxSL_r14V2x_HighReception_r14>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct BandParametersTxA2X_r18 {
+    pub a2x_bandwidth_class_tx_sl_r18: V2X_BandwidthClassSL_r14,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -1710,17 +1790,6 @@ pub struct BeamMeasConfigIdleNR_r16 {
     pub max_report_rs_index_r16: BeamMeasConfigIdleNR_r16MaxReportRS_Index_r16,
     pub report_rs_index_results_nr_r16: BeamMeasConfigIdleNR_r16ReportRS_IndexResultsNR_r16,
 }
-
-#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
-#[asn(type = "SEQUENCE", extensible = false)]
-pub struct BlackCellsToAddMod {
-    pub cell_index: BlackCellsToAddModCellIndex,
-    pub phys_cell_id_range: PhysCellIdRange,
-}
-
-#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
-#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "32")]
-pub struct BlackCellsToAddModList(pub Vec<BlackCellsToAddMod>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "BITSTRING", sz_extensible = false, sz_lb = "16", sz_ub = "16")]
@@ -1800,6 +1869,16 @@ pub struct CA_MIMO_ParametersUL_r15 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct CBP_Config_NB_r17 {
+    pub nrsrp_min_r17: RSRP_Range,
+    #[asn(optional_idx = 0)]
+    pub nb_r17: Option<CBP_Config_NB_r17NB_r17>,
+    #[asn(optional_idx = 1)]
+    pub ue_specific_drx_cycle_min_r17: Option<CBP_Config_NB_r17Ue_SpecificDRX_CycleMin_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "1")]
 pub struct CDMA2000_Type(pub u8);
 impl CDMA2000_Type {
@@ -1833,6 +1912,12 @@ pub struct CE_MultiTB_Parameters_r16 {
     pub ce_multi_tb_interleaving_r16: Option<CE_MultiTB_Parameters_r16Ce_MultiTB_Interleaving_r16>,
     #[asn(optional_idx = 9)]
     pub ce_multi_tb_sub_prb_r16: Option<CE_MultiTB_Parameters_r16Ce_MultiTB_SubPRB_r16>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CE_PDSCH_14HARQ_Config_r17 {
+    pub ce_harq_ack_delay_r17: CE_PDSCH_14HARQ_Config_r17Ce_HARQ_AckDelay_r17,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -2321,6 +2406,16 @@ pub enum CQI_ReportPeriodicSCell_r15 {
     Release(CQI_ReportPeriodicSCell_r15_release),
     #[asn(key = 1, extended = false)]
     Setup(CQI_ReportPeriodicSCell_r15_setup),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct CQI_ReportPeriodicSCell_v1730 {
+    pub cqi_pmi_config_index2_dormant_r17:
+        CQI_ReportPeriodicSCell_v1730Cqi_pmi_ConfigIndex2Dormant_r17,
+    #[asn(optional_idx = 0)]
+    pub ri_config_index2_dormant_r17:
+        Option<CQI_ReportPeriodicSCell_v1730Ri_ConfigIndex2Dormant_r17>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -3019,6 +3114,22 @@ pub struct CarrierFreqInfoUTRA_v1250 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CarrierFreqList_NB_r18 {
+    pub carrier_freq_list_r18: CarrierFreqList_NB_r18CarrierFreqList_r18,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct CarrierFreqList_v1800(pub Vec<ARFCN_ValueEUTRA>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CarrierFreqList_v1830 {
+    pub carrier_freq_list_r18: CarrierFreqList_v1830CarrierFreqList_r18,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
 pub struct CarrierFreqListEUTRA_NB_r16(pub Vec<CarrierFreqEUTRA_NB_r16>);
 
@@ -3037,6 +3148,18 @@ pub struct CarrierFreqListNR_r15(pub Vec<CarrierFreqNR_r15>);
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
 pub struct CarrierFreqListNR_v1610(pub Vec<CarrierFreqNR_v1610>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct CarrierFreqListNR_v1700(pub Vec<CarrierFreqNR_v1700>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct CarrierFreqListNR_v1720(pub Vec<CarrierFreqNR_v1720>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct CarrierFreqListNR_v1810(pub Vec<CarrierFreqNR_v1810>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
@@ -3109,9 +3232,44 @@ pub struct CarrierFreqNR_v1610 {
     #[asn(optional_idx = 1)]
     pub ssb_position_qcl_common_nr_r16: Option<SSB_PositionQCL_RelationNR_r16>,
     #[asn(optional_idx = 2)]
-    pub white_cell_list_nr_r16: Option<WhiteCellListNR_r16>,
+    pub allowed_cell_list_nr_r16: Option<AllowedCellListNR_r16>,
     #[asn(optional_idx = 3)]
     pub high_speed_carrier_nr_r16: Option<CarrierFreqNR_v1610HighSpeedCarrierNR_r16>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct CarrierFreqNR_v1700 {
+    #[asn(optional_idx = 0)]
+    pub nr_freq_neigh_hsdn_cell_list_r17: Option<NR_FreqNeighHSDN_CellList_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct CarrierFreqNR_v1720 {
+    #[asn(optional_idx = 0)]
+    pub subcarrier_spacing_ssb_r17: Option<CarrierFreqNR_v1720SubcarrierSpacingSSB_r17>,
+    #[asn(optional_idx = 1)]
+    pub ssb_position_qcl_common_nr_r17: Option<SSB_PositionQCL_RelationNR_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 7)]
+pub struct CarrierFreqNR_v1810 {
+    #[asn(optional_idx = 0)]
+    pub carrier_freq_r18: Option<ARFCN_ValueNR_r15>,
+    #[asn(optional_idx = 1)]
+    pub multi_band_info_list_r18: Option<MultiFrequencyBandListNR_r15>,
+    #[asn(optional_idx = 2)]
+    pub multi_band_info_list_aerial_r18: Option<MultiFrequencyBandListNR_r15>,
+    #[asn(optional_idx = 3)]
+    pub ns_pmax_list_nr_aerial_r18: Option<NS_PmaxListNR_Aerial_r18>,
+    #[asn(optional_idx = 4)]
+    pub multi_band_ns_pmax_list_nr_aerial_r18: Option<MultiBandNsPmaxListNR_Aerial_1_r18>,
+    #[asn(optional_idx = 5)]
+    pub mobile_iab_cell_list_r18: Option<PhysCellIdRangeNR_r16>,
+    #[asn(optional_idx = 6)]
+    pub mobile_iab_freq_r18: Option<CarrierFreqNR_v1810MobileIAB_Freq_r18>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -3215,6 +3373,15 @@ pub struct CarrierInfoNR_r15 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct CarrierInfoNR_r17 {
+    pub carrier_freq_r17: ARFCN_ValueNR_r15,
+    pub subcarrier_spacing_ssb_r17: CarrierInfoNR_r17SubcarrierSpacingSSB_r17,
+    #[asn(optional_idx = 0)]
+    pub smtc_r17: Option<MTC_SSB_NR_r15>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = true, optional_fields = 2)]
 pub struct Cell_ToAddMod_r12 {
     pub s_cell_index_r12: SCellIndex_r10,
@@ -3291,6 +3458,19 @@ pub struct CellGlobalIdNR_r16 {
 pub struct CellGlobalIdUTRA {
     pub plmn_identity: PLMN_Identity,
     pub cell_identity: CellGlobalIdUTRACellIdentity,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct CellIdListNR_r18(pub Vec<CellIdNR_r18>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
+pub enum CellIdNR_r18 {
+    #[asn(key = 0, extended = false)]
+    CellGlobalId_r18(CellGlobalIdNR_r16),
+    #[asn(key = 1, extended = false)]
+    Pci_arfcn_r18(CellIdNR_r18_pci_arfcn_r18),
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -3534,6 +3714,19 @@ pub struct CellsToAddMod_v1610 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 4)]
+pub struct CellsToAddMod_v1810 {
+    #[asn(optional_idx = 0)]
+    pub satellite_id_r18: Option<SatelliteId_r18>,
+    #[asn(optional_idx = 1)]
+    pub ephemeris_info_r18: Option<CellsToAddMod_v1810EphemerisInfo_r18>,
+    #[asn(optional_idx = 2)]
+    pub epoch_time_r18: Option<CellsToAddMod_v1810EpochTime_r18>,
+    #[asn(optional_idx = 3)]
+    pub reference_location_r18: Option<ReferenceLocation_r18>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
 pub struct CellsToAddModCDMA2000 {
     pub cell_index: CellsToAddModCDMA2000CellIndex,
@@ -3547,6 +3740,10 @@ pub struct CellsToAddModList(pub Vec<CellsToAddMod>);
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "32")]
 pub struct CellsToAddModList_v1610(pub Vec<CellsToAddMod_v1610>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "32")]
+pub struct CellsToAddModList_v1810(pub Vec<CellsToAddMod_v1810>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "32")]
@@ -3667,6 +3864,12 @@ pub struct CondReconfigurationTriggerEUTRA_r16 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CondReconfigurationTriggerNR_r17 {
+    pub cond_event_id_r17: CondReconfigurationTriggerNR_r17CondEventId_r17,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = true, optional_fields = 3)]
 pub struct ConditionalReconfiguration_r16 {
     #[asn(optional_idx = 0)]
@@ -3708,6 +3911,16 @@ pub struct ConnEstFailReport_r11 {
     pub time_since_failure_r11: TimeSinceFailure_r11,
     #[asn(optional_idx = 2)]
     pub meas_result_list_eutra_v1130: Option<MeasResultList2EUTRA_v9e0>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct ConnMeasConfig_NB_r17 {
+    pub s_measure_intra_r17: NRSRP_Range_NB_r14,
+    #[asn(optional_idx = 0)]
+    pub s_measure_inter_r17: Option<NRSRP_Range_NB_r14>,
+    #[asn(optional_idx = 1)]
+    pub neigh_cell_meas_criteria_r17: Option<ConnMeasConfig_NB_r17NeighCellMeasCriteria_r17>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -3795,6 +4008,13 @@ pub struct CountingResponseInfo_r10 {
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
 pub struct CountingResponseList_r10(pub Vec<CountingResponseInfo_r10>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CoverageBasedPagingConfig_NB_r17 {
+    pub cbp_hyst_timer_r17: CoverageBasedPagingConfig_NB_r17Cbp_HystTimer_r17,
+    pub cbp_config_list_r17: CoverageBasedPagingConfig_NB_r17Cbp_ConfigList_r17,
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
@@ -4419,6 +4639,26 @@ pub struct DeltaTxD_OffsetListSPUCCH_r15 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "1")]
+pub struct DiscardTimerExt_r17(pub u8);
+impl DiscardTimerExt_r17 {
+    pub const MS2000: u8 = 0u8;
+    pub const SPARE: u8 = 1u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "BITSTRING", sz_extensible = false, sz_lb = "2", sz_ub = "2")]
+pub struct DownlinkHARQ_FeedbackDisabledBitmap_NB_r18(
+    pub bitvec::vec::BitVec<u8, bitvec::order::Msb0>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "BITSTRING", sz_extensible = false, sz_lb = "14", sz_ub = "14")]
+pub struct DownlinkHARQ_FeedbackDisabledBitmap_r18(
+    pub bitvec::vec::BitVec<u8, bitvec::order::Msb0>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 4)]
 pub struct E_CSFB_r9 {
     #[asn(optional_idx = 0)]
@@ -4554,6 +4794,28 @@ pub enum Enable256QAM_r14 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct EphemerisOrbitalParameters_r17 {
+    pub semi_major_axis_r17: EphemerisOrbitalParameters_r17SemiMajorAxis_r17,
+    pub eccentricity_r17: EphemerisOrbitalParameters_r17Eccentricity_r17,
+    pub periapsis_r17: EphemerisOrbitalParameters_r17Periapsis_r17,
+    pub longitude_r17: EphemerisOrbitalParameters_r17Longitude_r17,
+    pub inclination_r17: EphemerisOrbitalParameters_r17Inclination_r17,
+    pub anomaly_r17: EphemerisOrbitalParameters_r17Anomaly_r17,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct EphemerisStateVectors_r17 {
+    pub position_x_r17: PositionStateVector_r17,
+    pub position_y_r17: PositionStateVector_r17,
+    pub position_z_r17: PositionStateVector_r17,
+    pub velocity_vx_r17: VelocityStateVector_r17,
+    pub velocity_vy_r17: VelocityStateVector_r17,
+    pub velocity_vz_r17: VelocityStateVector_r17,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "7")]
 pub struct EstablishmentCause(pub u8);
 impl EstablishmentCause {
@@ -4604,6 +4866,26 @@ pub struct EthernetHeaderCompression_r16 {
     #[asn(optional_idx = 1)]
     pub ehc_uplink_r16: Option<EthernetHeaderCompression_r16Ehc_Uplink_r16>,
 }
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "1", extensible = true)]
+pub enum EventType_r17 {
+    #[asn(key = 0, extended = false)]
+    OutOfCoverage(EventType_r17_outOfCoverage),
+    #[asn(key = 1, extended = false)]
+    EventL1(EventType_r17_eventL1),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct ExcludedCellsToAddMod {
+    pub cell_index: ExcludedCellsToAddModCellIndex,
+    pub phys_cell_id_range: PhysCellIdRange,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "32")]
+pub struct ExcludedCellsToAddModList(pub Vec<ExcludedCellsToAddMod>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "0", sz_ub = "31")]
@@ -4963,6 +5245,45 @@ pub struct FreqsPriorityListGERAN(pub Vec<FreqsPriorityGERAN>);
 #[asn(type = "SEQUENCE", extensible = true)]
 pub struct GNSS_ID_r15 {
     pub gnss_id_r15: GNSS_ID_r15Gnss_id_r15,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "10")]
+pub struct GNSS_PositionFixDuration_r18(pub u8);
+impl GNSS_PositionFixDuration_r18 {
+    pub const S1: u8 = 0u8;
+    pub const S2: u8 = 1u8;
+    pub const S3: u8 = 2u8;
+    pub const S4: u8 = 3u8;
+    pub const S5: u8 = 4u8;
+    pub const S6: u8 = 5u8;
+    pub const S7: u8 = 6u8;
+    pub const S13: u8 = 7u8;
+    pub const S19: u8 = 8u8;
+    pub const S25: u8 = 9u8;
+    pub const S31: u8 = 10u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "15")]
+pub struct GNSS_ValidityDuration_r17(pub u8);
+impl GNSS_ValidityDuration_r17 {
+    pub const S10: u8 = 0u8;
+    pub const S20: u8 = 1u8;
+    pub const S30: u8 = 2u8;
+    pub const S40: u8 = 3u8;
+    pub const S50: u8 = 4u8;
+    pub const S60: u8 = 5u8;
+    pub const MIN5: u8 = 6u8;
+    pub const MIN10: u8 = 7u8;
+    pub const MIN15: u8 = 8u8;
+    pub const MIN20: u8 = 9u8;
+    pub const MIN25: u8 = 10u8;
+    pub const MIN30: u8 = 11u8;
+    pub const MIN50: u8 = 12u8;
+    pub const MIN90: u8 = 13u8;
+    pub const MIN120: u8 = 14u8;
+    pub const INFINITY: u8 = 15u8;
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -5382,8 +5703,17 @@ pub struct HandoverPreparationInformation_v1630_IEs {
     #[asn(optional_idx = 0)]
     pub as_context_v1630: Option<AS_Context_v1630>,
     #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<HandoverPreparationInformation_v1700_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct HandoverPreparationInformation_v1700_IEs {
+    #[asn(optional_idx = 0)]
+    pub as_config_v1700: Option<AS_Config_v1700>,
+    #[asn(optional_idx = 1)]
     pub non_critical_extension:
-        Option<HandoverPreparationInformation_v1630_IEsNonCriticalExtension>,
+        Option<HandoverPreparationInformation_v1700_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -5489,6 +5819,10 @@ pub struct HighSpeedEnhParameters_v1610 {
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "0", ub = "30")]
 pub struct Hysteresis(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "32767")]
+pub struct HysteresisLocation_r18(pub u16);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "BITSTRING", sz_extensible = false, sz_lb = "40", sz_ub = "40")]
@@ -5681,6 +6015,29 @@ pub struct IRAT_ParametersNR_v1610 {
 pub struct IRAT_ParametersNR_v1660 {
     #[asn(optional_idx = 0)]
     pub extended_band_n77_r16: Option<IRAT_ParametersNR_v1660ExtendedBand_n77_r16>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 4)]
+pub struct IRAT_ParametersNR_v1700 {
+    #[asn(optional_idx = 0)]
+    pub eutra_5gc_ho_to_nr_tdd_fr2_2_r17:
+        Option<IRAT_ParametersNR_v1700Eutra_5GC_HO_ToNR_TDD_FR2_2_r17>,
+    #[asn(optional_idx = 1)]
+    pub eutra_epc_ho_to_nr_tdd_fr2_2_r17:
+        Option<IRAT_ParametersNR_v1700Eutra_EPC_HO_ToNR_TDD_FR2_2_r17>,
+    #[asn(optional_idx = 2)]
+    pub ce_eutra_5gc_ho_to_nr_tdd_fr2_2_r17:
+        Option<IRAT_ParametersNR_v1700Ce_EUTRA_5GC_HO_ToNR_TDD_FR2_2_r17>,
+    #[asn(optional_idx = 3)]
+    pub ims_voice_over_nr_fr2_2_r17: Option<IRAT_ParametersNR_v1700Ims_VoiceOverNR_FR2_2_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct IRAT_ParametersNR_v1710 {
+    #[asn(optional_idx = 0)]
+    pub extended_band_n77_2_r17: Option<IRAT_ParametersNR_v1710ExtendedBand_n77_2_r17>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -5914,14 +6271,6 @@ pub struct InterFreqBandInfo {
 pub struct InterFreqBandList(pub Vec<InterFreqBandInfo>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
-#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
-pub struct InterFreqBlackCellList(pub Vec<PhysCellIdRange>);
-
-#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
-#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
-pub struct InterFreqBlackCellList_NB_r13(pub Vec<PhysCellId>);
-
-#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = true, optional_fields = 6)]
 pub struct InterFreqCarrierFreqInfo {
     pub dl_carrier_freq: ARFCN_ValueEUTRA,
@@ -5943,7 +6292,7 @@ pub struct InterFreqCarrierFreqInfo {
     #[asn(optional_idx = 4)]
     pub inter_freq_neigh_cell_list: Option<InterFreqNeighCellList>,
     #[asn(optional_idx = 5)]
-    pub inter_freq_black_cell_list: Option<InterFreqBlackCellList>,
+    pub inter_freq_excluded_cell_list: Option<InterFreqExcludedCellList>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -5960,9 +6309,17 @@ pub struct InterFreqCarrierFreqInfo_NB_r13 {
     #[asn(optional_idx = 3)]
     pub inter_freq_neigh_cell_list_r13: Option<InterFreqNeighCellList_NB_r13>,
     #[asn(optional_idx = 4)]
-    pub inter_freq_black_cell_list_r13: Option<InterFreqBlackCellList_NB_r13>,
+    pub inter_freq_excluded_cell_list_r13: Option<InterFreqExcludedCellList_NB_r13>,
     #[asn(optional_idx = 5)]
     pub multi_band_info_list_r13: Option<MultiBandInfoList_NB_r13>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct InterFreqCarrierFreqInfo_NB_v1820 {
+    #[asn(optional_idx = 0)]
+    pub satellite_assistance_info_r18:
+        Option<InterFreqCarrierFreqInfo_NB_v1820SatelliteAssistanceInfo_r18>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -5987,7 +6344,7 @@ pub struct InterFreqCarrierFreqInfo_r12 {
     #[asn(optional_idx = 4)]
     pub inter_freq_neigh_cell_list_r12: Option<InterFreqNeighCellList>,
     #[asn(optional_idx = 5)]
-    pub inter_freq_black_cell_list_r12: Option<InterFreqBlackCellList>,
+    pub inter_freq_excluded_cell_list_r12: Option<InterFreqExcludedCellList>,
     #[asn(optional_idx = 6)]
     pub q_qual_min_r12: Option<Q_QualMin_r9>,
     #[asn(optional_idx = 7)]
@@ -6082,6 +6439,20 @@ pub struct InterFreqCarrierFreqInfo_v1610 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 4)]
+pub struct InterFreqCarrierFreqInfo_v1800 {
+    #[asn(optional_idx = 0)]
+    pub satellite_assistance_info_list_r18:
+        Option<InterFreqCarrierFreqInfo_v1800SatelliteAssistanceInfoList_r18>,
+    #[asn(optional_idx = 1)]
+    pub freq_band_indicator_aerial_r18: Option<FreqBandIndicator_r11>,
+    #[asn(optional_idx = 2)]
+    pub freq_band_info_aerial_r18: Option<NS_PmaxListAerial_r18>,
+    #[asn(optional_idx = 3)]
+    pub multi_band_info_list_aerial_r18: Option<MultiBandInfoListAerial_r18>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
 pub struct InterFreqCarrierFreqInfo_v8h0 {
     #[asn(optional_idx = 0)]
@@ -6107,6 +6478,10 @@ pub struct InterFreqCarrierFreqList_NB_r13(pub Vec<InterFreqCarrierFreqInfo_NB_r
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct InterFreqCarrierFreqList_NB_v1820(pub Vec<InterFreqCarrierFreqInfo_NB_v1820>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
 pub struct InterFreqCarrierFreqList_v1250(pub Vec<InterFreqCarrierFreqInfo_v1250>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -6128,6 +6503,10 @@ pub struct InterFreqCarrierFreqList_v1530(pub Vec<InterFreqCarrierFreqInfo_v1530
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
 pub struct InterFreqCarrierFreqList_v1610(pub Vec<InterFreqCarrierFreqInfo_v1610>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct InterFreqCarrierFreqList_v1800(pub Vec<InterFreqCarrierFreqInfo_v1800>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
@@ -6156,6 +6535,18 @@ pub struct InterFreqCarrierFreqListExt_v1530(pub Vec<InterFreqCarrierFreqInfo_v1
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
 pub struct InterFreqCarrierFreqListExt_v1610(pub Vec<InterFreqCarrierFreqInfo_v1610>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct InterFreqCarrierFreqListExt_v1800(pub Vec<InterFreqCarrierFreqInfo_v1800>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
+pub struct InterFreqExcludedCellList(pub Vec<PhysCellIdRange>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
+pub struct InterFreqExcludedCellList_NB_r13(pub Vec<PhysCellId>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
@@ -6229,6 +6620,14 @@ pub struct InterRAT_BandInfoNR_r16 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct InterRAT_BandInfoNR_r18 {
+    #[asn(optional_idx = 0)]
+    pub inter_rat_need_for_interruption_nr_r18:
+        Option<InterRAT_BandInfoNR_r18InterRAT_NeedForInterruptionNR_r18>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "64")]
 pub struct InterRAT_BandList(pub Vec<InterRAT_BandInfo>);
 
@@ -6242,6 +6641,15 @@ pub struct InterRAT_BandList(pub Vec<InterRAT_BandInfo>);
 pub struct InterRAT_BandListNR_r16(pub Vec<InterRAT_BandInfoNR_r16>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "1024"
+)]
+pub struct InterRAT_BandListNR_r18(pub Vec<InterRAT_BandInfoNR_r18>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 3)]
 pub struct IntraBandContiguousCC_Info_r12 {
     #[asn(optional_idx = 0)]
@@ -6252,10 +6660,6 @@ pub struct IntraBandContiguousCC_Info_r12 {
     #[asn(optional_idx = 2)]
     pub supported_csi_proc_r12: Option<IntraBandContiguousCC_Info_r12SupportedCSI_Proc_r12>,
 }
-
-#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
-#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
-pub struct IntraFreqBlackCellList(pub Vec<PhysCellIdRange>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
@@ -6279,6 +6683,10 @@ pub struct IntraFreqCellReselectionInfo_NB_v1430 {
     pub ce_authorisation_offset_r14:
         Option<IntraFreqCellReselectionInfo_NB_v1430Ce_AuthorisationOffset_r14>,
 }
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
+pub struct IntraFreqExcludedCellList(pub Vec<PhysCellIdRange>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = true)]
@@ -6591,6 +6999,12 @@ pub struct LogMeasResultWLAN_r15 {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
+pub struct LoggedEventTriggerConfig_r17 {
+    pub event_type_r17: EventType_r17,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
 pub struct LoggedMeasurementConfiguration_r10 {
     pub critical_extensions: LoggedMeasurementConfiguration_r10CriticalExtensions,
 }
@@ -6649,8 +7063,29 @@ pub struct LoggedMeasurementConfiguration_v1530_IEs {
     #[asn(optional_idx = 1)]
     pub wlan_name_list_r15: Option<WLAN_NameList_r15>,
     #[asn(optional_idx = 2)]
+    pub non_critical_extension: Option<LoggedMeasurementConfiguration_v1700_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 3)]
+pub struct LoggedMeasurementConfiguration_v1700_IEs {
+    #[asn(optional_idx = 0)]
+    pub logged_event_trigger_config_r17: Option<LoggedEventTriggerConfig_r17>,
+    #[asn(optional_idx = 1)]
+    pub meas_uncom_bar_pre_r17: Option<LoggedMeasurementConfiguration_v1700_IEsMeasUncomBarPre_r17>,
+    #[asn(optional_idx = 2)]
+    pub non_critical_extension: Option<LoggedMeasurementConfiguration_v1800_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct LoggedMeasurementConfiguration_v1800_IEs {
+    #[asn(optional_idx = 0)]
+    pub sig_logged_meas_type_r18:
+        Option<LoggedMeasurementConfiguration_v1800_IEsSigLoggedMeasType_r18>,
+    #[asn(optional_idx = 1)]
     pub non_critical_extension:
-        Option<LoggedMeasurementConfiguration_v1530_IEsNonCriticalExtension>,
+        Option<LoggedMeasurementConfiguration_v1800_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -6704,6 +7139,15 @@ pub struct LogicalChannelConfig_NB_r13 {
     #[asn(optional_idx = 1)]
     pub logical_channel_sr_prohibit_r13:
         Option<LogicalChannelConfig_NB_r13LogicalChannelSR_Prohibit_r13>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct LowerMSD_MRDC_r18 {
+    pub aggressorband1_r18: FreqBandIndicatorNR_r15,
+    #[asn(optional_idx = 0)]
+    pub aggressorband2_r18: Option<FreqBandIndicator_r11>,
+    pub msd_information_r18: LowerMSD_MRDC_r18Msd_Information_r18,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -6940,6 +7384,14 @@ pub struct MBMS_Parameters_v1610 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct MBMS_Parameters_v1700 {
+    #[asn(optional_idx = 0)]
+    pub mbms_supported_band_info_list_v1700:
+        Option<MBMS_Parameters_v1700Mbms_SupportedBandInfoList_v1700>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
 pub struct MBMS_ROM_Info_r15 {
     pub mbms_rom_freq_r15: ARFCN_ValueEUTRA_r9,
@@ -7030,6 +7482,17 @@ pub struct MBMS_SupportedBandInfo_r16 {
     #[asn(optional_idx = 1)]
     pub subcarrier_spacing_mbms_khz0dot37_r16:
         Option<MBMS_SupportedBandInfo_r16SubcarrierSpacingMBMS_khz0dot37_r16>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 3)]
+pub struct MBMS_SupportedBandInfo_v1700 {
+    #[asn(optional_idx = 0)]
+    pub pmch_bandwidth_n40_r17: Option<MBMS_SupportedBandInfo_v1700Pmch_Bandwidth_n40_r17>,
+    #[asn(optional_idx = 1)]
+    pub pmch_bandwidth_n35_r17: Option<MBMS_SupportedBandInfo_v1700Pmch_Bandwidth_n35_r17>,
+    #[asn(optional_idx = 2)]
+    pub pmch_bandwidth_n30_r17: Option<MBMS_SupportedBandInfo_v1700Pmch_Bandwidth_n30_r17>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -7132,6 +7595,13 @@ pub struct MBSFN_AreaInfo_r16 {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = true)]
+pub struct MBSFN_AreaInfo_r17 {
+    pub mbsfn_area_info_r17: MBSFN_AreaInfo_r16,
+    pub pmch_bandwidth_r17: MBSFN_AreaInfo_r17Pmch_Bandwidth_r17,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true)]
 pub struct MBSFN_AreaInfo_r9 {
     pub mbsfn_area_id_r9: MBSFN_AreaId_r12,
     pub non_mbsf_nregion_length: MBSFN_AreaInfo_r9Non_MBSFNregionLength,
@@ -7142,6 +7612,10 @@ pub struct MBSFN_AreaInfo_r9 {
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
 pub struct MBSFN_AreaInfoList_r16(pub Vec<MBSFN_AreaInfo_r16>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct MBSFN_AreaInfoList_r17(pub Vec<MBSFN_AreaInfo_r17>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
@@ -7542,6 +8016,14 @@ pub struct MRDC_AssistanceInfo_r15 {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
+pub struct MSD_Information_r18 {
+    pub msd_type_r18: MSD_Information_r18Msd_Type_r18,
+    pub msd_power_class_r18: MSD_Information_r18Msd_PowerClass_r18,
+    pub msd_class_r18: MSD_Information_r18Msd_Class_r18,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
 pub struct MTC_SSB_NR_r15 {
     pub periodicity_and_offset_r15: MTC_SSB_NR_r15PeriodicityAndOffset_r15,
     pub ssb_duration_r15: MTC_SSB_NR_r15Ssb_Duration_r15,
@@ -7582,6 +8064,7 @@ pub struct MasterInformationBlock {
     pub system_frame_number: MasterInformationBlockSystemFrameNumber,
     pub scheduling_info_sib1_br_r13: MasterInformationBlockSchedulingInfoSIB1_BR_r13,
     pub system_info_unchanged_br_r15: MasterInformationBlockSystemInfoUnchanged_BR_r15,
+    pub part_earfcn_r17: MasterInformationBlockPartEARFCN_r17,
     pub spare: MasterInformationBlockSpare,
 }
 
@@ -7607,6 +8090,7 @@ pub struct MasterInformationBlock_NB {
     pub operation_mode_info_r13: MasterInformationBlock_NBOperationModeInfo_r13,
     pub additional_transmission_sib1_r15: MasterInformationBlock_NBAdditionalTransmissionSIB1_r15,
     pub ab_enabled_5gc_r16: MasterInformationBlock_NBAb_Enabled_5GC_r16,
+    pub part_earfcn_r17: MasterInformationBlock_NBPartEARFCN_r17,
     pub spare: MasterInformationBlock_NBSpare,
 }
 
@@ -7775,6 +8259,15 @@ pub struct MeasGapInfoNR_r16 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct MeasGapInfoNR_r18 {
+    #[asn(optional_idx = 0)]
+    pub inter_rat_band_list_nr_en_dc_r18: Option<InterRAT_BandListNR_r18>,
+    #[asn(optional_idx = 1)]
+    pub inter_rat_band_list_nr_sa_r18: Option<InterRAT_BandListNR_r18>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
 pub enum MeasGapSharingConfig_r14 {
     #[asn(key = 0, extended = false)]
@@ -7921,9 +8414,9 @@ pub struct MeasObjectEUTRA {
     #[asn(optional_idx = 2)]
     pub cells_to_add_mod_list: Option<CellsToAddModList>,
     #[asn(optional_idx = 3)]
-    pub black_cells_to_remove_list: Option<CellIndexList>,
+    pub excluded_cells_to_remove_list: Option<CellIndexList>,
     #[asn(optional_idx = 4)]
-    pub black_cells_to_add_mod_list: Option<BlackCellsToAddModList>,
+    pub excluded_cells_to_add_mod_list: Option<ExcludedCellsToAddModList>,
     #[asn(optional_idx = 5)]
     pub cell_for_which_to_report_cgi: Option<PhysCellId>,
 }
@@ -7970,9 +8463,9 @@ pub struct MeasObjectNR_r15 {
     #[asn(optional_idx = 2)]
     pub offset_freq_r15: Option<Q_OffsetRangeInterRAT>,
     #[asn(optional_idx = 3)]
-    pub black_cells_to_remove_list_r15: Option<CellIndexList>,
+    pub excluded_cells_to_remove_list_r15: Option<CellIndexList>,
     #[asn(optional_idx = 4)]
-    pub black_cells_to_add_mod_list_r15: Option<CellsToAddModListNR_r15>,
+    pub excluded_cells_to_add_mod_list_r15: Option<CellsToAddModListNR_r15>,
     pub quantity_config_set_r15: MeasObjectNR_r15QuantityConfigSet_r15,
     #[asn(optional_idx = 5)]
     pub cells_for_which_to_report_sftd_r15: Option<MeasObjectNR_r15CellsForWhichToReportSFTD_r15>,
@@ -8059,6 +8552,15 @@ pub struct MeasParameters_NB_r16 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct MeasParameters_NB_v1710 {
+    #[asn(optional_idx = 0)]
+    pub conn_mode_meas_intra_freq_r17: Option<MeasParameters_NB_v1710ConnModeMeasIntraFreq_r17>,
+    #[asn(optional_idx = 1)]
+    pub conn_mode_meas_inter_freq_r17: Option<MeasParameters_NB_v1710ConnModeMeasInterFreq_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
 pub struct MeasParameters_v1020 {
     pub band_combination_list_eutra_r10: BandCombinationListEUTRA_r10,
@@ -8108,7 +8610,7 @@ pub struct MeasParameters_v1310 {
     #[asn(optional_idx = 0)]
     pub rs_sinr_meas_r13: Option<MeasParameters_v1310Rs_SINR_Meas_r13>,
     #[asn(optional_idx = 1)]
-    pub white_cell_list_r13: Option<MeasParameters_v1310WhiteCellList_r13>,
+    pub allowed_cell_list_r13: Option<MeasParameters_v1310AllowedCellList_r13>,
     #[asn(optional_idx = 2)]
     pub extended_max_object_id_r13: Option<MeasParameters_v1310ExtendedMaxObjectId_r13>,
     #[asn(optional_idx = 3)]
@@ -8211,6 +8713,37 @@ pub struct MeasParameters_v1630 {
 pub struct MeasParameters_v16c0 {
     #[asn(optional_idx = 0)]
     pub nr_cell_individual_offset_r16: Option<MeasParameters_v16c0Nr_CellIndividualOffset_r16>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct MeasParameters_v1700 {
+    #[asn(optional_idx = 0)]
+    pub shared_spectrum_meas_nr_en_dc_r17:
+        Option<MeasParameters_v1700SharedSpectrumMeasNR_EN_DC_r17>,
+    #[asn(optional_idx = 1)]
+    pub shared_spectrum_meas_nr_sa_r17: Option<MeasParameters_v1700SharedSpectrumMeasNR_SA_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct MeasParameters_v1770 {
+    #[asn(optional_idx = 0)]
+    pub gapless_meas_fr2_max_cc_r17: Option<MeasParameters_v1770GaplessMeas_FR2_maxCC_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct MeasParameters_v1800 {
+    pub band_info_nr_v1800: MeasParameters_v1800BandInfoNR_v1800,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct MeasParameters_v1840 {
+    #[asn(optional_idx = 0)]
+    pub simultaneous_rx_data_ssb_diff_numerology_fr1_r18:
+        Option<MeasParameters_v1840SimultaneousRxDataSSB_DiffNumerology_FR1_r18>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -8946,6 +9479,15 @@ pub struct MultiBandInfo_v9e0 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct MultiBandInfoAerial_r18 {
+    #[asn(optional_idx = 0)]
+    pub freq_band_indicator_aerial_r18: Option<FreqBandIndicator_r11>,
+    #[asn(optional_idx = 1)]
+    pub ns_pmax_list_aerial_r18: Option<NS_PmaxListAerial_r18>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
 pub struct MultiBandInfoList(pub Vec<FreqBandIndicator>);
 
@@ -8970,12 +9512,28 @@ pub struct MultiBandInfoList_v10l0(pub Vec<NS_PmaxList_v10l0>);
 pub struct MultiBandInfoList_v9e0(pub Vec<MultiBandInfo_v9e0>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct MultiBandInfoListAerial_r18(pub Vec<MultiBandInfoAerial_r18>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "31")]
 pub struct MultiBandNsPmaxListNR_1_v1550(pub Vec<NS_PmaxListNR_r15>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "31")]
+pub struct MultiBandNsPmaxListNR_1_v1760(pub Vec<NS_PmaxListNR_v1760>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "31")]
+pub struct MultiBandNsPmaxListNR_Aerial_1_r18(pub Vec<NS_PmaxListNR_Aerial_r18>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "32")]
 pub struct MultiBandNsPmaxListNR_v1550(pub Vec<NS_PmaxListNR_r15>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "32")]
+pub struct MultiBandNsPmaxListNR_v1760(pub Vec<NS_PmaxListNR_v1760>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "32")]
@@ -9052,6 +9610,15 @@ pub struct NPDCCH_SC_MCCH_Config_NB_r14 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct NPDSCH_16QAM_Config_NB_r17 {
+    #[asn(optional_idx = 0)]
+    pub nrs_power_ratio_r17: Option<NPDSCH_16QAM_Config_NB_r17Nrs_PowerRatio_r17>,
+    #[asn(optional_idx = 1)]
+    pub nrs_power_ratio_with_crs_r17: Option<NPDSCH_16QAM_Config_NB_r17Nrs_PowerRatioWithCRS_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
 pub struct NPDSCH_ConfigCommon_NB_r13 {
     pub nrs_power_r13: NPDSCH_ConfigCommon_NB_r13Nrs_Power_r13,
@@ -9062,6 +9629,23 @@ pub struct NPDSCH_ConfigCommon_NB_r13 {
 pub struct NPDSCH_ConfigDedicated_NB_r16 {
     #[asn(optional_idx = 0)]
     pub npdsch_multi_tb_config_r16: Option<NPDSCH_MultiTB_Config_NB_r16>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct NPDSCH_ConfigDedicated_NB_v1710 {
+    pub npdsch_16qam_config_r17: NPDSCH_ConfigDedicated_NB_v1710Npdsch_16QAM_Config_r17,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct NPDSCH_ConfigDedicated_NB_v1800 {
+    #[asn(optional_idx = 0)]
+    pub downlink_harq_feedback_disabled_bitmap_nb_r18:
+        Option<NPDSCH_ConfigDedicated_NB_v1800DownlinkHARQ_FeedbackDisabledBitmap_NB_r18>,
+    #[asn(optional_idx = 1)]
+    pub downlink_harq_feedback_disabled_dci_nb_r18:
+        Option<NPDSCH_ConfigDedicated_NB_v1800DownlinkHARQ_FeedbackDisabledDCI_NB_r18>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -9201,6 +9785,18 @@ pub struct NPRACH_ProbabilityAnchor_NB_r14 {
 pub struct NPRACH_ProbabilityAnchorList_NB_r14(pub Vec<NPRACH_ProbabilityAnchor_NB_r14>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct NPRACH_TxDurationFmt01_NB_r17 {
+    pub nprach_tx_duration_fmt01_r17: NPRACH_TxDurationFmt01_NB_r17Nprach_TxDurationFmt01_r17,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct NPRACH_TxDurationFmt2_NB_r17 {
+    pub nprach_tx_duration_fmt2_r17: NPRACH_TxDurationFmt2_NB_r17Nprach_TxDurationFmt2_r17,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
 pub struct NPUSCH_ConfigCommon_NB_r13 {
     pub ack_nack_num_repetitions_msg4_r13:
@@ -9230,8 +9826,31 @@ pub struct NPUSCH_ConfigDedicated_NB_v1610 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct NPUSCH_ConfigDedicated_NB_v1700 {
+    #[asn(optional_idx = 0)]
+    pub npusch_16qam_config_r17: Option<NPUSCH_ConfigDedicated_NB_v1700Npusch_16QAM_Config_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct NPUSCH_ConfigDedicated_NB_v1800 {
+    pub uplink_harq_mode_r18: NPUSCH_ConfigDedicated_NB_v1800UplinkHARQ_Mode_r18,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct NPUSCH_TxDuration_NB_r17 {
+    pub npusch_tx_duration_r17: NPUSCH_TxDuration_NB_r17Npusch_TxDuration_r17,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
 pub struct NR_CarrierList_r16(pub Vec<MeasIdleCarrierNR_r16>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct NR_FreqNeighHSDN_CellList_r17(pub Vec<PhysCellIdRangeNR_r16>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "15")]
@@ -9277,7 +9896,19 @@ pub struct NS_PmaxList_v10l0(pub Vec<NS_PmaxValue_v10l0>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct NS_PmaxListAerial_r18(pub Vec<NS_PmaxValueAerial_r18>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct NS_PmaxListNR_Aerial_r18(pub Vec<NS_PmaxValueNR_Aerial_r18>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
 pub struct NS_PmaxListNR_r15(pub Vec<NS_PmaxValueNR_r15>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct NS_PmaxListNR_v1760(pub Vec<NS_PmaxValueNR_v1760>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
@@ -9303,6 +9934,24 @@ pub struct NS_PmaxValue_v10l0 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct NS_PmaxValueAerial_r18 {
+    #[asn(optional_idx = 0)]
+    pub additional_pmax_r18: Option<P_Max>,
+    #[asn(optional_idx = 1)]
+    pub additional_spectrum_emission_r18: Option<AdditionalSpectrumEmission_r18>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct NS_PmaxValueNR_Aerial_r18 {
+    #[asn(optional_idx = 0)]
+    pub additional_pmax_nr_r18: Option<P_MaxNR_r15>,
+    #[asn(optional_idx = 1)]
+    pub additional_spectrum_emission_nr_r18: Option<AdditionalSpectrumEmissionNR_r18>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
 pub struct NS_PmaxValueNR_r15 {
     #[asn(optional_idx = 0)]
@@ -9312,10 +9961,191 @@ pub struct NS_PmaxValueNR_r15 {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct NS_PmaxValueNR_v1760 {
+    #[asn(optional_idx = 0)]
+    pub additional_spectrum_emission_nr_v1760: Option<AdditionalSpectrumEmissionNR_v1760>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
 pub struct NSSS_RRM_Config_NB_r15 {
     pub nsss_rrm_power_offset_r15: NSSS_RRM_Config_NB_r15Nsss_RRM_PowerOffset_r15,
     #[asn(optional_idx = 0)]
     pub nsss_num_occ_diff_precoders_r15: Option<NSSS_RRM_Config_NB_r15Nsss_NumOccDiffPrecoders_r15>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 5)]
+pub struct NTN_Parameters_NB_r17 {
+    #[asn(optional_idx = 0)]
+    pub ntn_connectivity_epc_r17: Option<NTN_Parameters_NB_r17Ntn_Connectivity_EPC_r17>,
+    #[asn(optional_idx = 1)]
+    pub ntn_ta_report_r17: Option<NTN_Parameters_NB_r17Ntn_TA_Report_r17>,
+    #[asn(optional_idx = 2)]
+    pub ntn_pur_timer_delay_r17: Option<NTN_Parameters_NB_r17Ntn_PUR_TimerDelay_r17>,
+    #[asn(optional_idx = 3)]
+    pub ntn_offset_timing_enh_r17: Option<NTN_Parameters_NB_r17Ntn_OffsetTimingEnh_r17>,
+    #[asn(optional_idx = 4)]
+    pub ntn_scenario_support_r17: Option<NTN_Parameters_NB_r17Ntn_ScenarioSupport_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct NTN_Parameters_NB_v1720 {
+    #[asn(optional_idx = 0)]
+    pub ntn_segmented_precompensation_gaps_r17:
+        Option<NTN_Parameters_NB_v1720Ntn_SegmentedPrecompensationGaps_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 16)]
+pub struct NTN_Parameters_NB_v1800 {
+    #[asn(optional_idx = 0)]
+    pub ntn_location_based_meas_trigger_efc_r18:
+        Option<NTN_Parameters_NB_v1800Ntn_LocationBasedMeasTrigger_EFC_r18>,
+    #[asn(optional_idx = 1)]
+    pub ntn_location_based_meas_trigger_emc_r18:
+        Option<NTN_Parameters_NB_v1800Ntn_LocationBasedMeasTrigger_EMC_r18>,
+    #[asn(optional_idx = 2)]
+    pub ntn_time_based_meas_trigger_r18:
+        Option<NTN_Parameters_NB_v1800Ntn_TimeBasedMeasTrigger_r18>,
+    #[asn(optional_idx = 3)]
+    pub ntn_rrc_harq_disable_single_tb_r18:
+        Option<NTN_Parameters_NB_v1800Ntn_RRC_HarqDisableSingleTB_r18>,
+    #[asn(optional_idx = 4)]
+    pub ntn_overridden_harq_disable_single_tb_r18:
+        Option<NTN_Parameters_NB_v1800Ntn_OverriddenHarqDisableSingleTB_r18>,
+    #[asn(optional_idx = 5)]
+    pub ntn_dci_harq_disable_single_tb_r18:
+        Option<NTN_Parameters_NB_v1800Ntn_DCI_HarqDisableSingleTB_r18>,
+    #[asn(optional_idx = 6)]
+    pub ntn_rrc_harq_disable_multi_tb_r18:
+        Option<NTN_Parameters_NB_v1800Ntn_RRC_HarqDisableMultiTB_r18>,
+    #[asn(optional_idx = 7)]
+    pub ntn_overridden_harq_disable_multi_tb_r18:
+        Option<NTN_Parameters_NB_v1800Ntn_OverriddenHarqDisableMultiTB_r18>,
+    #[asn(optional_idx = 8)]
+    pub ntn_dci_harq_disable_multi_tb_r18:
+        Option<NTN_Parameters_NB_v1800Ntn_DCI_HarqDisableMultiTB_r18>,
+    #[asn(optional_idx = 9)]
+    pub ntn_uplink_harq_mode_b_single_tb_r18:
+        Option<NTN_Parameters_NB_v1800Ntn_UplinkHarq_ModeB_SingleTB_r18>,
+    #[asn(optional_idx = 10)]
+    pub ntn_uplink_harq_mode_b_multi_tb_r18:
+        Option<NTN_Parameters_NB_v1800Ntn_UplinkHarq_ModeB_MultiTB_r18>,
+    #[asn(optional_idx = 11)]
+    pub ntn_harq_enh_scenario_support_r18:
+        Option<NTN_Parameters_NB_v1800Ntn_HarqEnhScenarioSupport_r18>,
+    #[asn(optional_idx = 12)]
+    pub ntn_triggered_gnss_fix_r18: Option<NTN_Parameters_NB_v1800Ntn_Triggered_GNSS_Fix_r18>,
+    #[asn(optional_idx = 13)]
+    pub ntn_autonomous_gnss_fix_r18: Option<NTN_Parameters_NB_v1800Ntn_Autonomous_GNSS_Fix_r18>,
+    #[asn(optional_idx = 14)]
+    pub ntn_uplink_tx_extension_r18: Option<NTN_Parameters_NB_v1800Ntn_UplinkTxExtension_r18>,
+    #[asn(optional_idx = 15)]
+    pub ntn_gnss_enh_scenario_support_r18:
+        Option<NTN_Parameters_NB_v1800Ntn_GNSS_EnhScenarioSupport_r18>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 5)]
+pub struct NTN_Parameters_r17 {
+    #[asn(optional_idx = 0)]
+    pub ntn_connectivity_epc_r17: Option<NTN_Parameters_r17Ntn_Connectivity_EPC_r17>,
+    #[asn(optional_idx = 1)]
+    pub ntn_ta_report_r17: Option<NTN_Parameters_r17Ntn_TA_Report_r17>,
+    #[asn(optional_idx = 2)]
+    pub ntn_pur_timer_delay_r17: Option<NTN_Parameters_r17Ntn_PUR_TimerDelay_r17>,
+    #[asn(optional_idx = 3)]
+    pub ntn_offset_timing_enh_r17: Option<NTN_Parameters_r17Ntn_OffsetTimingEnh_r17>,
+    #[asn(optional_idx = 4)]
+    pub ntn_scenario_support_r17: Option<NTN_Parameters_r17Ntn_ScenarioSupport_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct NTN_Parameters_v1720 {
+    #[asn(optional_idx = 0)]
+    pub ntn_segmented_precompensation_gaps_r17:
+        Option<NTN_Parameters_v1720Ntn_SegmentedPrecompensationGaps_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 25)]
+pub struct NTN_Parameters_v1800 {
+    #[asn(optional_idx = 0)]
+    pub ntn_event_a4_based_cho_r18: Option<NTN_Parameters_v1800Ntn_EventA4BasedCHO_r18>,
+    #[asn(optional_idx = 1)]
+    pub ntn_location_based_cho_efc_r18: Option<NTN_Parameters_v1800Ntn_LocationBasedCHO_EFC_r18>,
+    #[asn(optional_idx = 2)]
+    pub ntn_location_based_cho_emc_r18: Option<NTN_Parameters_v1800Ntn_LocationBasedCHO_EMC_r18>,
+    #[asn(optional_idx = 3)]
+    pub ntn_time_based_cho_r18: Option<NTN_Parameters_v1800Ntn_TimeBasedCHO_r18>,
+    #[asn(optional_idx = 4)]
+    pub event_d1_meas_report_trigger_r18: Option<NTN_Parameters_v1800EventD1_MeasReportTrigger_r18>,
+    #[asn(optional_idx = 5)]
+    pub event_d2_meas_report_trigger_r18: Option<NTN_Parameters_v1800EventD2_MeasReportTrigger_r18>,
+    #[asn(optional_idx = 6)]
+    pub ntn_location_based_meas_trigger_efc_r18:
+        Option<NTN_Parameters_v1800Ntn_LocationBasedMeasTrigger_EFC_r18>,
+    #[asn(optional_idx = 7)]
+    pub ntn_location_based_meas_trigger_emc_r18:
+        Option<NTN_Parameters_v1800Ntn_LocationBasedMeasTrigger_EMC_r18>,
+    #[asn(optional_idx = 8)]
+    pub ntn_time_based_meas_trigger_r18: Option<NTN_Parameters_v1800Ntn_TimeBasedMeasTrigger_r18>,
+    #[asn(optional_idx = 9)]
+    pub ntn_rrc_harq_disable_single_tb_ce_mode_a_r18:
+        Option<NTN_Parameters_v1800Ntn_RRC_HarqDisableSingleTB_CE_ModeA_r18>,
+    #[asn(optional_idx = 10)]
+    pub ntn_rrc_harq_disable_multi_tb_ce_mode_a_r18:
+        Option<NTN_Parameters_v1800Ntn_RRC_HarqDisableMultiTB_CE_ModeA_r18>,
+    #[asn(optional_idx = 11)]
+    pub ntn_rrc_harq_disable_single_tb_ce_mode_b_r18:
+        Option<NTN_Parameters_v1800Ntn_RRC_HarqDisableSingleTB_CE_ModeB_r18>,
+    #[asn(optional_idx = 12)]
+    pub ntn_overridden_harq_disable_single_tb_ce_mode_b_r18:
+        Option<NTN_Parameters_v1800Ntn_OverriddenHarqDisableSingleTB_CE_ModeB_r18>,
+    #[asn(optional_idx = 13)]
+    pub ntn_dci_harq_disable_single_tb_ce_mode_b_r18:
+        Option<NTN_Parameters_v1800Ntn_DCI_HarqDisableSingleTB_CE_ModeB_r18>,
+    #[asn(optional_idx = 14)]
+    pub ntn_rrc_harq_disable_multi_tb_ce_mode_b_r18:
+        Option<NTN_Parameters_v1800Ntn_RRC_HarqDisableMultiTB_CE_ModeB_r18>,
+    #[asn(optional_idx = 15)]
+    pub ntn_overridden_harq_disable_multi_tb_ce_mode_b_r18:
+        Option<NTN_Parameters_v1800Ntn_OverriddenHarqDisableMultiTB_CE_ModeB_r18>,
+    #[asn(optional_idx = 16)]
+    pub ntn_dci_harq_disable_multi_tb_ce_mode_b_r18:
+        Option<NTN_Parameters_v1800Ntn_DCI_HarqDisableMultiTB_CE_ModeB_r18>,
+    #[asn(optional_idx = 17)]
+    pub ntn_semi_static_harq_disable_sps_r18:
+        Option<NTN_Parameters_v1800Ntn_SemiStaticHarqDisableSPS_r18>,
+    #[asn(optional_idx = 18)]
+    pub ntn_uplink_harq_mode_b_single_tb_r18:
+        Option<NTN_Parameters_v1800Ntn_UplinkHarq_ModeB_SingleTB_r18>,
+    #[asn(optional_idx = 19)]
+    pub ntn_uplink_harq_mode_b_multi_tb_r18:
+        Option<NTN_Parameters_v1800Ntn_UplinkHarq_ModeB_MultiTB_r18>,
+    #[asn(optional_idx = 20)]
+    pub ntn_harq_enh_scenario_support_r18:
+        Option<NTN_Parameters_v1800Ntn_HarqEnhScenarioSupport_r18>,
+    #[asn(optional_idx = 21)]
+    pub ntn_triggered_gnss_fix_r18: Option<NTN_Parameters_v1800Ntn_Triggered_GNSS_Fix_r18>,
+    #[asn(optional_idx = 22)]
+    pub ntn_autonomous_gnss_fix_r18: Option<NTN_Parameters_v1800Ntn_Autonomous_GNSS_Fix_r18>,
+    #[asn(optional_idx = 23)]
+    pub ntn_uplink_tx_extension_r18: Option<NTN_Parameters_v1800Ntn_UplinkTxExtension_r18>,
+    #[asn(optional_idx = 24)]
+    pub ntn_gnss_enh_scenario_support_r18:
+        Option<NTN_Parameters_v1800Ntn_GNSS_EnhScenarioSupport_r18>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct NTN_Parameters_v1830 {
+    #[asn(optional_idx = 0)]
+    pub satellite_info_config_dedicated_r18:
+        Option<NTN_Parameters_v1830SatelliteInfoConfigDedicated_r18>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -9434,6 +10264,17 @@ pub struct NeighCellSI_AcquisitionParameters_v1610 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct NeighCellSI_AcquisitionParameters_v1710 {
+    #[asn(optional_idx = 0)]
+    pub gnb_id_length_reporting_nr_en_dc_r17:
+        Option<NeighCellSI_AcquisitionParameters_v1710GNB_ID_Length_Reporting_NR_EN_DC_r17>,
+    #[asn(optional_idx = 1)]
+    pub gnb_id_length_reporting_nr_no_en_dc_r17:
+        Option<NeighCellSI_AcquisitionParameters_v1710GNB_ID_Length_Reporting_NR_NoEN_DC_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
 pub enum NeighCellsCRS_Info_r11 {
     #[asn(key = 0, extended = false)]
@@ -9510,6 +10351,24 @@ pub struct NeighCellsToAddModList_r12(pub Vec<NeighCellsInfo_r12>);
 pub struct NeighCellsToReleaseList_r12(pub Vec<PhysCellId>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 3)]
+pub struct NeighSatelliteInfo_r18 {
+    pub satellite_id_r18: SatelliteId_r18,
+    pub ephemeris_info_r18: NeighSatelliteInfo_r18EphemerisInfo_r18,
+    pub nta_common_parameters_r18: NeighSatelliteInfo_r18Nta_CommonParameters_r18,
+    #[asn(optional_idx = 0)]
+    pub epoch_time_r18: Option<NeighSatelliteInfo_r18EpochTime_r18>,
+    #[asn(optional_idx = 1)]
+    pub k_mac_r18: Option<NeighSatelliteInfo_r18K_Mac_r18>,
+    #[asn(optional_idx = 2)]
+    pub t_service_start_neigh_r18: Option<TimeOffsetUTC_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "4")]
+pub struct NeighSatelliteInfoList_r18(pub Vec<NeighSatelliteInfo_r18>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "0", ub = "7")]
 pub struct NextHopChainingCount(pub u8);
 
@@ -9553,6 +10412,50 @@ pub struct OTDOA_PositioningCapabilities_r10 {
 pub struct ObtainLocationConfig_r11 {
     #[asn(optional_idx = 0)]
     pub obtain_location_r11: Option<ObtainLocationConfig_r11ObtainLocation_r11>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "15")]
+pub struct OffsetThresholdTA_NB_r17(pub u8);
+impl OffsetThresholdTA_NB_r17 {
+    pub const MS0DOT5: u8 = 0u8;
+    pub const MS1: u8 = 1u8;
+    pub const MS2: u8 = 2u8;
+    pub const MS3: u8 = 3u8;
+    pub const MS4: u8 = 4u8;
+    pub const MS5: u8 = 5u8;
+    pub const MS6: u8 = 6u8;
+    pub const MS7: u8 = 7u8;
+    pub const MS8: u8 = 8u8;
+    pub const MS9: u8 = 9u8;
+    pub const MS10: u8 = 10u8;
+    pub const MS11: u8 = 11u8;
+    pub const MS12: u8 = 12u8;
+    pub const MS13: u8 = 13u8;
+    pub const MS14: u8 = 14u8;
+    pub const MS15: u8 = 15u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "15")]
+pub struct OffsetThresholdTA_r17(pub u8);
+impl OffsetThresholdTA_r17 {
+    pub const MS0DOT5: u8 = 0u8;
+    pub const MS1: u8 = 1u8;
+    pub const MS2: u8 = 2u8;
+    pub const MS3: u8 = 3u8;
+    pub const MS4: u8 = 4u8;
+    pub const MS5: u8 = 5u8;
+    pub const MS6: u8 = 6u8;
+    pub const MS7: u8 = 7u8;
+    pub const MS8: u8 = 8u8;
+    pub const MS9: u8 = 9u8;
+    pub const MS10: u8 = 10u8;
+    pub const MS11: u8 = 11u8;
+    pub const MS12: u8 = 12u8;
+    pub const MS13: u8 = 13u8;
+    pub const MS14: u8 = 14u8;
+    pub const MS15: u8 = 15u8;
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -9680,6 +10583,13 @@ pub struct OverheatingAssistance_v1610 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct OverheatingAssistance_v1710 {
+    pub overheating_assistance_for_scg_fr2_2_r17:
+        OverheatingAssistance_v1710OverheatingAssistanceForSCG_FR2_2_r17,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "2")]
 pub struct P_C_AndCBSR_Pair_r13(pub Vec<P_C_AndCBSR_r13>);
 
@@ -9763,12 +10673,27 @@ pub struct PCCH_Config_NB_r14 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct PCCH_Config_NB_r17 {
+    pub cbp_index_r17: PCCH_Config_NB_r17Cbp_Index_r17,
+    pub npdcch_num_repetition_paging_r17: PCCH_Config_NB_r17Npdcch_NumRepetitionPaging_r17,
+    #[asn(optional_idx = 0)]
+    pub paging_weight_r17: Option<PagingWeight_NB_r14>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
 pub struct PCCH_Config_v1310 {
     pub paging_narrow_bands_r13: PCCH_Config_v1310Paging_narrowBands_r13,
     pub mpdcch_num_repetition_paging_r13: PCCH_Config_v1310Mpdcch_NumRepetition_Paging_r13,
     #[asn(optional_idx = 0)]
     pub nb_v1310: Option<PCCH_Config_v1310NB_v1310>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct PCCH_Config_v1700 {
+    pub ran_paging_in_idle_po_r17: PCCH_Config_v1700RanPagingInIdlePO_r17,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -10099,6 +11024,26 @@ pub struct PDSCH_ConfigDedicated_v1610 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct PDSCH_ConfigDedicated_v1700 {
+    #[asn(optional_idx = 0)]
+    pub ce_pdsch_14harq_config_r17: Option<PDSCH_ConfigDedicated_v1700Ce_PDSCH_14HARQ_Config_r17>,
+    #[asn(optional_idx = 1)]
+    pub ce_pdsch_max_tbs_r17: Option<PDSCH_ConfigDedicated_v1700Ce_PDSCH_maxTBS_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct PDSCH_ConfigDedicated_v1800 {
+    #[asn(optional_idx = 0)]
+    pub downlink_harq_feedback_disabled_bitmap_r18:
+        Option<PDSCH_ConfigDedicated_v1800DownlinkHARQ_FeedbackDisabledBitmap_r18>,
+    #[asn(optional_idx = 1)]
+    pub downlink_harq_feedback_disabled_dci_r18:
+        Option<PDSCH_ConfigDedicated_v1800DownlinkHARQ_FeedbackDisabledDCI_r18>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
 pub struct PDSCH_ConfigDedicatedSCell_v1430 {
     #[asn(optional_idx = 0)]
@@ -10170,6 +11115,13 @@ pub struct PLMN_IdentityInfo_NB_r13 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct PLMN_IdentityInfo_NB_v1700 {
+    #[asn(optional_idx = 0)]
+    pub tracking_area_list_r17: Option<TrackingAreaList_NB_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
 pub struct PLMN_IdentityInfo_r15 {
     pub plmn_identity_5gc_r15: PLMN_IdentityInfo_r15Plmn_Identity_5GC_r15,
@@ -10197,6 +11149,13 @@ pub struct PLMN_IdentityInfo_v1610 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct PLMN_IdentityInfo_v1700 {
+    #[asn(optional_idx = 0)]
+    pub tracking_area_list_r17: Option<TrackingAreaList_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
 pub enum PLMN_IdentityInfo2_r12 {
     #[asn(key = 0, extended = false)]
@@ -10210,6 +11169,10 @@ pub enum PLMN_IdentityInfo2_r12 {
 pub struct PLMN_IdentityInfoListNR_r15(pub Vec<PLMN_IdentityInfoNR_r15>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "12")]
+pub struct PLMN_IdentityInfoListNR_v1710(pub Vec<PLMN_IdentityInfoNR_v1710>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
 pub struct PLMN_IdentityInfoNR_r15 {
     pub plmn_identity_list_r15: PLMN_IdentityListNR_r15,
@@ -10218,6 +11181,13 @@ pub struct PLMN_IdentityInfoNR_r15 {
     #[asn(optional_idx = 1)]
     pub ran_area_code_r15: Option<RAN_AreaCode_r15>,
     pub cell_identity_r15: CellIdentityNR_r15,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct PLMN_IdentityInfoNR_v1710 {
+    #[asn(optional_idx = 0)]
+    pub gnb_id_length_r17: Option<PLMN_IdentityInfoNR_v1710GNB_ID_Length_r17>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -10238,6 +11208,10 @@ pub struct PLMN_IdentityList_NB_r13(pub Vec<PLMN_IdentityInfo_NB_r13>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "6")]
+pub struct PLMN_IdentityList_NB_v1700(pub Vec<PLMN_IdentityInfo_NB_v1700>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "6")]
 pub struct PLMN_IdentityList_r15(pub Vec<PLMN_IdentityInfo_r15>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -10247,6 +11221,10 @@ pub struct PLMN_IdentityList_v1530(pub Vec<PLMN_IdentityInfo_v1530>);
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "6")]
 pub struct PLMN_IdentityList_v1610(pub Vec<PLMN_IdentityInfo_v1610>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "6")]
+pub struct PLMN_IdentityList_v1700(pub Vec<PLMN_IdentityInfo_v1700>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "5")]
@@ -10441,6 +11419,12 @@ pub struct PRACH_ParametersCE_r13 {
 pub struct PRACH_ParametersListCE_r13(pub Vec<PRACH_ParametersCE_r13>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct PRACH_TxDuration_r17 {
+    pub prach_tx_duration_r17: PRACH_TxDuration_r17Prach_TxDuration_r17,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = true, optional_fields = 3)]
 pub struct PSCellToAddMod_r12 {
     pub s_cell_index_r12: SCellIndex_r10,
@@ -10610,6 +11594,12 @@ pub struct PUCCH_Format3_Conf_r13 {
     #[asn(optional_idx = 1)]
     pub two_antenna_port_activated_pucch_format3_r13:
         Option<PUCCH_Format3_Conf_r13TwoAntennaPortActivatedPUCCH_Format3_r13>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct PUCCH_TxDuration_r17 {
+    pub pucch_tx_duration_r17: PUCCH_TxDuration_r17Pucch_TxDuration_r17,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -10835,6 +11825,12 @@ pub struct PUR_RSRP_ChangeThreshold_r16 {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
+pub struct PUR_UL_16QAM_Config_NB_r17 {
+    pub uplink_power_control_dedicated_r17: UplinkPowerControlDedicated_NB_v1700,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
 pub struct PURConfigurationRequest_NB_r16 {
     pub critical_extensions: PURConfigurationRequest_NB_r16CriticalExtensions,
 }
@@ -10978,6 +11974,12 @@ pub struct PUSCH_ConfigDedicated_v1610 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct PUSCH_ConfigDedicated_v1800 {
+    pub uplink_harq_mode_r18: PUSCH_ConfigDedicated_v1800UplinkHARQ_Mode_r18,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
 pub struct PUSCH_ConfigDedicatedSCell_r10 {
     #[asn(optional_idx = 0)]
@@ -11015,6 +12017,12 @@ pub struct PUSCH_ModeConfigLAA_r15 {
     pub laa_pusch_mode1: PUSCH_ModeConfigLAA_r15Laa_PUSCH_Mode1,
     pub laa_pusch_mode2: PUSCH_ModeConfigLAA_r15Laa_PUSCH_Mode2,
     pub laa_pusch_mode3: PUSCH_ModeConfigLAA_r15Laa_PUSCH_Mode3,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct PUSCH_TxDuration_r17 {
+    pub pusch_tx_duration_r17: PUSCH_TxDuration_r17Pusch_TxDuration_r17,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -11089,7 +12097,16 @@ pub struct Paging_v1610_IEs {
     #[asn(optional_idx = 1)]
     pub uac_param_modification_r16: Option<Paging_v1610_IEsUac_ParamModification_r16>,
     #[asn(optional_idx = 2)]
-    pub non_critical_extension: Option<Paging_v1610_IEsNonCriticalExtension>,
+    pub non_critical_extension: Option<Paging_v1700_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct Paging_v1700_IEs {
+    #[asn(optional_idx = 0)]
+    pub paging_record_list_v1700: Option<PagingRecordList_v1700>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<Paging_v1700_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -11140,6 +12157,13 @@ pub struct PagingRecord_v1610 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct PagingRecord_v1700 {
+    #[asn(optional_idx = 0)]
+    pub paging_cause_r17: Option<PagingRecord_v1700PagingCause_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
 pub struct PagingRecordList(pub Vec<PagingRecord>);
 
@@ -11154,6 +12178,10 @@ pub struct PagingRecordList_NB_v1610(pub Vec<PagingRecord_NB_v1610>);
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
 pub struct PagingRecordList_v1610(pub Vec<PagingRecord_v1610>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
+pub struct PagingRecordList_v1700(pub Vec<PagingRecord_v1700>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "CHOICE", lb = "0", ub = "1", extensible = true)]
@@ -11350,6 +12378,13 @@ pub struct PhyLayerParameters_NB_v1610 {
     #[asn(optional_idx = 8)]
     pub subframe_resource_resv_ul_r16:
         Option<PhyLayerParameters_NB_v1610SubframeResourceResvUL_r16>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct PhyLayerParameters_NB_v1700 {
+    #[asn(optional_idx = 0)]
+    pub npdsch_16qam_r17: Option<PhyLayerParameters_NB_v1700Npdsch_16QAM_r17>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -11632,6 +12667,21 @@ pub struct PhyLayerParameters_v1610 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct PhyLayerParameters_v1700 {
+    #[asn(optional_idx = 0)]
+    pub ce_capabilities_v1700: Option<PhyLayerParameters_v1700Ce_Capabilities_v1700>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct PhyLayerParameters_v1730 {
+    #[asn(optional_idx = 0)]
+    pub csi_subframe_set2_for_dormant_s_cell_r17:
+        Option<PhyLayerParameters_v1730Csi_SubframeSet2ForDormantSCell_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
 pub struct PhyLayerParameters_v920 {
     #[asn(optional_idx = 0)]
@@ -11789,6 +12839,13 @@ pub struct PhysicalConfigDedicatedSCell_v13c0 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct PhysicalConfigDedicatedSCell_v1730 {
+    pub cqi_report_periodic_s_cell_v1730:
+        PhysicalConfigDedicatedSCell_v1730Cqi_ReportPeriodicSCell_v1730,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
 pub enum PhysicalConfigDedicatedSTTI_r15 {
     #[asn(key = 0, extended = false)]
@@ -11943,6 +13000,10 @@ pub struct PosSystemInformation_r15_IEs {
     #[asn(optional_idx = 1)]
     pub non_critical_extension: Option<PosSystemInformation_r15_IEsNonCriticalExtension>,
 }
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "-33554432", ub = "33554431")]
+pub struct PositionStateVector_r17(pub i32);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
@@ -12290,6 +13351,13 @@ pub struct RACH_Report_v1610 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct RACH_ReportNR_r18 {
+    pub rach_report_list_nr_r18: RACH_ReportNR_r18Rach_ReportListNR_r18,
+    pub cell_id_list_nr_r18: CellIdListNR_r18,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
 pub struct RACH_Skip_r14 {
     pub target_ta_r14: RACH_Skip_r14TargetTA_r14,
@@ -12378,6 +13446,13 @@ pub struct RF_Parameters_NB_r13 {
 pub struct RF_Parameters_NB_v1430 {
     #[asn(optional_idx = 0)]
     pub power_class_nb_14d_bm_r14: Option<RF_Parameters_NB_v1430PowerClassNB_14dBm_r14>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct RF_Parameters_NB_v1710 {
+    #[asn(optional_idx = 0)]
+    pub supported_band_list_v1710: Option<SupportedBandList_NB_v1710>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -12620,6 +13695,21 @@ pub struct RF_Parameters_v1630 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 5)]
+pub struct RF_Parameters_v1800 {
+    #[asn(optional_idx = 0)]
+    pub multi_ns_pmax_aerial_r18: Option<RF_Parameters_v1800MultiNS_PmaxAerial_r18>,
+    #[asn(optional_idx = 1)]
+    pub supported_band_list_eutra_v1800: Option<SupportedBandListEUTRA_v1800>,
+    #[asn(optional_idx = 2)]
+    pub supported_band_combination_v1800: Option<SupportedBandCombination_v1800>,
+    #[asn(optional_idx = 3)]
+    pub supported_band_combination_add_v1800: Option<SupportedBandCombinationAdd_v1800>,
+    #[asn(optional_idx = 4)]
+    pub supported_band_combination_reduced_v1800: Option<SupportedBandCombinationReduced_v1800>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
 pub struct RF_Parameters_v9e0 {
     #[asn(optional_idx = 0)]
@@ -12666,6 +13756,12 @@ pub enum RLC_Config_NB_r13 {
 pub struct RLC_Config_NB_v1430 {
     #[asn(optional_idx = 0)]
     pub t_reordering_r14: Option<T_Reordering>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct RLC_Config_NB_v1700 {
+    pub t_reordering_ext_r17: RLC_Config_NB_v1700T_ReorderingExt_r17,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -12716,6 +13812,12 @@ pub enum RLC_Config_v1530 {
     Release(RLC_Config_v1530_release),
     #[asn(key = 1, extended = false)]
     Setup(RLC_Config_v1530_setup),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct RLC_Config_v1700 {
+    pub t_reordering_ext_r17: RLC_Config_v1700T_ReorderingExt_r17,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -13193,7 +14295,19 @@ pub struct RRCConnectionReconfiguration_v1610_IEs {
     pub sl_ssb_priority_eutra_r16:
         Option<RRCConnectionReconfiguration_v1610_IEsSl_SSB_PriorityEUTRA_r16>,
     #[asn(optional_idx = 5)]
-    pub non_critical_extension: Option<RRCConnectionReconfiguration_v1610_IEsNonCriticalExtension>,
+    pub non_critical_extension: Option<RRCConnectionReconfiguration_v1700_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 3)]
+pub struct RRCConnectionReconfiguration_v1700_IEs {
+    #[asn(optional_idx = 0)]
+    pub system_information_block_type31_dedicated_r17:
+        Option<RRCConnectionReconfiguration_v1700_IEsSystemInformationBlockType31Dedicated_r17>,
+    #[asn(optional_idx = 1)]
+    pub scg_state_r17: Option<RRCConnectionReconfiguration_v1700_IEsScg_State_r17>,
+    #[asn(optional_idx = 2)]
+    pub non_critical_extension: Option<RRCConnectionReconfiguration_v1700_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -13330,8 +14444,35 @@ pub struct RRCConnectionReconfigurationComplete_v1530_IEs {
     pub flight_path_info_available_r15:
         Option<RRCConnectionReconfigurationComplete_v1530_IEsFlightPathInfoAvailable_r15>,
     #[asn(optional_idx = 3)]
+    pub non_critical_extension: Option<RRCConnectionReconfigurationComplete_v1700_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct RRCConnectionReconfigurationComplete_v1700_IEs {
+    #[asn(optional_idx = 0)]
+    pub selected_cond_reconfiguration_to_apply_r17: Option<CondReconfigurationId_r16>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<RRCConnectionReconfigurationComplete_v1710_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct RRCConnectionReconfigurationComplete_v1710_IEs {
+    #[asn(optional_idx = 0)]
+    pub gnss_validity_duration_r17: Option<GNSS_ValidityDuration_r17>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<RRCConnectionReconfigurationComplete_v1800_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct RRCConnectionReconfigurationComplete_v1800_IEs {
+    #[asn(optional_idx = 0)]
+    pub gnss_position_fix_duration_r18: Option<GNSS_PositionFixDuration_r18>,
+    #[asn(optional_idx = 1)]
     pub non_critical_extension:
-        Option<RRCConnectionReconfigurationComplete_v1530_IEsNonCriticalExtension>,
+        Option<RRCConnectionReconfigurationComplete_v1800_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -13442,8 +14583,26 @@ pub struct RRCConnectionReestablishmentComplete_NB_v1610_IEs {
     pub anr_info_available_r16:
         Option<RRCConnectionReestablishmentComplete_NB_v1610_IEsAnr_InfoAvailable_r16>,
     #[asn(optional_idx = 2)]
+    pub non_critical_extension: Option<RRCConnectionReestablishmentComplete_NB_v1710_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct RRCConnectionReestablishmentComplete_NB_v1710_IEs {
+    #[asn(optional_idx = 0)]
+    pub gnss_validity_duration_r17: Option<GNSS_ValidityDuration_r17>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<RRCConnectionReestablishmentComplete_NB_v1800_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct RRCConnectionReestablishmentComplete_NB_v1800_IEs {
+    #[asn(optional_idx = 0)]
+    pub gnss_position_fix_duration_r18: Option<GNSS_PositionFixDuration_r18>,
+    #[asn(optional_idx = 1)]
     pub non_critical_extension:
-        Option<RRCConnectionReestablishmentComplete_NB_v1610_IEsNonCriticalExtension>,
+        Option<RRCConnectionReestablishmentComplete_NB_v1800_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -13496,8 +14655,26 @@ pub struct RRCConnectionReestablishmentComplete_v1530_IEs {
     pub flight_path_info_available_r15:
         Option<RRCConnectionReestablishmentComplete_v1530_IEsFlightPathInfoAvailable_r15>,
     #[asn(optional_idx = 3)]
+    pub non_critical_extension: Option<RRCConnectionReestablishmentComplete_v1710_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct RRCConnectionReestablishmentComplete_v1710_IEs {
+    #[asn(optional_idx = 0)]
+    pub gnss_validity_duration_r17: Option<GNSS_ValidityDuration_r17>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<RRCConnectionReestablishmentComplete_v1800_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct RRCConnectionReestablishmentComplete_v1800_IEs {
+    #[asn(optional_idx = 0)]
+    pub gnss_position_fix_duration_r18: Option<GNSS_PositionFixDuration_r18>,
+    #[asn(optional_idx = 1)]
     pub non_critical_extension:
-        Option<RRCConnectionReestablishmentComplete_v1530_IEsNonCriticalExtension>,
+        Option<RRCConnectionReestablishmentComplete_v1800_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -13745,7 +14922,16 @@ pub struct RRCConnectionRelease_NB_v1610_IEs {
     #[asn(optional_idx = 2)]
     pub pur_config_r16: Option<RRCConnectionRelease_NB_v1610_IEsPur_Config_r16>,
     #[asn(optional_idx = 3)]
-    pub non_critical_extension: Option<RRCConnectionRelease_NB_v1610_IEsNonCriticalExtension>,
+    pub non_critical_extension: Option<RRCConnectionRelease_NB_v1700_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct RRCConnectionRelease_NB_v1700_IEs {
+    #[asn(optional_idx = 0)]
+    pub cbp_index_r17: Option<RRCConnectionRelease_NB_v1700_IEsCbp_Index_r17>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<RRCConnectionRelease_NB_v1700_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -13987,7 +15173,7 @@ pub struct RRCConnectionResume_r13_IEs {
     #[asn(optional_idx = 4)]
     pub late_non_critical_extension: Option<RRCConnectionResume_r13_IEsLateNonCriticalExtension>,
     #[asn(optional_idx = 5)]
-    pub rrc_connection_resume_v1430_i_es: Option<RRCConnectionResume_v1430_IEs>,
+    pub non_critical_extension: Option<RRCConnectionResume_v1430_IEs>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -13996,7 +15182,7 @@ pub struct RRCConnectionResume_v1430_IEs {
     #[asn(optional_idx = 0)]
     pub other_config_r14: Option<OtherConfig_r9>,
     #[asn(optional_idx = 1)]
-    pub rrc_connection_resume_v1510_i_es: Option<RRCConnectionResume_v1510_IEs>,
+    pub non_critical_extension: Option<RRCConnectionResume_v1510_IEs>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -14051,7 +15237,16 @@ pub struct RRCConnectionResume_v1610_IEs {
     #[asn(optional_idx = 11)]
     pub tdm_pattern_config2_r16: Option<TDM_PatternConfig_r15>,
     #[asn(optional_idx = 12)]
-    pub non_critical_extension: Option<RRCConnectionResume_v1610_IEsNonCriticalExtension>,
+    pub non_critical_extension: Option<RRCConnectionResume_v1700_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct RRCConnectionResume_v1700_IEs {
+    #[asn(optional_idx = 0)]
+    pub scg_state_r17: Option<RRCConnectionResume_v1700_IEsScg_State_r17>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<RRCConnectionResume_v1700_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -14095,8 +15290,26 @@ pub struct RRCConnectionResumeComplete_NB_v1610_IEs {
     pub anr_info_available_r16:
         Option<RRCConnectionResumeComplete_NB_v1610_IEsAnr_InfoAvailable_r16>,
     #[asn(optional_idx = 2)]
+    pub non_critical_extension: Option<RRCConnectionResumeComplete_NB_v1710_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct RRCConnectionResumeComplete_NB_v1710_IEs {
+    #[asn(optional_idx = 0)]
+    pub gnss_validity_duration_r17: Option<GNSS_ValidityDuration_r17>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<RRCConnectionResumeComplete_NB_v1800_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct RRCConnectionResumeComplete_NB_v1800_IEs {
+    #[asn(optional_idx = 0)]
+    pub gnss_position_fix_duration_r18: Option<GNSS_PositionFixDuration_r18>,
+    #[asn(optional_idx = 1)]
     pub non_critical_extension:
-        Option<RRCConnectionResumeComplete_NB_v1610_IEsNonCriticalExtension>,
+        Option<RRCConnectionResumeComplete_NB_v1800_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -14167,7 +15380,25 @@ pub struct RRCConnectionResumeComplete_v1610_IEs {
     pub scg_config_response_nr_r16:
         Option<RRCConnectionResumeComplete_v1610_IEsScg_ConfigResponseNR_r16>,
     #[asn(optional_idx = 4)]
-    pub non_critical_extension: Option<RRCConnectionResumeComplete_v1610_IEsNonCriticalExtension>,
+    pub non_critical_extension: Option<RRCConnectionResumeComplete_v1710_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct RRCConnectionResumeComplete_v1710_IEs {
+    #[asn(optional_idx = 0)]
+    pub gnss_validity_duration_r17: Option<GNSS_ValidityDuration_r17>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<RRCConnectionResumeComplete_v1800_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct RRCConnectionResumeComplete_v1800_IEs {
+    #[asn(optional_idx = 0)]
+    pub gnss_position_fix_duration_r18: Option<GNSS_PositionFixDuration_r18>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<RRCConnectionResumeComplete_v1800_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -14366,7 +15597,25 @@ pub struct RRCConnectionSetupComplete_NB_v1610_IEs {
     #[asn(optional_idx = 9)]
     pub pur_config_id_r16: Option<PUR_ConfigID_NB_r16>,
     #[asn(optional_idx = 10)]
-    pub non_critical_extension: Option<RRCConnectionSetupComplete_NB_v1610_IEsNonCriticalExtension>,
+    pub non_critical_extension: Option<RRCConnectionSetupComplete_NB_v1710_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct RRCConnectionSetupComplete_NB_v1710_IEs {
+    #[asn(optional_idx = 0)]
+    pub gnss_validity_duration_r17: Option<GNSS_ValidityDuration_r17>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<RRCConnectionSetupComplete_NB_v1800_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct RRCConnectionSetupComplete_NB_v1800_IEs {
+    #[asn(optional_idx = 0)]
+    pub gnss_position_fix_duration_r18: Option<GNSS_PositionFixDuration_r18>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<RRCConnectionSetupComplete_NB_v1800_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -14524,7 +15773,35 @@ pub struct RRCConnectionSetupComplete_v1690_IEs {
     pub ul_rrc_segmentation_r16:
         Option<RRCConnectionSetupComplete_v1690_IEsUl_RRC_Segmentation_r16>,
     #[asn(optional_idx = 1)]
-    pub non_critical_extension: Option<RRCConnectionSetupComplete_v1690_IEsNonCriticalExtension>,
+    pub non_critical_extension: Option<RRCConnectionSetupComplete_v1710_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct RRCConnectionSetupComplete_v1710_IEs {
+    #[asn(optional_idx = 0)]
+    pub gnss_validity_duration_r17: Option<GNSS_ValidityDuration_r17>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<RRCConnectionSetupComplete_v1800_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct RRCConnectionSetupComplete_v17b0_IEs {
+    #[asn(optional_idx = 0)]
+    pub ul_rrc_max_capa_segments_r17:
+        Option<RRCConnectionSetupComplete_v17b0_IEsUl_RRC_MaxCapaSegments_r17>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<RRCConnectionSetupComplete_v17b0_IEsNonCriticalExtension>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct RRCConnectionSetupComplete_v1800_IEs {
+    #[asn(optional_idx = 0)]
+    pub gnss_position_fix_duration_r18: Option<GNSS_PositionFixDuration_r18>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<RRCConnectionSetupComplete_v1800_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -14535,6 +15812,16 @@ pub struct RRCConnectionSetupComplete_v8a0_IEs {
         Option<RRCConnectionSetupComplete_v8a0_IEsLateNonCriticalExtension>,
     #[asn(optional_idx = 1)]
     pub non_critical_extension: Option<RRCConnectionSetupComplete_v1020_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct RRCConnectionSetupComplete_v8x0_IEs {
+    #[asn(optional_idx = 0)]
+    pub late_non_critical_extension:
+        Option<RRCConnectionSetupComplete_v8x0_IEsLateNonCriticalExtension>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<RRCConnectionSetupComplete_v17b0_IEs>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -14565,7 +15852,16 @@ pub struct RRCEarlyDataComplete_NB_v1590_IEs {
     pub late_non_critical_extension:
         Option<RRCEarlyDataComplete_NB_v1590_IEsLateNonCriticalExtension>,
     #[asn(optional_idx = 1)]
-    pub non_critical_extension: Option<RRCEarlyDataComplete_NB_v1590_IEsNonCriticalExtension>,
+    pub non_critical_extension: Option<RRCEarlyDataComplete_NB_v1700_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct RRCEarlyDataComplete_NB_v1700_IEs {
+    #[asn(optional_idx = 0)]
+    pub cbp_index_r17: Option<RRCEarlyDataComplete_NB_v1700_IEsCbp_Index_r17>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<RRCEarlyDataComplete_NB_v1700_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -15068,6 +16364,8 @@ pub enum RedirectedCarrierInfo {
     Utra_TDD_r10(CarrierFreqListUTRA_TDD_r10),
     #[asn(key = 1, extended = true)]
     Nr_r15(CarrierInfoNR_r15),
+    #[asn(key = 2, extended = true)]
+    Nr_r17(CarrierInfoNR_r17),
 }
 
 pub type RedirectedCarrierInfo_NB_r13 = CarrierFreq_NB_r13;
@@ -15203,6 +16501,10 @@ pub struct ReestablishmentInfo_NB {
     #[asn(optional_idx = 0)]
     pub additional_reestab_info_list_r13: Option<AdditionalReestabInfoList>,
 }
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OCTET-STRING")]
+pub struct ReferenceLocation_r18(pub Vec<u8>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
@@ -15882,6 +17184,13 @@ pub enum SCG_Configuration_v13c0 {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
+pub struct SCG_DeactivationPreferenceConfig_r17 {
+    pub scg_deactivation_preference_prohibit_timer_r17:
+        SCG_DeactivationPreferenceConfig_r17Scg_DeactivationPreferenceProhibitTimer_r17,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
 pub struct SCGFailureInformation_r12 {
     pub critical_extensions: SCGFailureInformation_r12CriticalExtensions,
 }
@@ -16315,9 +17624,9 @@ pub struct SIB_Type_NB_v1530(pub u8);
 impl SIB_Type_NB_v1530 {
     pub const SIB_TYPE23_NB_R15: u8 = 0u8;
     pub const SIB_TYPE27_NB_R16: u8 = 1u8;
-    pub const SPARE6: u8 = 2u8;
-    pub const SPARE5: u8 = 3u8;
-    pub const SPARE4: u8 = 4u8;
+    pub const SIB_TYPE31_NB_R17: u8 = 2u8;
+    pub const SIB_TYPE32_NB_R17: u8 = 3u8;
+    pub const SIB_TYPE33_NB_R18: u8 = 4u8;
     pub const SPARE3: u8 = 5u8;
     pub const SPARE2: u8 = 6u8;
     pub const SPARE1: u8 = 7u8;
@@ -16337,10 +17646,10 @@ impl SIB_Type_v12j0 {
     pub const SIB_TYPE27_V1610: u8 = 7u8;
     pub const SIB_TYPE28_V1610: u8 = 8u8;
     pub const SIB_TYPE29_V1610: u8 = 9u8;
-    pub const SPARE6: u8 = 10u8;
-    pub const SPARE5: u8 = 11u8;
-    pub const SPARE4: u8 = 12u8;
-    pub const SPARE3: u8 = 13u8;
+    pub const SIB_TYPE30_V1700: u8 = 10u8;
+    pub const SIB_TYPE31_V1700: u8 = 11u8;
+    pub const SIB_TYPE32_V1700: u8 = 12u8;
+    pub const SIB_TYPE33_V1800: u8 = 13u8;
     pub const SPARE2: u8 = 14u8;
     pub const SPARE1: u8 = 15u8;
 }
@@ -16355,6 +17664,38 @@ pub struct SIB8_PerPLMN_r11 {
     pub plmn_identity_r11: SIB8_PerPLMN_r11Plmn_Identity_r11,
     pub parameters_cdma2000_r11: SIB8_PerPLMN_r11ParametersCDMA2000_r11,
 }
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "64")]
+pub struct SL_A2X_BandCombinationParameters_r18(pub Vec<SL_A2X_BandParameters_r18>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct SL_A2X_BandParameters_r18 {
+    pub a2x_freq_band_eutra_r18: FreqBandIndicator_r11,
+    #[asn(optional_idx = 0)]
+    pub a2x_band_parameters_tx_sl_r18: Option<BandParametersTxA2X_r18>,
+    #[asn(optional_idx = 1)]
+    pub a2x_band_parameters_rx_sl_r18: Option<BandParametersRxA2X_r18>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct SL_A2X_ConfigCommon_r18 {
+    #[asn(optional_idx = 0)]
+    pub a2x_comm_rx_pool_r18: Option<SL_CommRxPoolListV2X_r14>,
+    #[asn(optional_idx = 1)]
+    pub a2x_comm_tx_pool_r18: Option<SL_CommTxPoolListV2X_r14>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "384"
+)]
+pub struct SL_A2X_SupportedBandCombination_r18(pub Vec<SL_A2X_BandCombinationParameters_r18>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
@@ -17101,6 +18442,23 @@ pub struct SL_Parameters_v1630 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct SL_Parameters_v1710 {
+    #[asn(optional_idx = 0)]
+    pub v2x_supported_band_combination_list_eutra_nr_v1710:
+        Option<V2X_SupportedBandCombinationEUTRA_NR_v1710>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct SL_Parameters_v1800 {
+    #[asn(optional_idx = 0)]
+    pub sl_a2x_supported_band_combination_list_r18: Option<SL_A2X_SupportedBandCombination_r18>,
+    #[asn(optional_idx = 1)]
+    pub sl_a2x_service_r18: Option<SL_Parameters_v1800Sl_A2X_Service_r18>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "15")]
 pub struct SL_PeriodComm_r12(pub u8);
 impl SL_PeriodComm_r12 {
@@ -17728,6 +19086,13 @@ pub struct SON_Parameters_r9 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct SON_Parameters_v1800 {
+    #[asn(optional_idx = 0)]
+    pub rach_report_for_nr_r18: Option<SON_Parameters_v1800Rach_ReportForNR_r18>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
 pub enum SPDCCH_Config_r15 {
     #[asn(key = 0, extended = false)]
@@ -17935,6 +19300,34 @@ pub struct SR_NPRACH_Resource_NB_r15 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "7")]
+pub struct SR_ProhibitTimerOffset_NB_r17(pub u8);
+impl SR_ProhibitTimerOffset_NB_r17 {
+    pub const MS90: u8 = 0u8;
+    pub const MS180: u8 = 1u8;
+    pub const MS270: u8 = 2u8;
+    pub const MS360: u8 = 3u8;
+    pub const MS450: u8 = 4u8;
+    pub const MS540: u8 = 5u8;
+    pub const MS1080: u8 = 6u8;
+    pub const SPARE: u8 = 7u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "7")]
+pub struct SR_ProhibitTimerOffset_r17(pub u8);
+impl SR_ProhibitTimerOffset_r17 {
+    pub const MS90: u8 = 0u8;
+    pub const MS180: u8 = 1u8;
+    pub const MS270: u8 = 2u8;
+    pub const MS360: u8 = 3u8;
+    pub const MS450: u8 = 4u8;
+    pub const MS540: u8 = 5u8;
+    pub const MS1080: u8 = 6u8;
+    pub const SPARE: u8 = 7u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
 pub enum SR_SPS_BSR_Config_NB_r15 {
     #[asn(key = 0, extended = false)]
@@ -17954,6 +19347,14 @@ pub enum SR_WithoutHARQ_ACK_Config_NB_r15 {
     Release(SR_WithoutHARQ_ACK_Config_NB_r15_release),
     #[asn(key = 1, extended = false)]
     Setup(SR_WithoutHARQ_ACK_Config_NB_r15_setup),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct SR_WithoutHARQ_ACK_Config_NB_v1700 {
+    #[asn(optional_idx = 0)]
+    pub sr_prohibit_timer_offset_r17:
+        Option<SR_WithoutHARQ_ACK_Config_NB_v1700Sr_ProhibitTimerOffset_r17>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -18108,10 +19509,21 @@ pub struct SSB_IndexList_r15(pub Vec<RS_IndexNR_r15>);
 pub struct SSB_PositionQCL_CellsToAddModListNR_r16(pub Vec<SSB_PositionQCL_CellsToAddNR_r16>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "32")]
+pub struct SSB_PositionQCL_CellsToAddModListNR_r17(pub Vec<SSB_PositionQCL_CellsToAddNR_r17>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
 pub struct SSB_PositionQCL_CellsToAddNR_r16 {
     pub phys_cell_id_r16: PhysCellIdNR_r15,
     pub ssb_position_qcl_nr_r16: SSB_PositionQCL_RelationNR_r16,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct SSB_PositionQCL_CellsToAddNR_r17 {
+    pub phys_cell_id_nr_r17: PhysCellIdNR_r15,
+    pub ssb_position_qcl_nr_r17: SSB_PositionQCL_RelationNR_r17,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -18122,6 +19534,14 @@ impl SSB_PositionQCL_RelationNR_r16 {
     pub const N2: u8 = 1u8;
     pub const N4: u8 = 2u8;
     pub const N8: u8 = 3u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "1")]
+pub struct SSB_PositionQCL_RelationNR_r17(pub u8);
+impl SSB_PositionQCL_RelationNR_r17 {
+    pub const N32: u8 = 0u8;
+    pub const N64: u8 = 1u8;
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -18201,6 +19621,34 @@ pub struct STTI_SupportedCombinations_r15 {
     #[asn(optional_idx = 5)]
     pub combination_77_27_r15: Option<STTI_SupportedCombinations_r15Combination_77_27_r15>,
 }
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "255")]
+pub struct SatelliteId_r18(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct SatelliteInfo_r17 {
+    pub satellite_id_r17: SatelliteInfo_r17SatelliteId_r17,
+    pub service_info_r17: SatelliteInfo_r17ServiceInfo_r17,
+    pub footprint_info_r17: SatelliteInfo_r17FootprintInfo_r17,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "4")]
+pub struct SatelliteInfoList_NB_v1830(pub Vec<CarrierFreqList_NB_r18>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "4")]
+pub struct SatelliteInfoList_r17(pub Vec<SatelliteInfo_r17>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "4")]
+pub struct SatelliteInfoList_v1800(pub Vec<CarrierFreqList_v1800>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "4")]
+pub struct SatelliteInfoList_v1830(pub Vec<CarrierFreqList_v1830>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "3")]
@@ -18450,6 +19898,37 @@ pub struct ServCellIndex_r10(pub u8);
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "0", ub = "31")]
 pub struct ServCellIndex_r13(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 2)]
+pub struct ServingSatelliteInfo_r17 {
+    pub ephemeris_info_r17: ServingSatelliteInfo_r17EphemerisInfo_r17,
+    pub nta_common_parameters_r17: ServingSatelliteInfo_r17Nta_CommonParameters_r17,
+    pub ul_sync_validity_duration_r17: ServingSatelliteInfo_r17Ul_SyncValidityDuration_r17,
+    #[asn(optional_idx = 0)]
+    pub epoch_time_r17: Option<ServingSatelliteInfo_r17EpochTime_r17>,
+    pub k_offset_r17: ServingSatelliteInfo_r17K_Offset_r17,
+    #[asn(optional_idx = 1)]
+    pub k_mac_r17: Option<ServingSatelliteInfo_r17K_Mac_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 3)]
+pub struct ServingSatelliteInfo_v1820 {
+    #[asn(optional_idx = 0)]
+    pub satellite_id_r18: Option<SatelliteId_r18>,
+    #[asn(optional_idx = 1)]
+    pub reference_location_r18: Option<ServingSatelliteInfo_v1820ReferenceLocation_r18>,
+    #[asn(optional_idx = 2)]
+    pub distance_thresh_r18: Option<ServingSatelliteInfo_v1820DistanceThresh_r18>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct SharedSpectrumMeasNR_r17 {
+    pub nr_rssi_channel_occupancy_reporting_r17:
+        SharedSpectrumMeasNR_r17Nr_RSSI_ChannelOccupancyReporting_r17,
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "BITSTRING", sz_extensible = false, sz_lb = "24", sz_ub = "24")]
@@ -18772,6 +20251,13 @@ pub struct SupportedBand_NB_r13 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct SupportedBand_NB_v1710 {
+    #[asn(optional_idx = 0)]
+    pub npusch_16qam_r17: Option<SupportedBand_NB_v1710Npusch_16QAM_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(
     type = "SEQUENCE-OF",
     sz_extensible = false,
@@ -18920,6 +20406,15 @@ pub struct SupportedBandCombination_v1630(pub Vec<BandCombinationParameters_v163
     type = "SEQUENCE-OF",
     sz_extensible = false,
     sz_lb = "1",
+    sz_ub = "128"
+)]
+pub struct SupportedBandCombination_v1800(pub Vec<BandCombinationParameters_v1800>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
     sz_ub = "256"
 )]
 pub struct SupportedBandCombinationAdd_r11(pub Vec<BandCombinationParameters_r11>);
@@ -19046,6 +20541,15 @@ pub struct SupportedBandCombinationAdd_v1630(pub Vec<BandCombinationParameters_v
     type = "SEQUENCE-OF",
     sz_extensible = false,
     sz_lb = "1",
+    sz_ub = "256"
+)]
+pub struct SupportedBandCombinationAdd_v1800(pub Vec<BandCombinationParameters_v1800>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
     sz_ub = "128"
 )]
 pub struct SupportedBandCombinationExt_r10(pub Vec<BandCombinationParametersExt_r10>);
@@ -19150,6 +20654,15 @@ pub struct SupportedBandCombinationReduced_v1610(pub Vec<BandCombinationParamete
 pub struct SupportedBandCombinationReduced_v1630(pub Vec<BandCombinationParameters_v1630>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "384"
+)]
+pub struct SupportedBandCombinationReduced_v1800(pub Vec<BandCombinationParameters_v1800>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
 pub struct SupportedBandEUTRA {
     pub band_eutra: FreqBandIndicator,
@@ -19180,6 +20693,13 @@ pub struct SupportedBandEUTRA_v1320 {
         Option<SupportedBandEUTRA_v1320IntraFreq_CE_NeedForGaps_r13>,
     #[asn(optional_idx = 1)]
     pub ue_power_class_n_r13: Option<SupportedBandEUTRA_v1320Ue_PowerClass_N_r13>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct SupportedBandEUTRA_v1800 {
+    #[asn(optional_idx = 0)]
+    pub lower_msd_mrdc_r18: Option<SupportedBandEUTRA_v1800LowerMSD_MRDC_r18>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -19227,6 +20747,10 @@ pub struct SupportedBandInfoList_r12(pub Vec<SupportedBandInfo_r12>);
 pub struct SupportedBandList_NB_r13(pub Vec<SupportedBand_NB_r13>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "64")]
+pub struct SupportedBandList_NB_v1710(pub Vec<SupportedBand_NB_v1710>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "32")]
 pub struct SupportedBandList1XRTT(pub Vec<BandclassCDMA2000>);
 
@@ -19245,6 +20769,10 @@ pub struct SupportedBandListEUTRA_v1310(pub Vec<SupportedBandEUTRA_v1310>);
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "64")]
 pub struct SupportedBandListEUTRA_v1320(pub Vec<SupportedBandEUTRA_v1320>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "64")]
+pub struct SupportedBandListEUTRA_v1800(pub Vec<SupportedBandEUTRA_v1800>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "64")]
@@ -19583,7 +21111,17 @@ pub struct SystemInformationBlockType1_NB_v1610 {
     pub cell_access_related_info_5gc_r16:
         Option<SystemInformationBlockType1_NB_v1610CellAccessRelatedInfo_5GC_r16>,
     #[asn(optional_idx = 1)]
-    pub non_critical_extension: Option<SystemInformationBlockType1_NB_v1610NonCriticalExtension>,
+    pub non_critical_extension: Option<SystemInformationBlockType1_NB_v1700>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct SystemInformationBlockType1_NB_v1700 {
+    #[asn(optional_idx = 0)]
+    pub cell_access_related_info_ntn_r17:
+        Option<SystemInformationBlockType1_NB_v1700CellAccessRelatedInfo_NTN_r17>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<SystemInformationBlockType1_NB_v1700NonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -19783,7 +21321,30 @@ pub struct SystemInformationBlockType1_v1610_IEs {
     #[asn(optional_idx = 3)]
     pub plmn_identity_list_v1610: Option<PLMN_IdentityList_v1610>,
     #[asn(optional_idx = 4)]
-    pub non_critical_extension: Option<SystemInformationBlockType1_v1610_IEsNonCriticalExtension>,
+    pub non_critical_extension: Option<SystemInformationBlockType1_v1700_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct SystemInformationBlockType1_v1700_IEs {
+    #[asn(optional_idx = 0)]
+    pub cell_access_related_info_ntn_r17:
+        Option<SystemInformationBlockType1_v1700_IEsCellAccessRelatedInfo_NTN_r17>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<SystemInformationBlockType1_v1800_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 4)]
+pub struct SystemInformationBlockType1_v1800_IEs {
+    #[asn(optional_idx = 0)]
+    pub freq_band_indicator_aerial_r18: Option<FreqBandIndicator_r11>,
+    #[asn(optional_idx = 1)]
+    pub freq_band_info_aerial_r18: Option<NS_PmaxListAerial_r18>,
+    #[asn(optional_idx = 2)]
+    pub multi_band_info_list_aerial_r18: Option<MultiBandInfoListAerial_r18>,
+    #[asn(optional_idx = 3)]
+    pub non_critical_extension: Option<SystemInformationBlockType1_v1800_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -20275,11 +21836,89 @@ pub struct SystemInformationBlockType3_v10l0_IEs {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = true, optional_fields = 3)]
+pub struct SystemInformationBlockType30_r17 {
+    #[asn(optional_idx = 0)]
+    pub common_plm_ns_with_disaster_condition_r17:
+        Option<SystemInformationBlockType30_r17CommonPLMNsWithDisasterCondition_r17>,
+    #[asn(optional_idx = 1)]
+    pub applicable_disaster_info_list_r17:
+        Option<SystemInformationBlockType30_r17ApplicableDisasterInfoList_r17>,
+    #[asn(optional_idx = 2)]
+    pub late_non_critical_extension:
+        Option<SystemInformationBlockType30_r17LateNonCriticalExtension>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct SystemInformationBlockType31_NB_r17 {
+    pub serving_satellite_info_r17: ServingSatelliteInfo_r17,
+    #[asn(optional_idx = 0)]
+    pub late_non_critical_extension:
+        Option<SystemInformationBlockType31_NB_r17LateNonCriticalExtension>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct SystemInformationBlockType31_r17 {
+    pub serving_satellite_info_r17: ServingSatelliteInfo_r17,
+    #[asn(optional_idx = 0)]
+    pub late_non_critical_extension:
+        Option<SystemInformationBlockType31_r17LateNonCriticalExtension>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 2)]
+pub struct SystemInformationBlockType32_NB_r17 {
+    #[asn(optional_idx = 0)]
+    pub satellite_info_list_r17: Option<SatelliteInfoList_r17>,
+    #[asn(optional_idx = 1)]
+    pub late_non_critical_extension:
+        Option<SystemInformationBlockType32_NB_r17LateNonCriticalExtension>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 2)]
+pub struct SystemInformationBlockType32_r17 {
+    #[asn(optional_idx = 0)]
+    pub satellite_info_list_r17: Option<SatelliteInfoList_r17>,
+    #[asn(optional_idx = 1)]
+    pub late_non_critical_extension:
+        Option<SystemInformationBlockType32_r17LateNonCriticalExtension>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 3)]
+pub struct SystemInformationBlockType33_NB_r18 {
+    #[asn(optional_idx = 0)]
+    pub neigh_satellite_info_list_r18: Option<NeighSatelliteInfoList_r18>,
+    #[asn(optional_idx = 1)]
+    pub neigh_validity_duration_r18:
+        Option<SystemInformationBlockType33_NB_r18NeighValidityDuration_r18>,
+    #[asn(optional_idx = 2)]
+    pub late_non_critical_extension:
+        Option<SystemInformationBlockType33_NB_r18LateNonCriticalExtension>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 3)]
+pub struct SystemInformationBlockType33_r18 {
+    #[asn(optional_idx = 0)]
+    pub neigh_satellite_info_list_r18: Option<NeighSatelliteInfoList_r18>,
+    #[asn(optional_idx = 1)]
+    pub neigh_validity_duration_r18:
+        Option<SystemInformationBlockType33_r18NeighValidityDuration_r18>,
+    #[asn(optional_idx = 2)]
+    pub late_non_critical_extension:
+        Option<SystemInformationBlockType33_r18LateNonCriticalExtension>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 3)]
 pub struct SystemInformationBlockType4 {
     #[asn(optional_idx = 0)]
     pub intra_freq_neigh_cell_list: Option<IntraFreqNeighCellList>,
     #[asn(optional_idx = 1)]
-    pub intra_freq_black_cell_list: Option<IntraFreqBlackCellList>,
+    pub intra_freq_excluded_cell_list: Option<IntraFreqExcludedCellList>,
     #[asn(optional_idx = 2)]
     pub csg_phys_cell_id_range: Option<PhysCellIdRange>,
 }
@@ -20290,7 +21929,7 @@ pub struct SystemInformationBlockType4_NB_r13 {
     #[asn(optional_idx = 0)]
     pub intra_freq_neigh_cell_list_r13: Option<IntraFreqNeighCellList>,
     #[asn(optional_idx = 1)]
-    pub intra_freq_black_cell_list_r13: Option<IntraFreqBlackCellList>,
+    pub intra_freq_excluded_cell_list_r13: Option<IntraFreqExcludedCellList>,
     #[asn(optional_idx = 2)]
     pub late_non_critical_extension:
         Option<SystemInformationBlockType4_NB_r13LateNonCriticalExtension>,
@@ -20554,6 +22193,14 @@ impl T_Reordering {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "1")]
+pub struct T_ReorderingExt_r17(pub u8);
+impl T_ReorderingExt_r17 {
+    pub const MS2200: u8 = 0u8;
+    pub const MS3200: u8 = 1u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "0", ub = "7")]
 pub struct T_Reselection(pub u8);
 
@@ -20721,6 +22368,13 @@ pub struct TDD_UE_Capability_NB_v1610 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct TDD_UE_Capability_NB_v1710 {
+    #[asn(optional_idx = 0)]
+    pub phy_layer_parameters_v1710: Option<PhyLayerParameters_NB_v1700>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "2")]
 pub struct TDD_UL_DL_AlignmentOffset_NB_r15(pub u8);
 impl TDD_UL_DL_AlignmentOffset_NB_r15 {
@@ -20745,6 +22399,20 @@ pub enum TDM_PatternConfig_r15 {
     Release(TDM_PatternConfig_r15_release),
     #[asn(key = 1, extended = false)]
     Setup(TDM_PatternConfig_r15_setup),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct TLE_EphemerisParameters_r17 {
+    pub inclination_r17: TLE_EphemerisParameters_r17Inclination_r17,
+    pub argument_perigee_r17: TLE_EphemerisParameters_r17ArgumentPerigee_r17,
+    pub right_ascension_r17: TLE_EphemerisParameters_r17RightAscension_r17,
+    pub mean_anomaly_r17: TLE_EphemerisParameters_r17MeanAnomaly_r17,
+    pub eccentricity_r17: TLE_EphemerisParameters_r17Eccentricity_r17,
+    pub mean_motion_r17: TLE_EphemerisParameters_r17MeanMotion_r17,
+    pub b_star_decimal_r17: TLE_EphemerisParameters_r17BStarDecimal_r17,
+    pub b_star_exponent_r17: TLE_EphemerisParameters_r17BStarExponent_r17,
+    pub epoch_star_r17: TLE_EphemerisParameters_r17EpochStar_r17,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -20858,6 +22526,10 @@ impl TimeAlignmentTimer {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "1048575")]
+pub struct TimeOffsetUTC_r17(pub u32);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 3)]
 pub struct TimeReferenceInfo_r15 {
     pub time_r15: ReferenceTime_r15,
@@ -20927,6 +22599,14 @@ pub struct TrackingAreaCodeList_v1130 {
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "BITSTRING", sz_extensible = false, sz_lb = "24", sz_ub = "24")]
 pub struct TrackingAreaCodeNR_r15(pub bitvec::vec::BitVec<u8, bitvec::order::Msb0>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "12")]
+pub struct TrackingAreaList_NB_r17(pub Vec<TrackingAreaCode>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "12")]
+pub struct TrackingAreaList_r17(pub Vec<TrackingAreaCode>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
@@ -21014,12 +22694,23 @@ pub struct UAC_BarringInfoSet_r15 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct UAC_BarringInfoSet_v1700 {
+    #[asn(optional_idx = 0)]
+    pub uac_barring_factor_for_ai3_r17: Option<UAC_BarringInfoSet_v1700Uac_BarringFactorForAI3_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "1", ub = "8")]
 pub struct UAC_BarringInfoSetIndex_r15(pub u8);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
 pub struct UAC_BarringInfoSetList_r15(pub Vec<UAC_BarringInfoSet_r15>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct UAC_BarringInfoSetList_v1700(pub Vec<UAC_BarringInfoSet_v1700>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
@@ -21133,6 +22824,31 @@ pub struct UE_BasedNetwPerfMeasParameters_v1610 {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 4)]
+pub struct UE_BasedNetwPerfMeasParameters_v1700 {
+    #[asn(optional_idx = 0)]
+    pub logged_meas_idle_event_l1_r17:
+        Option<UE_BasedNetwPerfMeasParameters_v1700LoggedMeasIdleEventL1_r17>,
+    #[asn(optional_idx = 1)]
+    pub logged_meas_idle_event_out_of_coverage_r17:
+        Option<UE_BasedNetwPerfMeasParameters_v1700LoggedMeasIdleEventOutOfCoverage_r17>,
+    #[asn(optional_idx = 2)]
+    pub logged_meas_uncom_bar_pre_r17:
+        Option<UE_BasedNetwPerfMeasParameters_v1700LoggedMeasUncomBarPre_r17>,
+    #[asn(optional_idx = 3)]
+    pub imm_meas_uncom_bar_pre_r17:
+        Option<UE_BasedNetwPerfMeasParameters_v1700ImmMeasUncomBarPre_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct UE_BasedNetwPerfMeasParameters_v1800 {
+    #[asn(optional_idx = 0)]
+    pub sig_based_eutra_logged_meas_override_protect_r18:
+        Option<UE_BasedNetwPerfMeasParameters_v1800SigBasedEUTRA_LoggedMeasOverrideProtect_r18>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 4)]
 pub struct UE_Capability_NB_Ext_r14_IEs {
     #[asn(optional_idx = 0)]
     pub ue_category_nb_r14: Option<UE_Capability_NB_Ext_r14_IEsUe_Category_NB_r14>,
@@ -21222,16 +22938,56 @@ pub struct UE_Capability_NB_v1610_IEs {
     #[asn(optional_idx = 5)]
     pub tdd_ue_capability_v1610: Option<TDD_UE_Capability_NB_v1610>,
     #[asn(optional_idx = 6)]
-    pub non_critical_extension: Option<UE_Capability_NB_v16f0_IEs>,
+    pub non_critical_extension: Option<UE_Capability_NB_v16x0_IEs>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
-pub struct UE_Capability_NB_v16f0_IEs {
+pub struct UE_Capability_NB_v16x0_IEs {
     #[asn(optional_idx = 0)]
-    pub late_non_critical_extension: Option<UE_Capability_NB_v16f0_IEsLateNonCriticalExtension>,
+    pub late_non_critical_extension: Option<UE_Capability_NB_v16x0_IEsLateNonCriticalExtension>,
     #[asn(optional_idx = 1)]
-    pub non_critical_extension: Option<UE_Capability_NB_v16f0_IEsNonCriticalExtension>,
+    pub non_critical_extension: Option<UE_Capability_NB_v1700_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 3)]
+pub struct UE_Capability_NB_v1700_IEs {
+    #[asn(optional_idx = 0)]
+    pub coverage_based_paging_r17: Option<UE_Capability_NB_v1700_IEsCoverageBasedPaging_r17>,
+    pub phy_layer_parameters_v1700: PhyLayerParameters_NB_v1700,
+    #[asn(optional_idx = 1)]
+    pub ntn_parameters_r17: Option<NTN_Parameters_NB_r17>,
+    #[asn(optional_idx = 2)]
+    pub non_critical_extension: Option<UE_Capability_NB_v1710_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct UE_Capability_NB_v1710_IEs {
+    #[asn(optional_idx = 0)]
+    pub meas_parameters_v1710: Option<MeasParameters_NB_v1710>,
+    pub rf_parameters_v1710: RF_Parameters_NB_v1710,
+    pub tdd_ue_capability_v1710: TDD_UE_Capability_NB_v1710,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<UE_Capability_NB_v1720_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct UE_Capability_NB_v1720_IEs {
+    pub ntn_parameters_v1720: NTN_Parameters_NB_v1720,
+    #[asn(optional_idx = 0)]
+    pub non_critical_extension: Option<UE_Capability_NB_v1800_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct UE_Capability_NB_v1800_IEs {
+    #[asn(optional_idx = 0)]
+    pub ntn_parameters_v1800: Option<NTN_Parameters_NB_v1800>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<UE_Capability_NB_v1800_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -22010,7 +23766,7 @@ pub struct UE_EUTRA_Capability_v1660_IEs {
 pub struct UE_EUTRA_Capability_v1690_IEs {
     pub other_parameters_v1690: Other_Parameters_v1690,
     #[asn(optional_idx = 0)]
-    pub non_critical_extension: Option<UE_EUTRA_Capability_v1690_IEsNonCriticalExtension>,
+    pub non_critical_extension: Option<UE_EUTRA_Capability_v1700_IEs>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -22020,7 +23776,7 @@ pub struct UE_EUTRA_Capability_v16c0_IEs {
     #[asn(optional_idx = 0)]
     pub late_non_critical_extension: Option<UE_EUTRA_Capability_v16c0_IEsLateNonCriticalExtension>,
     #[asn(optional_idx = 1)]
-    pub non_critical_extension: Option<UE_EUTRA_Capability_v16c0_IEsNonCriticalExtension>,
+    pub non_critical_extension: Option<UE_EUTRA_Capability_v17b0_IEs>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -22029,6 +23785,104 @@ pub struct UE_EUTRA_Capability_v16f0_IEs {
     pub son_parameters_v16f0: SON_Parameters_NB_v16f0,
     #[asn(optional_idx = 0)]
     pub non_critical_extension: Option<UE_EUTRA_Capability_v16f0_IEsNonCriticalExtension>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 5)]
+pub struct UE_EUTRA_Capability_v1700_IEs {
+    #[asn(optional_idx = 0)]
+    pub meas_parameters_v1700: Option<MeasParameters_v1700>,
+    #[asn(optional_idx = 1)]
+    pub ue_based_netw_perf_meas_parameters_v1700: Option<UE_BasedNetwPerfMeasParameters_v1700>,
+    pub phy_layer_parameters_v1700: PhyLayerParameters_v1700,
+    #[asn(optional_idx = 2)]
+    pub ntn_parameters_r17: Option<NTN_Parameters_r17>,
+    #[asn(optional_idx = 3)]
+    pub irat_parameters_nr_v1700: Option<IRAT_ParametersNR_v1700>,
+    pub mbms_parameters_v1700: MBMS_Parameters_v1700,
+    #[asn(optional_idx = 4)]
+    pub non_critical_extension: Option<UE_EUTRA_Capability_v1710_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 4)]
+pub struct UE_EUTRA_Capability_v1710_IEs {
+    pub irat_parameters_nr_v1710: IRAT_ParametersNR_v1710,
+    #[asn(optional_idx = 0)]
+    pub neigh_cell_si_acquisition_parameters_v1710: Option<NeighCellSI_AcquisitionParameters_v1710>,
+    #[asn(optional_idx = 1)]
+    pub sl_parameters_v1710: Option<SL_Parameters_v1710>,
+    #[asn(optional_idx = 2)]
+    pub sidelink_requested_r17: Option<UE_EUTRA_Capability_v1710_IEsSidelinkRequested_r17>,
+    #[asn(optional_idx = 3)]
+    pub non_critical_extension: Option<UE_EUTRA_Capability_v1720_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct UE_EUTRA_Capability_v1720_IEs {
+    pub ntn_parameters_v1720: NTN_Parameters_v1720,
+    #[asn(optional_idx = 0)]
+    pub non_critical_extension: Option<UE_EUTRA_Capability_v1730_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct UE_EUTRA_Capability_v1730_IEs {
+    pub phy_layer_parameters_v1730: PhyLayerParameters_v1730,
+    #[asn(optional_idx = 0)]
+    pub non_critical_extension: Option<UE_EUTRA_Capability_v1770_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct UE_EUTRA_Capability_v1770_IEs {
+    pub meas_parameters_v1770: MeasParameters_v1770,
+    #[asn(optional_idx = 0)]
+    pub non_critical_extension: Option<UE_EUTRA_Capability_v1800_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct UE_EUTRA_Capability_v17b0_IEs {
+    #[asn(optional_idx = 0)]
+    pub ul_rrc_max_capa_segments_r17:
+        Option<UE_EUTRA_Capability_v17b0_IEsUl_RRC_MaxCapaSegments_r17>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<UE_EUTRA_Capability_v17b0_IEsNonCriticalExtension>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 5)]
+pub struct UE_EUTRA_Capability_v1800_IEs {
+    #[asn(optional_idx = 0)]
+    pub meas_parameters_v1800: Option<MeasParameters_v1800>,
+    #[asn(optional_idx = 1)]
+    pub rf_parameters_v1800: Option<RF_Parameters_v1800>,
+    #[asn(optional_idx = 2)]
+    pub ntn_parameters_v1800: Option<NTN_Parameters_v1800>,
+    #[asn(optional_idx = 3)]
+    pub sl_parameters_v1800: Option<SL_Parameters_v1800>,
+    pub son_parameters_v1800: SON_Parameters_v1800,
+    pub ue_based_netw_perf_meas_parameters_v1800: UE_BasedNetwPerfMeasParameters_v1800,
+    #[asn(optional_idx = 4)]
+    pub non_critical_extension: Option<UE_EUTRA_Capability_v1830_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct UE_EUTRA_Capability_v1830_IEs {
+    pub ntn_parameters_v1830: NTN_Parameters_v1830,
+    #[asn(optional_idx = 0)]
+    pub non_critical_extension: Option<UE_EUTRA_Capability_v1840_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct UE_EUTRA_Capability_v1840_IEs {
+    pub meas_parameters_v1840: MeasParameters_v1840,
+    #[asn(optional_idx = 0)]
+    pub non_critical_extension: Option<UE_EUTRA_Capability_v1840_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -22379,7 +24233,28 @@ pub struct UEAssistanceInformation_v1610_IEs {
     #[asn(optional_idx = 0)]
     pub overheating_assistance_v1610: Option<OverheatingAssistance_v1610>,
     #[asn(optional_idx = 1)]
-    pub non_critical_extension: Option<UEAssistanceInformation_v1610_IEsNonCriticalExtension>,
+    pub non_critical_extension: Option<UEAssistanceInformation_v1700_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 3)]
+pub struct UEAssistanceInformation_v1700_IEs {
+    #[asn(optional_idx = 0)]
+    pub uplink_data_r17: Option<UEAssistanceInformation_v1700_IEsUplinkData_r17>,
+    #[asn(optional_idx = 1)]
+    pub scg_deactivation_preference_r17:
+        Option<UEAssistanceInformation_v1700_IEsScg_DeactivationPreference_r17>,
+    #[asn(optional_idx = 2)]
+    pub non_critical_extension: Option<UEAssistanceInformation_v1710_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct UEAssistanceInformation_v1710_IEs {
+    #[asn(optional_idx = 0)]
+    pub overheating_assistance_v1710: Option<OverheatingAssistance_v1710>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<UEAssistanceInformation_v1710_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -22498,7 +24373,26 @@ pub struct UECapabilityEnquiry_v1610_IEs {
     #[asn(optional_idx = 0)]
     pub rrc_seg_allowed_r16: Option<UECapabilityEnquiry_v1610_IEsRrc_SegAllowed_r16>,
     #[asn(optional_idx = 1)]
-    pub non_critical_extension: Option<UECapabilityEnquiry_v1610_IEsNonCriticalExtension>,
+    pub non_critical_extension: Option<UECapabilityEnquiry_v1710_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct UECapabilityEnquiry_v1710_IEs {
+    #[asn(optional_idx = 0)]
+    pub sidelink_request_r17: Option<UECapabilityEnquiry_v1710_IEsSidelinkRequest_r17>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<UECapabilityEnquiry_v17b0_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct UECapabilityEnquiry_v17b0_IEs {
+    #[asn(optional_idx = 0)]
+    pub rrc_max_capa_seg_allowed_r17:
+        Option<UECapabilityEnquiry_v17b0_IEsRrc_MaxCapaSegAllowed_r17>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<UECapabilityEnquiry_v17b0_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -22646,7 +24540,25 @@ pub struct UEInformationRequest_v1530_IEs {
     #[asn(optional_idx = 1)]
     pub flight_path_info_req_r15: Option<FlightPathInfoReportConfig_r15>,
     #[asn(optional_idx = 2)]
-    pub non_critical_extension: Option<UEInformationRequest_v1530_IEsNonCriticalExtension>,
+    pub non_critical_extension: Option<UEInformationRequest_v1710_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct UEInformationRequest_v1710_IEs {
+    #[asn(optional_idx = 0)]
+    pub coarse_location_req_r17: Option<UEInformationRequest_v1710_IEsCoarseLocationReq_r17>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<UEInformationRequest_v1800_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct UEInformationRequest_v1800_IEs {
+    #[asn(optional_idx = 0)]
+    pub rach_report_req_nr_r18: Option<UEInformationRequest_v1800_IEsRach_ReportReqNR_r18>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<UEInformationRequest_v1800_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -22747,7 +24659,25 @@ pub struct UEInformationResponse_v1610_IEs {
     #[asn(optional_idx = 2)]
     pub meas_result_list_idle_nr_r16: Option<MeasResultListIdleNR_r16>,
     #[asn(optional_idx = 3)]
-    pub non_critical_extension: Option<UEInformationResponse_v1610_IEsNonCriticalExtension>,
+    pub non_critical_extension: Option<UEInformationResponse_v1710_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct UEInformationResponse_v1710_IEs {
+    #[asn(optional_idx = 0)]
+    pub coarse_location_info_r17: Option<UEInformationResponse_v1710_IEsCoarseLocationInfo_r17>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<UEInformationResponse_v1800_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct UEInformationResponse_v1800_IEs {
+    #[asn(optional_idx = 0)]
+    pub rach_report_nr_r18: Option<RACH_ReportNR_r18>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension: Option<UEInformationResponse_v1800_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -22787,7 +24717,17 @@ pub struct UEPagingCoverageInformation_NB_IEs {
     pub npdcch_num_repetition_paging_r13:
         Option<UEPagingCoverageInformation_NB_IEsNpdcch_NumRepetitionPaging_r13>,
     #[asn(optional_idx = 1)]
-    pub non_critical_extension: Option<UEPagingCoverageInformation_NB_IEsNonCriticalExtension>,
+    pub non_critical_extension: Option<UEPagingCoverageInformation_NB_v1700_IEs>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct UEPagingCoverageInformation_NB_v1700_IEs {
+    #[asn(optional_idx = 0)]
+    pub cbp_index_r17: Option<UEPagingCoverageInformation_NB_v1700_IEsCbp_Index_r17>,
+    #[asn(optional_idx = 1)]
+    pub non_critical_extension:
+        Option<UEPagingCoverageInformation_NB_v1700_IEsNonCriticalExtension>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -23242,6 +25182,14 @@ pub struct ULInformationTransferMRDC_r15_IEs {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "BITSTRING", sz_extensible = false, sz_lb = "2", sz_ub = "2")]
+pub struct UplinkHARQ_Mode_NB_r18(pub bitvec::vec::BitVec<u8, bitvec::order::Msb0>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "BITSTRING", sz_extensible = false, sz_lb = "8", sz_ub = "8")]
+pub struct UplinkHARQ_Mode_r18(pub bitvec::vec::BitVec<u8, bitvec::order::Msb0>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
 pub struct UplinkPUSCH_LessPowerControlDedicated_v1430 {
     #[asn(optional_idx = 0)]
@@ -23392,6 +25340,12 @@ pub struct UplinkPowerControlDedicated_NB_r13 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct UplinkPowerControlDedicated_NB_v1700 {
+    pub delta_mcs_enabled_r17: UplinkPowerControlDedicated_NB_v1700DeltaMCS_Enabled_r17,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
 pub struct UplinkPowerControlDedicated_v1020 {
     #[asn(optional_idx = 0)]
@@ -23477,6 +25431,10 @@ pub struct V2X_BandCombinationParametersEUTRA_NR_v1630 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "64")]
+pub struct V2X_BandCombinationParametersEUTRA_NR_v1710(pub Vec<V2X_BandParametersEUTRA_NR_v1710>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
 pub struct V2X_BandParameters_r14 {
     pub v2x_freq_band_eutra_r14: FreqBandIndicator_r11,
@@ -23510,6 +25468,14 @@ pub enum V2X_BandParametersEUTRA_NR_v1630 {
     Eutra(V2X_BandParametersEUTRA_NR_v1630_eutra),
     #[asn(key = 1, extended = false)]
     Nr(V2X_BandParametersEUTRA_NR_v1630_nr),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct V2X_BandParametersEUTRA_NR_v1710 {
+    #[asn(optional_idx = 0)]
+    pub v2x_band_parameters_eutra_nr_v1710:
+        Option<V2X_BandParametersEUTRA_NR_v1710V2x_BandParametersEUTRA_NR_v1710>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -23564,6 +25530,17 @@ pub struct V2X_SupportedBandCombinationEUTRA_NR_r16(pub Vec<V2X_BandParametersEU
 )]
 pub struct V2X_SupportedBandCombinationEUTRA_NR_v1630(
     pub Vec<V2X_BandCombinationParametersEUTRA_NR_v1630>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "512"
+)]
+pub struct V2X_SupportedBandCombinationEUTRA_NR_v1710(
+    pub Vec<V2X_BandCombinationParametersEUTRA_NR_v1710>,
 );
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -23664,6 +25641,27 @@ pub struct VarLogMeasConfig_r15 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 7)]
+pub struct VarLogMeasConfig_r17 {
+    #[asn(optional_idx = 0)]
+    pub area_configuration_r10: Option<AreaConfiguration_r10>,
+    #[asn(optional_idx = 1)]
+    pub area_configuration_v1130: Option<AreaConfiguration_v1130>,
+    pub logging_duration_r10: LoggingDuration_r10,
+    pub logging_interval_r10: LoggingInterval_r10,
+    #[asn(optional_idx = 2)]
+    pub target_mbsfn_area_list_r12: Option<TargetMBSFN_AreaList_r12>,
+    #[asn(optional_idx = 3)]
+    pub bt_name_list_r15: Option<BT_NameList_r15>,
+    #[asn(optional_idx = 4)]
+    pub wlan_name_list_r15: Option<WLAN_NameList_r15>,
+    #[asn(optional_idx = 5)]
+    pub logged_event_trigger_config_r17: Option<LoggedEventTriggerConfig_r17>,
+    #[asn(optional_idx = 6)]
+    pub meas_uncom_bar_pre_r17: Option<VarLogMeasConfig_r17MeasUncomBarPre_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
 pub struct VarLogMeasReport_r10 {
     pub trace_reference_r10: TraceReference_r10,
@@ -23683,6 +25681,7 @@ pub struct VarLogMeasReport_r11 {
     pub plmn_identity_list_r11: PLMN_IdentityList3_r11,
     pub absolute_time_info_r10: AbsoluteTimeInfo_r10,
     pub log_meas_info_list_r10: LogMeasInfoList2_r10,
+    pub sig_logged_meas_type_r18: VarLogMeasReport_r11SigLoggedMeasType_r18,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -23848,6 +25847,10 @@ pub struct VarWLAN_Status_r13 {
     #[asn(optional_idx = 0)]
     pub status_r14: Option<WLAN_Status_v1430>,
 }
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "-131072", ub = "131071")]
+pub struct VelocityStateVector_r17(pub i32);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false, optional_fields = 6)]
@@ -24198,21 +26201,6 @@ pub struct WayPointLocation_r15 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
-#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
-pub struct WhiteCellListNR_r16(pub Vec<PhysCellIdNR_r15>);
-
-#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
-#[asn(type = "SEQUENCE", extensible = false)]
-pub struct WhiteCellsToAddMod_r13 {
-    pub cell_index_r13: WhiteCellsToAddMod_r13CellIndex_r13,
-    pub phys_cell_id_range_r13: PhysCellIdRange,
-}
-
-#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
-#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "32")]
-pub struct WhiteCellsToAddModList_r13(pub Vec<WhiteCellsToAddMod_r13>);
-
-#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
 pub struct WidebandPRG_r16 {
     pub wideband_prg_subframe_r16: WidebandPRG_r16WidebandPRG_Subframe_r16,
@@ -24427,6 +26415,13 @@ pub struct AS_Config_v1550Tdm_PatternConfig_r15 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct AS_Config_v1700Scg_State_r17(pub u8);
+impl AS_Config_v1700Scg_State_r17 {
+    pub const DEACTIVATED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING")]
 pub struct AS_ConfigNR_r15SourceRB_ConfigNR_r15(pub Vec<u8>);
 
@@ -24627,6 +26622,10 @@ pub struct AffectedCarrierFreqCombInfoMRDC_r15AffectedCarrierFreqCombMRDC_r15 {
     pub affected_carrier_freq_comb_eutra_r15: Option<AffectedCarrierFreqComb_r15>,
     pub affected_carrier_freq_comb_nr_r15: AffectedCarrierFreqCombNR_r15,
 }
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "1", ub = "32")]
+pub struct AllowedCellsToAddMod_r13CellIndex_r13(pub u8);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "1", ub = "32")]
@@ -25095,6 +27094,22 @@ pub struct AntennaInfoUL_r10FourAntennaPortActivated_r10(pub u8);
 impl AntennaInfoUL_r10FourAntennaPortActivated_r10 {
     pub const SETUP: u8 = 0u8;
 }
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "NULL")]
+pub struct ApplicableDisasterInfo_r17_noDisasterRoaming_r17;
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "NULL")]
+pub struct ApplicableDisasterInfo_r17_disasterRelatedIndication_r17;
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "NULL")]
+pub struct ApplicableDisasterInfo_r17_commonPLMNs_r17;
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "6")]
+pub struct ApplicableDisasterInfo_r17_dedicatedPLMNs_r17(pub Vec<PLMN_Identity>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "3")]
@@ -25839,10 +27854,6 @@ pub struct BeamMeasConfigIdleNR_r16MaxReportRS_Index_r16(pub u8);
 pub struct BeamMeasConfigIdleNR_r16ReportRS_IndexResultsNR_r16(pub bool);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
-#[asn(type = "INTEGER", lb = "1", ub = "32")]
-pub struct BlackCellsToAddModCellIndex(pub u8);
-
-#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "0")]
 pub struct CA_MIMO_ParametersDL_r13FourLayerTM3_TM4_r13(pub u8);
 impl CA_MIMO_ParametersDL_r13FourLayerTM3_TM4_r13 {
@@ -25880,6 +27891,38 @@ impl CA_MIMO_ParametersDL_v10i0FourLayerTM3_TM4_r10 {
 pub struct CA_MIMO_ParametersDL_v1270IntraBandContiguousCC_InfoList_r12(
     pub Vec<IntraBandContiguousCC_Info_r12>,
 );
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "15")]
+pub struct CBP_Config_NB_r17NB_r17(pub u8);
+impl CBP_Config_NB_r17NB_r17 {
+    pub const FOUR_T: u8 = 0u8;
+    pub const TWO_T: u8 = 1u8;
+    pub const ONE_T: u8 = 2u8;
+    pub const HALF_T: u8 = 3u8;
+    pub const QUARTER_T: u8 = 4u8;
+    pub const ONE8TH_T: u8 = 5u8;
+    pub const ONE16TH_T: u8 = 6u8;
+    pub const ONE32ND_T: u8 = 7u8;
+    pub const ONE64TH_T: u8 = 8u8;
+    pub const ONE128TH_T: u8 = 9u8;
+    pub const ONE256TH_T: u8 = 10u8;
+    pub const ONE512TH_T: u8 = 11u8;
+    pub const ONE1024TH_T: u8 = 12u8;
+    pub const SPARE3: u8 = 13u8;
+    pub const SPARE2: u8 = 14u8;
+    pub const SPARE1: u8 = 15u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "3")]
+pub struct CBP_Config_NB_r17Ue_SpecificDRX_CycleMin_r17(pub u8);
+impl CBP_Config_NB_r17Ue_SpecificDRX_CycleMin_r17 {
+    pub const RF32: u8 = 0u8;
+    pub const RF64: u8 = 1u8;
+    pub const RF128: u8 = 2u8;
+    pub const RF256: u8 = 3u8;
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "0")]
@@ -25949,6 +27992,14 @@ impl CE_MultiTB_Parameters_r16Ce_MultiTB_Interleaving_r16 {
 pub struct CE_MultiTB_Parameters_r16Ce_MultiTB_SubPRB_r16(pub u8);
 impl CE_MultiTB_Parameters_r16Ce_MultiTB_SubPRB_r16 {
     pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "1")]
+pub struct CE_PDSCH_14HARQ_Config_r17Ce_HARQ_AckDelay_r17(pub u8);
+impl CE_PDSCH_14HARQ_Config_r17Ce_HARQ_AckDelay_r17 {
+    pub const ALT_1: u8 = 0u8;
+    pub const ALT_2E: u8 = 1u8;
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -27065,6 +29116,14 @@ pub struct CQI_ReportPeriodicSCell_r15_setup {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "1023")]
+pub struct CQI_ReportPeriodicSCell_v1730Cqi_pmi_ConfigIndex2Dormant_r17(pub u16);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "1023")]
+pub struct CQI_ReportPeriodicSCell_v1730Ri_ConfigIndex2Dormant_r17(pub u16);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "NULL")]
 pub struct CQI_ShortConfigSCell_r15_release;
 
@@ -27936,6 +29995,14 @@ impl CarrierFreqInfoUTRA_v1250ReducedMeasPerformance_r12 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct CarrierFreqList_NB_r18CarrierFreqList_r18(pub Vec<CarrierFreq_NB_r13>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct CarrierFreqList_v1830CarrierFreqList_r18(pub Vec<ARFCN_ValueEUTRA_r9>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "24")]
 pub struct CarrierFreqNBIOT_r16CarrierFreqOffset_r16(pub u8);
 impl CarrierFreqNBIOT_r16CarrierFreqOffset_r16 {
@@ -28003,6 +30070,21 @@ pub struct CarrierFreqNR_r15DeriveSSB_IndexFromCell_r15(pub bool);
 #[asn(type = "ENUMERATED", lb = "0", ub = "0")]
 pub struct CarrierFreqNR_v1610HighSpeedCarrierNR_r16(pub u8);
 impl CarrierFreqNR_v1610HighSpeedCarrierNR_r16 {
+    pub const TRUE: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "1")]
+pub struct CarrierFreqNR_v1720SubcarrierSpacingSSB_r17(pub u8);
+impl CarrierFreqNR_v1720SubcarrierSpacingSSB_r17 {
+    pub const K_HZ480: u8 = 0u8;
+    pub const SPARE1: u8 = 1u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct CarrierFreqNR_v1810MobileIAB_Freq_r18(pub u8);
+impl CarrierFreqNR_v1810MobileIAB_Freq_r18 {
     pub const TRUE: u8 = 0u8;
 }
 
@@ -28159,6 +30241,18 @@ impl CarrierInfoNR_r15SubcarrierSpacingSSB_r15 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "5")]
+pub struct CarrierInfoNR_r17SubcarrierSpacingSSB_r17(pub u8);
+impl CarrierInfoNR_r17SubcarrierSpacingSSB_r17 {
+    pub const K_HZ15: u8 = 0u8;
+    pub const K_HZ30: u8 = 1u8;
+    pub const K_HZ120: u8 = 2u8;
+    pub const K_HZ240: u8 = 3u8;
+    pub const K_HZ480: u8 = 4u8;
+    pub const SPARE1: u8 = 5u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
 pub struct Cell_ToAddMod_r12CellIdentification_r12 {
     pub phys_cell_id_r12: PhysCellId,
@@ -28234,6 +30328,13 @@ pub struct CellGlobalIdGERANCellIdentity(pub bitvec::vec::BitVec<u8, bitvec::ord
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "BITSTRING", sz_extensible = false, sz_lb = "28", sz_ub = "28")]
 pub struct CellGlobalIdUTRACellIdentity(pub bitvec::vec::BitVec<u8, bitvec::order::Msb0>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CellIdNR_r18_pci_arfcn_r18 {
+    pub phys_cell_id_r18: PhysCellIdNR_r15,
+    pub carrier_freq_r18: ARFCN_ValueNR_r15,
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "1", ub = "6")]
@@ -28359,6 +30460,30 @@ impl CellSelectionInfoNFreq_r13Q_Hyst_r13 {
 pub struct CellsToAddModCellIndex(pub u8);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
+pub enum CellsToAddMod_v1810EphemerisInfo_r18 {
+    #[asn(key = 0, extended = false)]
+    StateVectors_r18(EphemerisStateVectors_r17),
+    #[asn(key = 1, extended = false)]
+    OrbitalParameters_r18(EphemerisOrbitalParameters_r17),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "1023")]
+pub struct CellsToAddMod_v1810EpochTime_r18StartSFN_r18(pub u16);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "9")]
+pub struct CellsToAddMod_v1810EpochTime_r18StartSubFrame_r18(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CellsToAddMod_v1810EpochTime_r18 {
+    pub start_sfn_r18: CellsToAddMod_v1810EpochTime_r18StartSFN_r18,
+    pub start_sub_frame_r18: CellsToAddMod_v1810EpochTime_r18StartSubFrame_r18,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "1", ub = "32")]
 pub struct CellsToAddModCDMA2000CellIndex(pub u8);
 
@@ -28451,12 +30576,87 @@ pub struct CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventA5_r16 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventA4_r18 {
+    pub a4_threshold_r18: ThresholdEUTRA,
+    pub hysteresis_r18: Hysteresis,
+    pub time_to_trigger_r18: TimeToTrigger,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "65535")]
+pub struct CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventD1_r18DistanceThreshFromReference1_r18(
+    pub u16,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "65535")]
+pub struct CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventD1_r18DistanceThreshFromReference2_r18(
+    pub u16,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventD1_r18 { pub distance_thresh_from_reference1_r18 : CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventD1_r18DistanceThreshFromReference1_r18 , pub distance_thresh_from_reference2_r18 : CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventD1_r18DistanceThreshFromReference2_r18 , pub reference_location1_r18 : ReferenceLocation_r18 , pub reference_location2_r18 : ReferenceLocation_r18 , pub hysteresis_location_r18 : HysteresisLocation_r18 , pub time_to_trigger_r18 : TimeToTrigger , }
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "65535")]
+pub struct CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventD2_r18DistanceThreshFromReference1_r18(
+    pub u16,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "65535")]
+pub struct CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventD2_r18DistanceThreshFromReference2_r18(
+    pub u16,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventD2_r18 { pub distance_thresh_from_reference1_r18 : CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventD2_r18DistanceThreshFromReference1_r18 , pub distance_thresh_from_reference2_r18 : CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventD2_r18DistanceThreshFromReference2_r18 , pub hysteresis_location_r18 : HysteresisLocation_r18 , pub time_to_trigger_r18 : TimeToTrigger , }
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "1", ub = "6000")]
+pub struct CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventT1_r18Duration_r18(pub u16);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventT1_r18 {
+    pub t1_threshold_r18: TimeOffsetUTC_r17,
+    pub duration_r18:
+        CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventT1_r18Duration_r18,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "CHOICE", lb = "0", ub = "1", extensible = true)]
 pub enum CondReconfigurationTriggerEUTRA_r16CondEventId_r16 {
     #[asn(key = 0, extended = false)]
     CondEventA3_r16(CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventA3_r16),
     #[asn(key = 1, extended = false)]
     CondEventA5_r16(CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventA5_r16),
+    #[asn(key = 0, extended = true)]
+    CondEventA4_r18(CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventA4_r18),
+    #[asn(key = 1, extended = true)]
+    CondEventD1_r18(CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventD1_r18),
+    #[asn(key = 2, extended = true)]
+    CondEventD2_r18(CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventD2_r18),
+    #[asn(key = 3, extended = true)]
+    CondEventT1_r18(CondReconfigurationTriggerEUTRA_r16CondEventId_r16_condEventT1_r18),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CondReconfigurationTriggerNR_r17CondEventId_r17_condEventB1_NR_r17 {
+    pub b1_threshold_nr_r17: ThresholdNR_r15,
+    pub hysteresis_r17: Hysteresis,
+    pub time_to_trigger_r17: TimeToTrigger,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "0", extensible = true)]
+pub enum CondReconfigurationTriggerNR_r17CondEventId_r17 {
+    #[asn(key = 0, extended = false)]
+    CondEventB1_NR_r17(CondReconfigurationTriggerNR_r17CondEventId_r17_condEventB1_NR_r17),
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -28502,6 +30702,33 @@ pub struct ConnEstFailReport_r11ContentionDetected_r11(pub bool);
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "BOOLEAN")]
 pub struct ConnEstFailReport_r11MaxTxPowerReached_r11(pub bool);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "3")]
+pub struct ConnMeasConfig_NB_r17NeighCellMeasCriteria_r17S_MeasureDeltaP_r17(pub u8);
+impl ConnMeasConfig_NB_r17NeighCellMeasCriteria_r17S_MeasureDeltaP_r17 {
+    pub const D_B6: u8 = 0u8;
+    pub const D_B9: u8 = 1u8;
+    pub const D_B12: u8 = 2u8;
+    pub const D_B15: u8 = 3u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "3")]
+pub struct ConnMeasConfig_NB_r17NeighCellMeasCriteria_r17T_MeasureDeltaP_r17(pub u8);
+impl ConnMeasConfig_NB_r17NeighCellMeasCriteria_r17T_MeasureDeltaP_r17 {
+    pub const S15: u8 = 0u8;
+    pub const S30: u8 = 1u8;
+    pub const S45: u8 = 2u8;
+    pub const S60: u8 = 3u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct ConnMeasConfig_NB_r17NeighCellMeasCriteria_r17 {
+    pub s_measure_delta_p_r17: ConnMeasConfig_NB_r17NeighCellMeasCriteria_r17S_MeasureDeltaP_r17,
+    pub t_measure_delta_p_r17: ConnMeasConfig_NB_r17NeighCellMeasCriteria_r17T_MeasureDeltaP_r17,
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "NULL")]
@@ -28573,6 +30800,24 @@ pub struct CounterCheckResponse_v8a0_IEsLateNonCriticalExtension(pub Vec<u8>);
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "0", ub = "15")]
 pub struct CountingResponseInfo_r10CountingResponseService_r10(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "7")]
+pub struct CoverageBasedPagingConfig_NB_r17Cbp_HystTimer_r17(pub u8);
+impl CoverageBasedPagingConfig_NB_r17Cbp_HystTimer_r17 {
+    pub const MS2560: u8 = 0u8;
+    pub const MS7680: u8 = 1u8;
+    pub const MS12800: u8 = 2u8;
+    pub const MS17920: u8 = 3u8;
+    pub const MS23040: u8 = 4u8;
+    pub const MS28160: u8 = 5u8;
+    pub const MS33280: u8 = 6u8;
+    pub const MS40960: u8 = 7u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "2")]
+pub struct CoverageBasedPagingConfig_NB_r17Cbp_ConfigList_r17(pub Vec<CBP_Config_NB_r17>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "BOOLEAN")]
@@ -30578,6 +32823,30 @@ pub enum Enable256QAM_r14_setup {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "8589934591")]
+pub struct EphemerisOrbitalParameters_r17SemiMajorAxis_r17(pub u64);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "1048575")]
+pub struct EphemerisOrbitalParameters_r17Eccentricity_r17(pub u32);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "268435455")]
+pub struct EphemerisOrbitalParameters_r17Periapsis_r17(pub u32);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "268435455")]
+pub struct EphemerisOrbitalParameters_r17Longitude_r17(pub u32);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "-67108864", ub = "67108863")]
+pub struct EphemerisOrbitalParameters_r17Inclination_r17(pub i32);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "268435455")]
+pub struct EphemerisOrbitalParameters_r17Anomaly_r17(pub u32);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "1")]
 pub struct EthernetHeaderCompression_r16Ehc_Common_r16Ehc_CID_Length_r16(pub u8);
 impl EthernetHeaderCompression_r16Ehc_Common_r16Ehc_CID_Length_r16 {
@@ -30625,6 +32894,22 @@ pub struct EthernetHeaderCompression_r16Ehc_Uplink_r16 {
     pub drb_continue_ehc_ul_r16:
         Option<EthernetHeaderCompression_r16Ehc_Uplink_r16Drb_ContinueEHC_UL_r16>,
 }
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "NULL")]
+pub struct EventType_r17_outOfCoverage;
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct EventType_r17_eventL1 {
+    pub l1_threshold_r17: ThresholdEUTRA,
+    pub hysteresis_r17: Hysteresis,
+    pub time_to_trigger_r17: TimeToTrigger,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "1", ub = "32")]
+pub struct ExcludedCellsToAddModCellIndex(pub u8);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "1")]
@@ -31493,7 +33778,7 @@ pub struct HandoverPreparationInformation_v1540_IEsSourceRB_ConfigIntra5GC_r15(p
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct HandoverPreparationInformation_v1630_IEsNonCriticalExtension {}
+pub struct HandoverPreparationInformation_v1700_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "7")]
@@ -31938,6 +34223,41 @@ impl IRAT_ParametersNR_v1660ExtendedBand_n77_r16 {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct IRAT_ParametersNR_v1700Eutra_5GC_HO_ToNR_TDD_FR2_2_r17(pub u8);
+impl IRAT_ParametersNR_v1700Eutra_5GC_HO_ToNR_TDD_FR2_2_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct IRAT_ParametersNR_v1700Eutra_EPC_HO_ToNR_TDD_FR2_2_r17(pub u8);
+impl IRAT_ParametersNR_v1700Eutra_EPC_HO_ToNR_TDD_FR2_2_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct IRAT_ParametersNR_v1700Ce_EUTRA_5GC_HO_ToNR_TDD_FR2_2_r17(pub u8);
+impl IRAT_ParametersNR_v1700Ce_EUTRA_5GC_HO_ToNR_TDD_FR2_2_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct IRAT_ParametersNR_v1700Ims_VoiceOverNR_FR2_2_r17(pub u8);
+impl IRAT_ParametersNR_v1700Ims_VoiceOverNR_FR2_2_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct IRAT_ParametersNR_v1710ExtendedBand_n77_2_r17(pub u8);
+impl IRAT_ParametersNR_v1710ExtendedBand_n77_2_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
 pub struct IRAT_ParametersUTRA_TDD_v1020E_RedirectionUTRA_TDD_r10(pub u8);
 impl IRAT_ParametersUTRA_TDD_v1020E_RedirectionUTRA_TDD_r10 {
     pub const SUPPORTED: u8 = 0u8;
@@ -32157,6 +34477,10 @@ pub struct InitialUE_Identity_5GC_r15_randomValue(pub bitvec::vec::BitVec<u8, bi
 pub struct InterFreqBandInfoInterFreqNeedForGaps(pub bool);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "4")]
+pub struct InterFreqCarrierFreqInfo_NB_v1820SatelliteAssistanceInfo_r18(pub Vec<SatelliteId_r18>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
 pub struct InterFreqCarrierFreqInfo_r12ThreshX_Q_r12 {
     pub thresh_x_high_q_r12: ReselectionThresholdQ_r9,
@@ -32180,6 +34504,10 @@ impl InterFreqCarrierFreqInfo_v1250ReducedMeasPerformance_r12 {
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "BOOLEAN")]
 pub struct InterFreqCarrierFreqInfo_v1530Hsdn_Indication_r15(pub bool);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "4")]
+pub struct InterFreqCarrierFreqInfo_v1800SatelliteAssistanceInfoList_r18(pub Vec<SatelliteId_r18>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "NULL")]
@@ -32255,6 +34583,14 @@ pub struct InterRAT_BandInfoInterRAT_NeedForGaps(pub bool);
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "BOOLEAN")]
 pub struct InterRAT_BandInfoNR_r16InterRAT_NeedForGapsNR_r16(pub bool);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "1")]
+pub struct InterRAT_BandInfoNR_r18InterRAT_NeedForInterruptionNR_r18(pub u8);
+impl InterRAT_BandInfoNR_r18InterRAT_NeedForInterruptionNR_r18 {
+    pub const NO_GAP_WITH_INTERRUPTION: u8 = 0u8;
+    pub const NO_GAP_NO_INTERRUPTION: u8 = 1u8;
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "0")]
@@ -32726,8 +35062,22 @@ pub struct LoggedMeasurementConfiguration_r10_IEsTce_Id_r10(pub Vec<u8>);
 pub struct LoggedMeasurementConfiguration_v1080_IEsLateNonCriticalExtension_r10(pub Vec<u8>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct LoggedMeasurementConfiguration_v1700_IEsMeasUncomBarPre_r17(pub u8);
+impl LoggedMeasurementConfiguration_v1700_IEsMeasUncomBarPre_r17 {
+    pub const TRUE: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct LoggedMeasurementConfiguration_v1800_IEsSigLoggedMeasType_r18(pub u8);
+impl LoggedMeasurementConfiguration_v1800_IEsSigLoggedMeasType_r18 {
+    pub const TRUE: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct LoggedMeasurementConfiguration_v1530_IEsNonCriticalExtension {}
+pub struct LoggedMeasurementConfiguration_v1800_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "1", ub = "16")]
@@ -32790,6 +35140,10 @@ pub struct LogicalChannelConfig_NB_r13Priority_r13(pub u8);
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "BOOLEAN")]
 pub struct LogicalChannelConfig_NB_r13LogicalChannelSR_Prohibit_r13(pub bool);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "64")]
+pub struct LowerMSD_MRDC_r18Msd_Information_r18(pub Vec<MSD_Information_r18>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "15")]
@@ -33268,6 +35622,12 @@ impl MBMS_Parameters_v1610Mbms_ScalingFactor0dot37_r16 {
 pub struct MBMS_Parameters_v1610Mbms_SupportedBandInfoList_r16(pub Vec<MBMS_SupportedBandInfo_r16>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "64")]
+pub struct MBMS_Parameters_v1700Mbms_SupportedBandInfoList_v1700(
+    pub Vec<MBMS_SupportedBandInfo_v1700>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "2")]
 pub struct MBMS_ROM_Info_r15Mbms_ROM_SubcarrierSpacing_r15(pub u8);
 impl MBMS_ROM_Info_r15Mbms_ROM_SubcarrierSpacing_r15 {
@@ -33352,6 +35712,27 @@ pub struct MBMS_SupportedBandInfo_r16SubcarrierSpacingMBMS_khz0dot37_r16 {
     pub time_separation_slot4_r16: Option<
         MBMS_SupportedBandInfo_r16SubcarrierSpacingMBMS_khz0dot37_r16TimeSeparationSlot4_r16,
     >,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct MBMS_SupportedBandInfo_v1700Pmch_Bandwidth_n40_r17(pub u8);
+impl MBMS_SupportedBandInfo_v1700Pmch_Bandwidth_n40_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct MBMS_SupportedBandInfo_v1700Pmch_Bandwidth_n35_r17(pub u8);
+impl MBMS_SupportedBandInfo_v1700Pmch_Bandwidth_n35_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct MBMS_SupportedBandInfo_v1700Pmch_Bandwidth_n30_r17(pub u8);
+impl MBMS_SupportedBandInfo_v1700Pmch_Bandwidth_n30_r17 {
+    pub const SUPPORTED: u8 = 0u8;
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -33563,7 +35944,7 @@ impl MBSFN_AreaInfo_r16SubcarrierSpacingMBMS_r16 {
     pub const K_HZ2DOT5: u8 = 1u8;
     pub const K_HZ1DOT25: u8 = 2u8;
     pub const K_HZ0DOT37: u8 = 3u8;
-    pub const SPARE4: u8 = 4u8;
+    pub const K_HZ15_V1710: u8 = 4u8;
     pub const SPARE3: u8 = 5u8;
     pub const SPARE2: u8 = 6u8;
     pub const SPARE1: u8 = 7u8;
@@ -33575,6 +35956,16 @@ pub struct MBSFN_AreaInfo_r16TimeSeparation_r16(pub u8);
 impl MBSFN_AreaInfo_r16TimeSeparation_r16 {
     pub const SL2: u8 = 0u8;
     pub const SL4: u8 = 1u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "3")]
+pub struct MBSFN_AreaInfo_r17Pmch_Bandwidth_r17(pub u8);
+impl MBSFN_AreaInfo_r17Pmch_Bandwidth_r17 {
+    pub const N40: u8 = 0u8;
+    pub const N35: u8 = 1u8;
+    pub const N30: u8 = 2u8;
+    pub const SPARE1: u8 = 3u8;
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -34134,6 +36525,51 @@ pub struct MRDC_AssistanceInfo_r15AffectedCarrierFreqCombInfoListMRDC_r15(
 );
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "15")]
+pub struct MSD_Information_r18Msd_Type_r18(pub u8);
+impl MSD_Information_r18Msd_Type_r18 {
+    pub const HARMONIC: u8 = 0u8;
+    pub const HARMONIC_MIXING: u8 = 1u8;
+    pub const CROSS_BAND_ISOLATION: u8 = 2u8;
+    pub const IMD2: u8 = 3u8;
+    pub const IMD3: u8 = 4u8;
+    pub const IMD4: u8 = 5u8;
+    pub const IMD5: u8 = 6u8;
+    pub const ALL: u8 = 7u8;
+    pub const SPARE8: u8 = 8u8;
+    pub const SPARE7: u8 = 9u8;
+    pub const SPARE6: u8 = 10u8;
+    pub const SPARE5: u8 = 11u8;
+    pub const SPARE4: u8 = 12u8;
+    pub const SPARE3: u8 = 13u8;
+    pub const SPARE2: u8 = 14u8;
+    pub const SPARE1: u8 = 15u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "2")]
+pub struct MSD_Information_r18Msd_PowerClass_r18(pub u8);
+impl MSD_Information_r18Msd_PowerClass_r18 {
+    pub const PC1DOT5: u8 = 0u8;
+    pub const PC2: u8 = 1u8;
+    pub const PC3: u8 = 2u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "7")]
+pub struct MSD_Information_r18Msd_Class_r18(pub u8);
+impl MSD_Information_r18Msd_Class_r18 {
+    pub const CLASS_I: u8 = 0u8;
+    pub const CLASS_II: u8 = 1u8;
+    pub const CLASS_III: u8 = 2u8;
+    pub const CLASS_IV: u8 = 3u8;
+    pub const CLASS_V: u8 = 4u8;
+    pub const CLASS_VI: u8 = 5u8;
+    pub const CLASS_VII: u8 = 6u8;
+    pub const CLASS_VIII: u8 = 7u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "0", ub = "4")]
 pub struct MTC_SSB_NR_r15PeriodicityAndOffset_r15_sf5_r15(pub u8);
 
@@ -34265,7 +36701,28 @@ pub struct MasterInformationBlockSchedulingInfoSIB1_BR_r13(pub u8);
 pub struct MasterInformationBlockSystemInfoUnchanged_BR_r15(pub bool);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
-#[asn(type = "BITSTRING", sz_extensible = false, sz_lb = "4", sz_ub = "4")]
+#[asn(type = "BITSTRING", sz_extensible = false, sz_lb = "2", sz_ub = "2")]
+pub struct MasterInformationBlockPartEARFCN_r17_spare(
+    pub bitvec::vec::BitVec<u8, bitvec::order::Msb0>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "BITSTRING", sz_extensible = false, sz_lb = "2", sz_ub = "2")]
+pub struct MasterInformationBlockPartEARFCN_r17_earfcn_LSB(
+    pub bitvec::vec::BitVec<u8, bitvec::order::Msb0>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
+pub enum MasterInformationBlockPartEARFCN_r17 {
+    #[asn(key = 0, extended = false)]
+    Spare(MasterInformationBlockPartEARFCN_r17_spare),
+    #[asn(key = 1, extended = false)]
+    Earfcn_LSB(MasterInformationBlockPartEARFCN_r17_earfcn_LSB),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "BITSTRING", sz_extensible = false, sz_lb = "1", sz_ub = "1")]
 pub struct MasterInformationBlockSpare(pub bitvec::vec::BitVec<u8, bitvec::order::Msb0>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -34344,7 +36801,28 @@ pub struct MasterInformationBlock_NBAdditionalTransmissionSIB1_r15(pub bool);
 pub struct MasterInformationBlock_NBAb_Enabled_5GC_r16(pub bool);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
-#[asn(type = "BITSTRING", sz_extensible = false, sz_lb = "9", sz_ub = "9")]
+#[asn(type = "BITSTRING", sz_extensible = false, sz_lb = "2", sz_ub = "2")]
+pub struct MasterInformationBlock_NBPartEARFCN_r17_spare(
+    pub bitvec::vec::BitVec<u8, bitvec::order::Msb0>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "BITSTRING", sz_extensible = false, sz_lb = "2", sz_ub = "2")]
+pub struct MasterInformationBlock_NBPartEARFCN_r17_earfcn_LSB(
+    pub bitvec::vec::BitVec<u8, bitvec::order::Msb0>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
+pub enum MasterInformationBlock_NBPartEARFCN_r17 {
+    #[asn(key = 0, extended = false)]
+    Spare(MasterInformationBlock_NBPartEARFCN_r17_spare),
+    #[asn(key = 1, extended = false)]
+    Earfcn_LSB(MasterInformationBlock_NBPartEARFCN_r17_earfcn_LSB),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "BITSTRING", sz_extensible = false, sz_lb = "6", sz_ub = "6")]
 pub struct MasterInformationBlock_NBSpare(pub bitvec::vec::BitVec<u8, bitvec::order::Msb0>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -35039,6 +37517,20 @@ impl MeasParameters_NB_r16Dl_ChannelQualityReporting_r16 {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct MeasParameters_NB_v1710ConnModeMeasIntraFreq_r17(pub u8);
+impl MeasParameters_NB_v1710ConnModeMeasIntraFreq_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct MeasParameters_NB_v1710ConnModeMeasInterFreq_r17(pub u8);
+impl MeasParameters_NB_v1710ConnModeMeasInterFreq_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
 pub struct MeasParameters_v1130RsrqMeasWideband_r11(pub u8);
 impl MeasParameters_v1130RsrqMeasWideband_r11 {
     pub const SUPPORTED: u8 = 0u8;
@@ -35123,8 +37615,8 @@ impl MeasParameters_v1310Rs_SINR_Meas_r13 {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "0")]
-pub struct MeasParameters_v1310WhiteCellList_r13(pub u8);
-impl MeasParameters_v1310WhiteCellList_r13 {
+pub struct MeasParameters_v1310AllowedCellList_r13(pub u8);
+impl MeasParameters_v1310AllowedCellList_r13 {
     pub const SUPPORTED: u8 = 0u8;
 }
 
@@ -35338,6 +37830,39 @@ impl MeasParameters_v1630Ce_MeasRSS_DedicatedSameRBs_r16 {
 #[asn(type = "ENUMERATED", lb = "0", ub = "0")]
 pub struct MeasParameters_v16c0Nr_CellIndividualOffset_r16(pub u8);
 impl MeasParameters_v16c0Nr_CellIndividualOffset_r16 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "1024"
+)]
+pub struct MeasParameters_v1700SharedSpectrumMeasNR_EN_DC_r17(pub Vec<SharedSpectrumMeasNR_r17>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "1024"
+)]
+pub struct MeasParameters_v1700SharedSpectrumMeasNR_SA_r17(pub Vec<SharedSpectrumMeasNR_r17>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "1", ub = "32")]
+pub struct MeasParameters_v1770GaplessMeas_FR2_maxCC_r17(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "64")]
+pub struct MeasParameters_v1800BandInfoNR_v1800(pub Vec<MeasGapInfoNR_r18>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct MeasParameters_v1840SimultaneousRxDataSSB_DiffNumerology_FR1_r18(pub u8);
+impl MeasParameters_v1840SimultaneousRxDataSSB_DiffNumerology_FR1_r18 {
     pub const SUPPORTED: u8 = 0u8;
 }
 
@@ -36168,8 +38693,69 @@ impl NPDCCH_SC_MCCH_Config_NB_r14Npdcch_Offset_SC_MCCH_r14 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "7")]
+pub struct NPDSCH_16QAM_Config_NB_r17Nrs_PowerRatio_r17(pub u8);
+impl NPDSCH_16QAM_Config_NB_r17Nrs_PowerRatio_r17 {
+    pub const D_B_6: u8 = 0u8;
+    pub const D_B_4DOT77: u8 = 1u8;
+    pub const D_B_3: u8 = 2u8;
+    pub const D_B_1DOT77: u8 = 3u8;
+    pub const D_B0: u8 = 4u8;
+    pub const D_B1: u8 = 5u8;
+    pub const D_B2: u8 = 6u8;
+    pub const D_B3: u8 = 7u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "7")]
+pub struct NPDSCH_16QAM_Config_NB_r17Nrs_PowerRatioWithCRS_r17(pub u8);
+impl NPDSCH_16QAM_Config_NB_r17Nrs_PowerRatioWithCRS_r17 {
+    pub const D_B_6: u8 = 0u8;
+    pub const D_B_4DOT77: u8 = 1u8;
+    pub const D_B_3: u8 = 2u8;
+    pub const D_B_1DOT77: u8 = 3u8;
+    pub const D_B0: u8 = 4u8;
+    pub const D_B1: u8 = 5u8;
+    pub const D_B2: u8 = 6u8;
+    pub const D_B3: u8 = 7u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "-60", ub = "50")]
 pub struct NPDSCH_ConfigCommon_NB_r13Nrs_Power_r13(pub i8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "NULL")]
+pub struct NPDSCH_ConfigDedicated_NB_v1710Npdsch_16QAM_Config_r17_release;
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
+pub enum NPDSCH_ConfigDedicated_NB_v1710Npdsch_16QAM_Config_r17 {
+    #[asn(key = 0, extended = false)]
+    Release(NPDSCH_ConfigDedicated_NB_v1710Npdsch_16QAM_Config_r17_release),
+    #[asn(key = 1, extended = false)]
+    Setup(NPDSCH_16QAM_Config_NB_r17),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "NULL")]
+pub struct NPDSCH_ConfigDedicated_NB_v1800DownlinkHARQ_FeedbackDisabledBitmap_NB_r18_release;
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
+pub enum NPDSCH_ConfigDedicated_NB_v1800DownlinkHARQ_FeedbackDisabledBitmap_NB_r18 {
+    #[asn(key = 0, extended = false)]
+    Release(NPDSCH_ConfigDedicated_NB_v1800DownlinkHARQ_FeedbackDisabledBitmap_NB_r18_release),
+    #[asn(key = 1, extended = false)]
+    Setup(DownlinkHARQ_FeedbackDisabledBitmap_NB_r18),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NPDSCH_ConfigDedicated_NB_v1800DownlinkHARQ_FeedbackDisabledDCI_NB_r18(pub u8);
+impl NPDSCH_ConfigDedicated_NB_v1800DownlinkHARQ_FeedbackDisabledDCI_NB_r18 {
+    pub const TRUE: u8 = 0u8;
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "1")]
@@ -37019,6 +39605,29 @@ impl NPRACH_ProbabilityAnchor_NB_r14Nprach_ProbabilityAnchor_r14 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "5")]
+pub struct NPRACH_TxDurationFmt01_NB_r17Nprach_TxDurationFmt01_r17(pub u8);
+impl NPRACH_TxDurationFmt01_NB_r17Nprach_TxDurationFmt01_r17 {
+    pub const N2: u8 = 0u8;
+    pub const N4: u8 = 1u8;
+    pub const N8: u8 = 2u8;
+    pub const N16: u8 = 3u8;
+    pub const N32: u8 = 4u8;
+    pub const N64: u8 = 5u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "4")]
+pub struct NPRACH_TxDurationFmt2_NB_r17Nprach_TxDurationFmt2_r17(pub u8);
+impl NPRACH_TxDurationFmt2_NB_r17Nprach_TxDurationFmt2_r17 {
+    pub const N1: u8 = 0u8;
+    pub const N2: u8 = 1u8;
+    pub const N4: u8 = 2u8;
+    pub const N8: u8 = 3u8;
+    pub const N16: u8 = 4u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "3")]
 pub struct NPUSCH_ConfigCommon_NB_r13Ack_NACK_NumRepetitions_Msg4_r13(
     pub Vec<ACK_NACK_NumRepetitions_NB_r13>,
@@ -37103,6 +39712,40 @@ impl NPUSCH_ConfigDedicated_NB_v1610Npusch_MultiTB_Config_r16 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NPUSCH_ConfigDedicated_NB_v1700Npusch_16QAM_Config_r17(pub u8);
+impl NPUSCH_ConfigDedicated_NB_v1700Npusch_16QAM_Config_r17 {
+    pub const TRUE: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "NULL")]
+pub struct NPUSCH_ConfigDedicated_NB_v1800UplinkHARQ_Mode_r18_release;
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
+pub enum NPUSCH_ConfigDedicated_NB_v1800UplinkHARQ_Mode_r18 {
+    #[asn(key = 0, extended = false)]
+    Release(NPUSCH_ConfigDedicated_NB_v1800UplinkHARQ_Mode_r18_release),
+    #[asn(key = 1, extended = false)]
+    Setup(UplinkHARQ_Mode_NB_r18),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "7")]
+pub struct NPUSCH_TxDuration_NB_r17Npusch_TxDuration_r17(pub u8);
+impl NPUSCH_TxDuration_NB_r17Npusch_TxDuration_r17 {
+    pub const MS2: u8 = 0u8;
+    pub const MS4: u8 = 1u8;
+    pub const MS8: u8 = 2u8;
+    pub const MS16: u8 = 3u8;
+    pub const MS32: u8 = 4u8;
+    pub const MS64: u8 = 5u8;
+    pub const MS128: u8 = 6u8;
+    pub const MS256: u8 = 7u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "2")]
 pub struct NSSS_RRM_Config_NB_r15Nsss_RRM_PowerOffset_r15(pub u8);
 impl NSSS_RRM_Config_NB_r15Nsss_RRM_PowerOffset_r15 {
@@ -37119,6 +39762,394 @@ impl NSSS_RRM_Config_NB_r15Nsss_NumOccDiffPrecoders_r15 {
     pub const N2: u8 = 1u8;
     pub const N4: u8 = 2u8;
     pub const N8: u8 = 3u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_NB_r17Ntn_Connectivity_EPC_r17(pub u8);
+impl NTN_Parameters_NB_r17Ntn_Connectivity_EPC_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_NB_r17Ntn_TA_Report_r17(pub u8);
+impl NTN_Parameters_NB_r17Ntn_TA_Report_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_NB_r17Ntn_PUR_TimerDelay_r17(pub u8);
+impl NTN_Parameters_NB_r17Ntn_PUR_TimerDelay_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_NB_r17Ntn_OffsetTimingEnh_r17(pub u8);
+impl NTN_Parameters_NB_r17Ntn_OffsetTimingEnh_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "1")]
+pub struct NTN_Parameters_NB_r17Ntn_ScenarioSupport_r17(pub u8);
+impl NTN_Parameters_NB_r17Ntn_ScenarioSupport_r17 {
+    pub const NGSO: u8 = 0u8;
+    pub const GSO: u8 = 1u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "2")]
+pub struct NTN_Parameters_NB_v1720Ntn_SegmentedPrecompensationGaps_r17(pub u8);
+impl NTN_Parameters_NB_v1720Ntn_SegmentedPrecompensationGaps_r17 {
+    pub const SYM1: u8 = 0u8;
+    pub const SL1: u8 = 1u8;
+    pub const SL2: u8 = 2u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_NB_v1800Ntn_LocationBasedMeasTrigger_EFC_r18(pub u8);
+impl NTN_Parameters_NB_v1800Ntn_LocationBasedMeasTrigger_EFC_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_NB_v1800Ntn_LocationBasedMeasTrigger_EMC_r18(pub u8);
+impl NTN_Parameters_NB_v1800Ntn_LocationBasedMeasTrigger_EMC_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_NB_v1800Ntn_TimeBasedMeasTrigger_r18(pub u8);
+impl NTN_Parameters_NB_v1800Ntn_TimeBasedMeasTrigger_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_NB_v1800Ntn_RRC_HarqDisableSingleTB_r18(pub u8);
+impl NTN_Parameters_NB_v1800Ntn_RRC_HarqDisableSingleTB_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_NB_v1800Ntn_OverriddenHarqDisableSingleTB_r18(pub u8);
+impl NTN_Parameters_NB_v1800Ntn_OverriddenHarqDisableSingleTB_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_NB_v1800Ntn_DCI_HarqDisableSingleTB_r18(pub u8);
+impl NTN_Parameters_NB_v1800Ntn_DCI_HarqDisableSingleTB_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_NB_v1800Ntn_RRC_HarqDisableMultiTB_r18(pub u8);
+impl NTN_Parameters_NB_v1800Ntn_RRC_HarqDisableMultiTB_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_NB_v1800Ntn_OverriddenHarqDisableMultiTB_r18(pub u8);
+impl NTN_Parameters_NB_v1800Ntn_OverriddenHarqDisableMultiTB_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_NB_v1800Ntn_DCI_HarqDisableMultiTB_r18(pub u8);
+impl NTN_Parameters_NB_v1800Ntn_DCI_HarqDisableMultiTB_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_NB_v1800Ntn_UplinkHarq_ModeB_SingleTB_r18(pub u8);
+impl NTN_Parameters_NB_v1800Ntn_UplinkHarq_ModeB_SingleTB_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_NB_v1800Ntn_UplinkHarq_ModeB_MultiTB_r18(pub u8);
+impl NTN_Parameters_NB_v1800Ntn_UplinkHarq_ModeB_MultiTB_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "1")]
+pub struct NTN_Parameters_NB_v1800Ntn_HarqEnhScenarioSupport_r18(pub u8);
+impl NTN_Parameters_NB_v1800Ntn_HarqEnhScenarioSupport_r18 {
+    pub const NGSO: u8 = 0u8;
+    pub const GSO: u8 = 1u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_NB_v1800Ntn_Triggered_GNSS_Fix_r18(pub u8);
+impl NTN_Parameters_NB_v1800Ntn_Triggered_GNSS_Fix_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_NB_v1800Ntn_Autonomous_GNSS_Fix_r18(pub u8);
+impl NTN_Parameters_NB_v1800Ntn_Autonomous_GNSS_Fix_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_NB_v1800Ntn_UplinkTxExtension_r18(pub u8);
+impl NTN_Parameters_NB_v1800Ntn_UplinkTxExtension_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "1")]
+pub struct NTN_Parameters_NB_v1800Ntn_GNSS_EnhScenarioSupport_r18(pub u8);
+impl NTN_Parameters_NB_v1800Ntn_GNSS_EnhScenarioSupport_r18 {
+    pub const NGSO: u8 = 0u8;
+    pub const GSO: u8 = 1u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_r17Ntn_Connectivity_EPC_r17(pub u8);
+impl NTN_Parameters_r17Ntn_Connectivity_EPC_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_r17Ntn_TA_Report_r17(pub u8);
+impl NTN_Parameters_r17Ntn_TA_Report_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_r17Ntn_PUR_TimerDelay_r17(pub u8);
+impl NTN_Parameters_r17Ntn_PUR_TimerDelay_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_r17Ntn_OffsetTimingEnh_r17(pub u8);
+impl NTN_Parameters_r17Ntn_OffsetTimingEnh_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "1")]
+pub struct NTN_Parameters_r17Ntn_ScenarioSupport_r17(pub u8);
+impl NTN_Parameters_r17Ntn_ScenarioSupport_r17 {
+    pub const NGSO: u8 = 0u8;
+    pub const GSO: u8 = 1u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "2")]
+pub struct NTN_Parameters_v1720Ntn_SegmentedPrecompensationGaps_r17(pub u8);
+impl NTN_Parameters_v1720Ntn_SegmentedPrecompensationGaps_r17 {
+    pub const SYM1: u8 = 0u8;
+    pub const SL1: u8 = 1u8;
+    pub const SF1: u8 = 2u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_EventA4BasedCHO_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_EventA4BasedCHO_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_LocationBasedCHO_EFC_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_LocationBasedCHO_EFC_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_LocationBasedCHO_EMC_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_LocationBasedCHO_EMC_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_TimeBasedCHO_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_TimeBasedCHO_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800EventD1_MeasReportTrigger_r18(pub u8);
+impl NTN_Parameters_v1800EventD1_MeasReportTrigger_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800EventD2_MeasReportTrigger_r18(pub u8);
+impl NTN_Parameters_v1800EventD2_MeasReportTrigger_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_LocationBasedMeasTrigger_EFC_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_LocationBasedMeasTrigger_EFC_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_LocationBasedMeasTrigger_EMC_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_LocationBasedMeasTrigger_EMC_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_TimeBasedMeasTrigger_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_TimeBasedMeasTrigger_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_RRC_HarqDisableSingleTB_CE_ModeA_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_RRC_HarqDisableSingleTB_CE_ModeA_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_RRC_HarqDisableMultiTB_CE_ModeA_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_RRC_HarqDisableMultiTB_CE_ModeA_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_RRC_HarqDisableSingleTB_CE_ModeB_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_RRC_HarqDisableSingleTB_CE_ModeB_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_OverriddenHarqDisableSingleTB_CE_ModeB_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_OverriddenHarqDisableSingleTB_CE_ModeB_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_DCI_HarqDisableSingleTB_CE_ModeB_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_DCI_HarqDisableSingleTB_CE_ModeB_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_RRC_HarqDisableMultiTB_CE_ModeB_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_RRC_HarqDisableMultiTB_CE_ModeB_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_OverriddenHarqDisableMultiTB_CE_ModeB_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_OverriddenHarqDisableMultiTB_CE_ModeB_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_DCI_HarqDisableMultiTB_CE_ModeB_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_DCI_HarqDisableMultiTB_CE_ModeB_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_SemiStaticHarqDisableSPS_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_SemiStaticHarqDisableSPS_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_UplinkHarq_ModeB_SingleTB_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_UplinkHarq_ModeB_SingleTB_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_UplinkHarq_ModeB_MultiTB_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_UplinkHarq_ModeB_MultiTB_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "1")]
+pub struct NTN_Parameters_v1800Ntn_HarqEnhScenarioSupport_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_HarqEnhScenarioSupport_r18 {
+    pub const NGSO: u8 = 0u8;
+    pub const GSO: u8 = 1u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_Triggered_GNSS_Fix_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_Triggered_GNSS_Fix_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_Autonomous_GNSS_Fix_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_Autonomous_GNSS_Fix_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1800Ntn_UplinkTxExtension_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_UplinkTxExtension_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "1")]
+pub struct NTN_Parameters_v1800Ntn_GNSS_EnhScenarioSupport_r18(pub u8);
+impl NTN_Parameters_v1800Ntn_GNSS_EnhScenarioSupport_r18 {
+    pub const NGSO: u8 = 0u8;
+    pub const GSO: u8 = 1u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NTN_Parameters_v1830SatelliteInfoConfigDedicated_r18(pub u8);
+impl NTN_Parameters_v1830SatelliteInfoConfigDedicated_r18 {
+    pub const SUPPORTED: u8 = 0u8;
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -37217,6 +40248,20 @@ impl NeighCellSI_AcquisitionParameters_v1610Nr_AutonomousGaps_FR2_r16 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NeighCellSI_AcquisitionParameters_v1710GNB_ID_Length_Reporting_NR_EN_DC_r17(pub u8);
+impl NeighCellSI_AcquisitionParameters_v1710GNB_ID_Length_Reporting_NR_EN_DC_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct NeighCellSI_AcquisitionParameters_v1710GNB_ID_Length_Reporting_NR_NoEN_DC_r17(pub u8);
+impl NeighCellSI_AcquisitionParameters_v1710GNB_ID_Length_Reporting_NR_NoEN_DC_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "NULL")]
 pub struct NeighCellsCRS_Info_r11_release;
 
@@ -37259,6 +40304,59 @@ pub struct NeighCellsInfo_r12ResAllocGranularity_r12(pub u8);
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "40")]
 pub struct NeighCellsPerBandclassCDMA2000_r11PhysCellIdList_r11(pub Vec<PhysCellIdCDMA2000>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
+pub enum NeighSatelliteInfo_r18EphemerisInfo_r18 {
+    #[asn(key = 0, extended = false)]
+    StateVectors_r18(EphemerisStateVectors_r17),
+    #[asn(key = 1, extended = false)]
+    OrbitalParameters_r18(EphemerisOrbitalParameters_r17),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "8316827")]
+pub struct NeighSatelliteInfo_r18Nta_CommonParameters_r18Nta_Common_r18(pub u32);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "-261935", ub = "261935")]
+pub struct NeighSatelliteInfo_r18Nta_CommonParameters_r18Nta_CommonDrift_r18(pub i32);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "29479")]
+pub struct NeighSatelliteInfo_r18Nta_CommonParameters_r18Nta_CommonDriftVariation_r18(pub u16);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 3)]
+pub struct NeighSatelliteInfo_r18Nta_CommonParameters_r18 {
+    #[asn(optional_idx = 0)]
+    pub nta_common_r18: Option<NeighSatelliteInfo_r18Nta_CommonParameters_r18Nta_Common_r18>,
+    #[asn(optional_idx = 1)]
+    pub nta_common_drift_r18:
+        Option<NeighSatelliteInfo_r18Nta_CommonParameters_r18Nta_CommonDrift_r18>,
+    #[asn(optional_idx = 2)]
+    pub nta_common_drift_variation_r18:
+        Option<NeighSatelliteInfo_r18Nta_CommonParameters_r18Nta_CommonDriftVariation_r18>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "1023")]
+pub struct NeighSatelliteInfo_r18EpochTime_r18StartSFN_r18(pub u16);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "9")]
+pub struct NeighSatelliteInfo_r18EpochTime_r18StartSubFrame_r18(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct NeighSatelliteInfo_r18EpochTime_r18 {
+    pub start_sfn_r18: NeighSatelliteInfo_r18EpochTime_r18StartSFN_r18,
+    pub start_sub_frame_r18: NeighSatelliteInfo_r18EpochTime_r18StartSubFrame_r18,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "1", ub = "512")]
+pub struct NeighSatelliteInfo_r18K_Mac_r18(pub u16);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "0")]
@@ -37493,6 +40591,10 @@ pub struct OverheatingAssistance_r14ReducedMaxCCs {
 pub struct OverheatingAssistance_v1610OverheatingAssistanceForSCG_r16(pub Vec<u8>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OCTET-STRING")]
+pub struct OverheatingAssistance_v1710OverheatingAssistanceForSCG_FR2_2_r17(pub Vec<u8>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "-8", ub = "15")]
 pub struct P_C_AndCBSR_r11P_C_r11(pub i8);
 
@@ -37675,6 +40777,24 @@ impl PCCH_Config_NB_r14Npdcch_NumRepetitionPaging_r14 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "1", ub = "2")]
+pub struct PCCH_Config_NB_r17Cbp_Index_r17(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "7")]
+pub struct PCCH_Config_NB_r17Npdcch_NumRepetitionPaging_r17(pub u8);
+impl PCCH_Config_NB_r17Npdcch_NumRepetitionPaging_r17 {
+    pub const R1: u8 = 0u8;
+    pub const R2: u8 = 1u8;
+    pub const R4: u8 = 2u8;
+    pub const R8: u8 = 3u8;
+    pub const R16: u8 = 4u8;
+    pub const R32: u8 = 5u8;
+    pub const R64: u8 = 6u8;
+    pub const R128: u8 = 7u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "1", ub = "16")]
 pub struct PCCH_Config_v1310Paging_narrowBands_r13(pub u8);
 
@@ -37700,6 +40820,13 @@ impl PCCH_Config_v1310NB_v1310 {
     pub const ONE64TH_T: u8 = 0u8;
     pub const ONE128TH_T: u8 = 1u8;
     pub const ONE256TH_T: u8 = 2u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct PCCH_Config_v1700RanPagingInIdlePO_r17(pub u8);
+impl PCCH_Config_v1700RanPagingInIdlePO_r17 {
+    pub const TRUE: u8 = 0u8;
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -38396,6 +41523,46 @@ pub enum PDSCH_ConfigDedicated_v1610Ce_PDSCH_MultiTB_Config_r16 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "NULL")]
+pub struct PDSCH_ConfigDedicated_v1700Ce_PDSCH_14HARQ_Config_r17_release;
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
+pub enum PDSCH_ConfigDedicated_v1700Ce_PDSCH_14HARQ_Config_r17 {
+    #[asn(key = 0, extended = false)]
+    Release(PDSCH_ConfigDedicated_v1700Ce_PDSCH_14HARQ_Config_r17_release),
+    #[asn(key = 1, extended = false)]
+    Setup(CE_PDSCH_14HARQ_Config_r17),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct PDSCH_ConfigDedicated_v1700Ce_PDSCH_maxTBS_r17(pub u8);
+impl PDSCH_ConfigDedicated_v1700Ce_PDSCH_maxTBS_r17 {
+    pub const ENABLED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "NULL")]
+pub struct PDSCH_ConfigDedicated_v1800DownlinkHARQ_FeedbackDisabledBitmap_r18_release;
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
+pub enum PDSCH_ConfigDedicated_v1800DownlinkHARQ_FeedbackDisabledBitmap_r18 {
+    #[asn(key = 0, extended = false)]
+    Release(PDSCH_ConfigDedicated_v1800DownlinkHARQ_FeedbackDisabledBitmap_r18_release),
+    #[asn(key = 1, extended = false)]
+    Setup(DownlinkHARQ_FeedbackDisabledBitmap_r18),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct PDSCH_ConfigDedicated_v1800DownlinkHARQ_FeedbackDisabledDCI_r18(pub u8);
+impl PDSCH_ConfigDedicated_v1800DownlinkHARQ_FeedbackDisabledDCI_r18 {
+    pub const TRUE: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "0")]
 pub struct PDSCH_ConfigDedicatedSCell_v1430TbsIndexAlt2_r14(pub u8);
 impl PDSCH_ConfigDedicatedSCell_v1430TbsIndexAlt2_r14 {
@@ -38598,6 +41765,10 @@ impl PLMN_IdentityInfo_v1610Iab_Support_r16 {
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "1", ub = "6")]
 pub struct PLMN_IdentityInfo2_r12_plmn_Index_r12(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "22", ub = "32")]
+pub struct PLMN_IdentityInfoNR_v1710GNB_ID_Length_r17(pub u8);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "0")]
@@ -38890,6 +42061,20 @@ pub struct PRACH_ParametersCE_r13Prach_HoppingConfig_r13(pub u8);
 impl PRACH_ParametersCE_r13Prach_HoppingConfig_r13 {
     pub const ON: u8 = 0u8;
     pub const OFF: u8 = 1u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "7")]
+pub struct PRACH_TxDuration_r17Prach_TxDuration_r17(pub u8);
+impl PRACH_TxDuration_r17Prach_TxDuration_r17 {
+    pub const N1: u8 = 0u8;
+    pub const N2: u8 = 1u8;
+    pub const N4: u8 = 2u8;
+    pub const N8: u8 = 3u8;
+    pub const N16: u8 = 4u8;
+    pub const N32: u8 = 5u8;
+    pub const N64: u8 = 6u8;
+    pub const N128: u8 = 7u8;
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -39604,6 +42789,19 @@ pub enum PUCCH_Format3_Conf_r13TwoAntennaPortActivatedPUCCH_Format3_r13 {
     Release(PUCCH_Format3_Conf_r13TwoAntennaPortActivatedPUCCH_Format3_r13_release),
     #[asn(key = 1, extended = false)]
     Setup(PUCCH_Format3_Conf_r13TwoAntennaPortActivatedPUCCH_Format3_r13_setup),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "6")]
+pub struct PUCCH_TxDuration_r17Pucch_TxDuration_r17(pub u8);
+impl PUCCH_TxDuration_r17Pucch_TxDuration_r17 {
+    pub const SF2: u8 = 0u8;
+    pub const SF4: u8 = 1u8;
+    pub const SF8: u8 = 2u8;
+    pub const SF16: u8 = 3u8;
+    pub const SF32: u8 = 4u8;
+    pub const SF64: u8 = 5u8;
+    pub const SF128: u8 = 6u8;
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -40969,6 +44167,19 @@ pub enum PUSCH_ConfigDedicated_v1610Ce_PUSCH_MultiTB_Config_r16 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "NULL")]
+pub struct PUSCH_ConfigDedicated_v1800UplinkHARQ_Mode_r18_release;
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
+pub enum PUSCH_ConfigDedicated_v1800UplinkHARQ_Mode_r18 {
+    #[asn(key = 0, extended = false)]
+    Release(PUSCH_ConfigDedicated_v1800UplinkHARQ_Mode_r18_release),
+    #[asn(key = 1, extended = false)]
+    Setup(UplinkHARQ_Mode_r18),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "0")]
 pub struct PUSCH_ConfigDedicatedSCell_r10GroupHoppingDisabled_r10(pub u8);
 impl PUSCH_ConfigDedicatedSCell_r10GroupHoppingDisabled_r10 {
@@ -41066,6 +44277,20 @@ pub struct PUSCH_ModeConfigLAA_r15Laa_PUSCH_Mode2(pub bool);
 pub struct PUSCH_ModeConfigLAA_r15Laa_PUSCH_Mode3(pub bool);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "7")]
+pub struct PUSCH_TxDuration_r17Pusch_TxDuration_r17(pub u8);
+impl PUSCH_TxDuration_r17Pusch_TxDuration_r17 {
+    pub const N2: u8 = 0u8;
+    pub const N4: u8 = 1u8;
+    pub const N8: u8 = 2u8;
+    pub const N16: u8 = 3u8;
+    pub const N32: u8 = 4u8;
+    pub const N64: u8 = 5u8;
+    pub const N128: u8 = 6u8;
+    pub const N256: u8 = 7u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "0")]
 pub struct PagingSystemInfoModification(pub u8);
 impl PagingSystemInfoModification {
@@ -41134,7 +44359,7 @@ impl Paging_v1610_IEsUac_ParamModification_r16 {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct Paging_v1610_IEsNonCriticalExtension {}
+pub struct Paging_v1700_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING")]
@@ -41174,6 +44399,13 @@ impl PagingRecord_v1610AccessType_r16 {
 pub struct PagingRecord_v1610Mt_EDT_r16(pub u8);
 impl PagingRecord_v1610Mt_EDT_r16 {
     pub const TRUE: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct PagingRecord_v1700PagingCause_r17(pub u8);
+impl PagingRecord_v1700PagingCause_r17 {
+    pub const VOICE: u8 = 0u8;
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -41426,6 +44658,13 @@ impl PhyLayerParameters_NB_v1610SubframeResourceResvDL_r16 {
 #[asn(type = "ENUMERATED", lb = "0", ub = "0")]
 pub struct PhyLayerParameters_NB_v1610SubframeResourceResvUL_r16(pub u8);
 impl PhyLayerParameters_NB_v1610SubframeResourceResvUL_r16 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct PhyLayerParameters_NB_v1700Npdsch_16QAM_r17(pub u8);
+impl PhyLayerParameters_NB_v1700Npdsch_16QAM_r17 {
     pub const SUPPORTED: u8 = 0u8;
 }
 
@@ -42663,6 +45902,48 @@ impl PhyLayerParameters_v1610VirtualCellID_AddSRS_r16 {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct PhyLayerParameters_v1700Ce_Capabilities_v1700Ce_PDSCH_14HARQProcesses_r17(pub u8);
+impl PhyLayerParameters_v1700Ce_Capabilities_v1700Ce_PDSCH_14HARQProcesses_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct PhyLayerParameters_v1700Ce_Capabilities_v1700Ce_PDSCH_14HARQProcesses_Alt2_r17(pub u8);
+impl PhyLayerParameters_v1700Ce_Capabilities_v1700Ce_PDSCH_14HARQProcesses_Alt2_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct PhyLayerParameters_v1700Ce_Capabilities_v1700Ce_PDSCH_MaxTBS_r17(pub u8);
+impl PhyLayerParameters_v1700Ce_Capabilities_v1700Ce_PDSCH_MaxTBS_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 3)]
+pub struct PhyLayerParameters_v1700Ce_Capabilities_v1700 {
+    #[asn(optional_idx = 0)]
+    pub ce_pdsch_14harq_processes_r17:
+        Option<PhyLayerParameters_v1700Ce_Capabilities_v1700Ce_PDSCH_14HARQProcesses_r17>,
+    #[asn(optional_idx = 1)]
+    pub ce_pdsch_14harq_processes_alt2_r17:
+        Option<PhyLayerParameters_v1700Ce_Capabilities_v1700Ce_PDSCH_14HARQProcesses_Alt2_r17>,
+    #[asn(optional_idx = 2)]
+    pub ce_pdsch_max_tbs_r17:
+        Option<PhyLayerParameters_v1700Ce_Capabilities_v1700Ce_PDSCH_MaxTBS_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct PhyLayerParameters_v1730Csi_SubframeSet2ForDormantSCell_r17(pub u8);
+impl PhyLayerParameters_v1730Csi_SubframeSet2ForDormantSCell_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
 pub struct PhyLayerParameters_v920EnhancedDualLayerFDD_r9(pub u8);
 impl PhyLayerParameters_v920EnhancedDualLayerFDD_r9 {
     pub const SUPPORTED: u8 = 0u8;
@@ -42828,6 +46109,19 @@ pub enum PhysicalConfigDedicatedSCell_v13c0Pucch_SCell_v13c0 {
     Release(PhysicalConfigDedicatedSCell_v13c0Pucch_SCell_v13c0_release),
     #[asn(key = 1, extended = false)]
     Setup(PhysicalConfigDedicatedSCell_v13c0Pucch_SCell_v13c0_setup),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "NULL")]
+pub struct PhysicalConfigDedicatedSCell_v1730Cqi_ReportPeriodicSCell_v1730_release;
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
+pub enum PhysicalConfigDedicatedSCell_v1730Cqi_ReportPeriodicSCell_v1730 {
+    #[asn(key = 0, extended = false)]
+    Release(PhysicalConfigDedicatedSCell_v1730Cqi_ReportPeriodicSCell_v1730_release),
+    #[asn(key = 1, extended = false)]
+    Setup(CQI_ReportPeriodicSCell_v1730),
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -43021,6 +46315,24 @@ pub enum PosSystemInformation_r15_IEsPosSIB_TypeAndInfo_r15_Entry {
     PosSib4_1_v1610(SystemInformationBlockPos_r15),
     #[asn(key = 8, extended = true)]
     PosSib5_1_v1610(SystemInformationBlockPos_r15),
+    #[asn(key = 9, extended = true)]
+    PosSib1_9_v1700(SystemInformationBlockPos_r15),
+    #[asn(key = 10, extended = true)]
+    PosSib1_10_v1700(SystemInformationBlockPos_r15),
+    #[asn(key = 11, extended = true)]
+    PosSib2_17a_v1770(SystemInformationBlockPos_r15),
+    #[asn(key = 12, extended = true)]
+    PosSib2_18a_v1770(SystemInformationBlockPos_r15),
+    #[asn(key = 13, extended = true)]
+    PosSib2_20a_v1770(SystemInformationBlockPos_r15),
+    #[asn(key = 14, extended = true)]
+    PosSib1_11_v1800(SystemInformationBlockPos_r15),
+    #[asn(key = 15, extended = true)]
+    PosSib1_12_v1800(SystemInformationBlockPos_r15),
+    #[asn(key = 16, extended = true)]
+    PosSib2_26_v1800(SystemInformationBlockPos_r15),
+    #[asn(key = 17, extended = true)]
+    PosSib2_27_v1800(SystemInformationBlockPos_r15),
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -43564,6 +46876,10 @@ pub struct RACH_Report_v1610InitialCEL_r16(pub u8);
 pub struct RACH_Report_v1610Edt_Fallback_r16(pub bool);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OCTET-STRING")]
+pub struct RACH_ReportNR_r18Rach_ReportListNR_r18(pub Vec<u8>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "NULL")]
 pub struct RACH_Skip_r14TargetTA_r14_ta0_r14;
 
@@ -43808,6 +47124,13 @@ impl RF_Parameters_v1570Dl_1024QAM_ScalingFactor_r15 {
 pub struct RF_Parameters_v1570Dl_1024QAM_TotalWeightedLayers_r15(pub u8);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct RF_Parameters_v1800MultiNS_PmaxAerial_r18(pub u8);
+impl RF_Parameters_v1800MultiNS_PmaxAerial_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "NULL")]
 pub struct RLC_BearerConfig_r15_release;
 
@@ -43891,6 +47214,19 @@ pub struct RLC_Config_NB_r13_um_Uni_Directional_UL_r15;
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "NULL")]
 pub struct RLC_Config_NB_r13_um_Uni_Directional_DL_r15;
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "NULL")]
+pub struct RLC_Config_NB_v1700T_ReorderingExt_r17_release;
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
+pub enum RLC_Config_NB_v1700T_ReorderingExt_r17 {
+    #[asn(key = 0, extended = false)]
+    Release(RLC_Config_NB_v1700T_ReorderingExt_r17_release),
+    #[asn(key = 1, extended = false)]
+    Setup(T_ReorderingExt_r17),
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
@@ -43993,6 +47329,19 @@ impl RLC_Config_v1530_setupRlc_OutOfOrderDelivery_r15 {
 #[asn(type = "SEQUENCE", extensible = false)]
 pub struct RLC_Config_v1530_setup {
     pub rlc_out_of_order_delivery_r15: RLC_Config_v1530_setupRlc_OutOfOrderDelivery_r15,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "NULL")]
+pub struct RLC_Config_v1700T_ReorderingExt_r17_release;
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
+pub enum RLC_Config_v1700T_ReorderingExt_r17 {
+    #[asn(key = 0, extended = false)]
+    Release(RLC_Config_v1700T_ReorderingExt_r17_release),
+    #[asn(key = 1, extended = false)]
+    Setup(T_ReorderingExt_r17),
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -45121,8 +48470,21 @@ pub struct RRCConnectionReconfiguration_v1610_IEsSl_ConfigDedicatedForNR_r16(pub
 pub struct RRCConnectionReconfiguration_v1610_IEsSl_SSB_PriorityEUTRA_r16(pub u8);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OCTET-STRING")]
+pub struct RRCConnectionReconfiguration_v1700_IEsSystemInformationBlockType31Dedicated_r17(
+    pub Vec<u8>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct RRCConnectionReconfiguration_v1700_IEsScg_State_r17(pub u8);
+impl RRCConnectionReconfiguration_v1700_IEsScg_State_r17 {
+    pub const DEACTIVATED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct RRCConnectionReconfiguration_v1610_IEsNonCriticalExtension {}
+pub struct RRCConnectionReconfiguration_v1700_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING")]
@@ -45240,7 +48602,7 @@ impl RRCConnectionReconfigurationComplete_v1530_IEsFlightPathInfoAvailable_r15 {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct RRCConnectionReconfigurationComplete_v1530_IEsNonCriticalExtension {}
+pub struct RRCConnectionReconfigurationComplete_v1800_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING")]
@@ -45410,7 +48772,7 @@ impl RRCConnectionReestablishmentComplete_NB_v1610_IEsAnr_InfoAvailable_r16 {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct RRCConnectionReestablishmentComplete_NB_v1610_IEsNonCriticalExtension {}
+pub struct RRCConnectionReestablishmentComplete_NB_v1800_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "0")]
@@ -45456,7 +48818,7 @@ impl RRCConnectionReestablishmentComplete_v1530_IEsFlightPathInfoAvailable_r15 {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct RRCConnectionReestablishmentComplete_v1530_IEsNonCriticalExtension {}
+pub struct RRCConnectionReestablishmentComplete_v1800_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING")]
@@ -45804,8 +49166,12 @@ pub enum RRCConnectionRelease_NB_v1610_IEsPur_Config_r16 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "1", ub = "2")]
+pub struct RRCConnectionRelease_NB_v1700_IEsCbp_Index_r17(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct RRCConnectionRelease_NB_v1610_IEsNonCriticalExtension {}
+pub struct RRCConnectionRelease_NB_v1700_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "1", ub = "1800")]
@@ -46142,8 +49508,15 @@ impl RRCConnectionResume_v1610_IEsRestoreSCG_r16 {
 pub struct RRCConnectionResume_v1610_IEsNr_SecondaryCellGroupConfig_r16(pub Vec<u8>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct RRCConnectionResume_v1700_IEsScg_State_r17(pub u8);
+impl RRCConnectionResume_v1700_IEsScg_State_r17 {
+    pub const DEACTIVATED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct RRCConnectionResume_v1610_IEsNonCriticalExtension {}
+pub struct RRCConnectionResume_v1700_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
@@ -46184,7 +49557,7 @@ impl RRCConnectionResumeComplete_NB_v1610_IEsAnr_InfoAvailable_r16 {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct RRCConnectionResumeComplete_NB_v1610_IEsNonCriticalExtension {}
+pub struct RRCConnectionResumeComplete_NB_v1800_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
@@ -46288,7 +49661,7 @@ pub struct RRCConnectionResumeComplete_v1610_IEsScg_ConfigResponseNR_r16(pub Vec
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct RRCConnectionResumeComplete_v1610_IEsNonCriticalExtension {}
+pub struct RRCConnectionResumeComplete_v1800_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "BITSTRING", sz_extensible = false, sz_lb = "4", sz_ub = "4")]
@@ -46632,7 +50005,7 @@ impl RRCConnectionSetupComplete_NB_v1610_IEsAnr_InfoAvailable_r16 {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct RRCConnectionSetupComplete_NB_v1610_IEsNonCriticalExtension {}
+pub struct RRCConnectionSetupComplete_NB_v1800_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "1", ub = "6")]
@@ -46852,12 +50225,27 @@ impl RRCConnectionSetupComplete_v1690_IEsUl_RRC_Segmentation_r16 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct RRCConnectionSetupComplete_v17b0_IEsUl_RRC_MaxCapaSegments_r17(pub u8);
+impl RRCConnectionSetupComplete_v17b0_IEsUl_RRC_MaxCapaSegments_r17 {
+    pub const TRUE: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct RRCConnectionSetupComplete_v1690_IEsNonCriticalExtension {}
+pub struct RRCConnectionSetupComplete_v17b0_IEsNonCriticalExtension {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct RRCConnectionSetupComplete_v1800_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING")]
 pub struct RRCConnectionSetupComplete_v8a0_IEsLateNonCriticalExtension(pub Vec<u8>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OCTET-STRING")]
+pub struct RRCConnectionSetupComplete_v8x0_IEsLateNonCriticalExtension(pub Vec<u8>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
@@ -46883,8 +50271,12 @@ pub struct RRCEarlyDataComplete_NB_r15_IEsExtendedWaitTime_r15(pub u16);
 pub struct RRCEarlyDataComplete_NB_v1590_IEsLateNonCriticalExtension(pub Vec<u8>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "1", ub = "2")]
+pub struct RRCEarlyDataComplete_NB_v1700_IEsCbp_Index_r17(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct RRCEarlyDataComplete_NB_v1590_IEsNonCriticalExtension {}
+pub struct RRCEarlyDataComplete_NB_v1700_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
@@ -47616,6 +51008,62 @@ pub struct ReportConfigEUTRATriggerType_eventEventId_eventH2_r15 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "65535")]
+pub struct ReportConfigEUTRATriggerType_eventEventId_eventD1_r18DistanceThreshFromReference1_r18(
+    pub u16,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "65535")]
+pub struct ReportConfigEUTRATriggerType_eventEventId_eventD1_r18DistanceThreshFromReference2_r18(
+    pub u16,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "BOOLEAN")]
+pub struct ReportConfigEUTRATriggerType_eventEventId_eventD1_r18ReportOnLeave_r18(pub bool);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct ReportConfigEUTRATriggerType_eventEventId_eventD1_r18 {
+    pub distance_thresh_from_reference1_r18:
+        ReportConfigEUTRATriggerType_eventEventId_eventD1_r18DistanceThreshFromReference1_r18,
+    pub distance_thresh_from_reference2_r18:
+        ReportConfigEUTRATriggerType_eventEventId_eventD1_r18DistanceThreshFromReference2_r18,
+    pub reference_location1_r18: ReferenceLocation_r18,
+    pub reference_location2_r18: ReferenceLocation_r18,
+    pub hysteresis_location_r18: HysteresisLocation_r18,
+    pub report_on_leave_r18: ReportConfigEUTRATriggerType_eventEventId_eventD1_r18ReportOnLeave_r18,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "65535")]
+pub struct ReportConfigEUTRATriggerType_eventEventId_eventD2_r18DistanceThreshFromReference1_r18(
+    pub u16,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "65535")]
+pub struct ReportConfigEUTRATriggerType_eventEventId_eventD2_r18DistanceThreshFromReference2_r18(
+    pub u16,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "BOOLEAN")]
+pub struct ReportConfigEUTRATriggerType_eventEventId_eventD2_r18ReportOnLeave_r18(pub bool);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct ReportConfigEUTRATriggerType_eventEventId_eventD2_r18 {
+    pub distance_thresh_from_reference1_r18:
+        ReportConfigEUTRATriggerType_eventEventId_eventD2_r18DistanceThreshFromReference1_r18,
+    pub distance_thresh_from_reference2_r18:
+        ReportConfigEUTRATriggerType_eventEventId_eventD2_r18DistanceThreshFromReference2_r18,
+    pub hysteresis_location_r18: HysteresisLocation_r18,
+    pub report_on_leave_r18: ReportConfigEUTRATriggerType_eventEventId_eventD2_r18ReportOnLeave_r18,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "CHOICE", lb = "0", ub = "4", extensible = true)]
 pub enum ReportConfigEUTRATriggerType_eventEventId {
     #[asn(key = 0, extended = false)]
@@ -47642,6 +51090,10 @@ pub enum ReportConfigEUTRATriggerType_eventEventId {
     EventH1_r15(ReportConfigEUTRATriggerType_eventEventId_eventH1_r15),
     #[asn(key = 6, extended = true)]
     EventH2_r15(ReportConfigEUTRATriggerType_eventEventId_eventH2_r15),
+    #[asn(key = 7, extended = true)]
+    EventD1_r18(ReportConfigEUTRATriggerType_eventEventId_eventD1_r18),
+    #[asn(key = 8, extended = true)]
+    EventD2_r18(ReportConfigEUTRATriggerType_eventEventId_eventD2_r18),
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -49353,6 +52805,28 @@ pub struct SCG_Configuration_v13c0_setup {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "15")]
+pub struct SCG_DeactivationPreferenceConfig_r17Scg_DeactivationPreferenceProhibitTimer_r17(pub u8);
+impl SCG_DeactivationPreferenceConfig_r17Scg_DeactivationPreferenceProhibitTimer_r17 {
+    pub const S0: u8 = 0u8;
+    pub const S1: u8 = 1u8;
+    pub const S2: u8 = 2u8;
+    pub const S4: u8 = 3u8;
+    pub const S8: u8 = 4u8;
+    pub const S10: u8 = 5u8;
+    pub const S20: u8 = 6u8;
+    pub const S30: u8 = 7u8;
+    pub const S60: u8 = 8u8;
+    pub const S120: u8 = 9u8;
+    pub const S180: u8 = 10u8;
+    pub const S240: u8 = 11u8;
+    pub const S300: u8 = 12u8;
+    pub const S600: u8 = 13u8;
+    pub const S900: u8 = 14u8;
+    pub const S1800: u8 = 15u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "NULL")]
 pub struct SCGFailureInformation_r12CriticalExtensions_c1_spare3;
 
@@ -50525,6 +53999,15 @@ impl SL_Parameters_v1540V2x_SensingReportingMode3_r15 {
 pub struct SL_Parameters_v1610Sl_ParameterNR_r16(pub Vec<u8>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "2")]
+pub struct SL_Parameters_v1800Sl_A2X_Service_r18(pub u8);
+impl SL_Parameters_v1800Sl_A2X_Service_r18 {
+    pub const BRID: u8 = 0u8;
+    pub const DAA: u8 = 1u8;
+    pub const BRID_AND_DAA: u8 = 2u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "15")]
 pub struct SL_PreconfigDiscPool_r13DiscPeriod_r13(pub u8);
 impl SL_PreconfigDiscPool_r13DiscPeriod_r13 {
@@ -51029,6 +54512,13 @@ impl SON_Parameters_NB_v16f0LocationInfo_r16 {
 #[asn(type = "ENUMERATED", lb = "0", ub = "0")]
 pub struct SON_Parameters_r9Rach_Report_r9(pub u8);
 impl SON_Parameters_r9Rach_Report_r9 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct SON_Parameters_v1800Rach_ReportForNR_r18(pub u8);
+impl SON_Parameters_v1800Rach_ReportForNR_r18 {
     pub const SUPPORTED: u8 = 0u8;
 }
 
@@ -51811,6 +55301,19 @@ pub struct SR_WithoutHARQ_ACK_Config_NB_r15_setup {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "NULL")]
+pub struct SR_WithoutHARQ_ACK_Config_NB_v1700Sr_ProhibitTimerOffset_r17_release;
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
+pub enum SR_WithoutHARQ_ACK_Config_NB_v1700Sr_ProhibitTimerOffset_r17 {
+    #[asn(key = 0, extended = false)]
+    Release(SR_WithoutHARQ_ACK_Config_NB_v1700Sr_ProhibitTimerOffset_r17_release),
+    #[asn(key = 1, extended = false)]
+    Setup(SR_ProhibitTimerOffset_NB_r17),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "1", ub = "2")]
 pub struct SRB_ToAddModSrb_Identity(pub u8);
 
@@ -52269,6 +55772,67 @@ pub struct STTI_SupportedCombinations_r15Combination_77_22_r15(pub Vec<DL_UL_CCs
 pub struct STTI_SupportedCombinations_r15Combination_77_27_r15(pub Vec<DL_UL_CCs_r15>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "255")]
+pub struct SatelliteInfo_r17SatelliteId_r17(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 2)]
+pub struct SatelliteInfo_r17ServiceInfo_r17 {
+    #[asn(optional_idx = 0)]
+    pub tle_ephemeris_parameters_r17: Option<TLE_EphemerisParameters_r17>,
+    #[asn(optional_idx = 1)]
+    pub t_service_start_r17: Option<TimeOffsetUTC_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "-131072", ub = "131071")]
+pub struct SatelliteInfo_r17FootprintInfo_r17ReferencePoint_r17Longitude_r17(pub i32);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "-131072", ub = "131071")]
+pub struct SatelliteInfo_r17FootprintInfo_r17ReferencePoint_r17Latitude_r17(pub i32);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct SatelliteInfo_r17FootprintInfo_r17ReferencePoint_r17 {
+    pub longitude_r17: SatelliteInfo_r17FootprintInfo_r17ReferencePoint_r17Longitude_r17,
+    pub latitude_r17: SatelliteInfo_r17FootprintInfo_r17ReferencePoint_r17Latitude_r17,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "-14", ub = "14")]
+pub struct SatelliteInfo_r17FootprintInfo_r17ElevationAngles_r17ElevationAngleRight_r17(pub i8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "-14", ub = "14")]
+pub struct SatelliteInfo_r17FootprintInfo_r17ElevationAngles_r17ElevationAngleLeft_r17(pub i8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct SatelliteInfo_r17FootprintInfo_r17ElevationAngles_r17 {
+    pub elevation_angle_right_r17:
+        SatelliteInfo_r17FootprintInfo_r17ElevationAngles_r17ElevationAngleRight_r17,
+    #[asn(optional_idx = 0)]
+    pub elevation_angle_left_r17:
+        Option<SatelliteInfo_r17FootprintInfo_r17ElevationAngles_r17ElevationAngleLeft_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "1", ub = "256")]
+pub struct SatelliteInfo_r17FootprintInfo_r17Radius_r17(pub u16);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 3)]
+pub struct SatelliteInfo_r17FootprintInfo_r17 {
+    #[asn(optional_idx = 0)]
+    pub reference_point_r17: Option<SatelliteInfo_r17FootprintInfo_r17ReferencePoint_r17>,
+    #[asn(optional_idx = 1)]
+    pub elevation_angles_r17: Option<SatelliteInfo_r17FootprintInfo_r17ElevationAngles_r17>,
+    #[asn(optional_idx = 2)]
+    pub radius_r17: Option<SatelliteInfo_r17FootprintInfo_r17Radius_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "1", ub = "16")]
 pub struct SchedulingInfo_BR_r13Si_Narrowband_r13(pub u8);
 
@@ -52666,6 +56230,102 @@ pub struct SecurityModeFailure_v8a0_IEsNonCriticalExtension {}
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "1", ub = "2000")]
 pub struct SensingResult_r15ResourceIndex_r15(pub u16);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
+pub enum ServingSatelliteInfo_r17EphemerisInfo_r17 {
+    #[asn(key = 0, extended = false)]
+    StateVectors(EphemerisStateVectors_r17),
+    #[asn(key = 1, extended = false)]
+    OrbitalParameters(EphemerisOrbitalParameters_r17),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "8316827")]
+pub struct ServingSatelliteInfo_r17Nta_CommonParameters_r17Nta_Common_r17(pub u32);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "-261935", ub = "261935")]
+pub struct ServingSatelliteInfo_r17Nta_CommonParameters_r17Nta_CommonDrift_r17(pub i32);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "29479")]
+pub struct ServingSatelliteInfo_r17Nta_CommonParameters_r17Nta_CommonDriftVariation_r17(pub u16);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 3)]
+pub struct ServingSatelliteInfo_r17Nta_CommonParameters_r17 {
+    #[asn(optional_idx = 0)]
+    pub nta_common_r17: Option<ServingSatelliteInfo_r17Nta_CommonParameters_r17Nta_Common_r17>,
+    #[asn(optional_idx = 1)]
+    pub nta_common_drift_r17:
+        Option<ServingSatelliteInfo_r17Nta_CommonParameters_r17Nta_CommonDrift_r17>,
+    #[asn(optional_idx = 2)]
+    pub nta_common_drift_variation_r17:
+        Option<ServingSatelliteInfo_r17Nta_CommonParameters_r17Nta_CommonDriftVariation_r17>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "15")]
+pub struct ServingSatelliteInfo_r17Ul_SyncValidityDuration_r17(pub u8);
+impl ServingSatelliteInfo_r17Ul_SyncValidityDuration_r17 {
+    pub const S5: u8 = 0u8;
+    pub const S10: u8 = 1u8;
+    pub const S15: u8 = 2u8;
+    pub const S20: u8 = 3u8;
+    pub const S25: u8 = 4u8;
+    pub const S30: u8 = 5u8;
+    pub const S35: u8 = 6u8;
+    pub const S40: u8 = 7u8;
+    pub const S45: u8 = 8u8;
+    pub const S50: u8 = 9u8;
+    pub const S55: u8 = 10u8;
+    pub const S60: u8 = 11u8;
+    pub const S120: u8 = 12u8;
+    pub const S180: u8 = 13u8;
+    pub const S240: u8 = 14u8;
+    pub const S900: u8 = 15u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "1023")]
+pub struct ServingSatelliteInfo_r17EpochTime_r17StartSFN_r17(pub u16);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "9")]
+pub struct ServingSatelliteInfo_r17EpochTime_r17StartSubFrame_r17(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct ServingSatelliteInfo_r17EpochTime_r17 {
+    pub start_sfn_r17: ServingSatelliteInfo_r17EpochTime_r17StartSFN_r17,
+    pub start_sub_frame_r17: ServingSatelliteInfo_r17EpochTime_r17StartSubFrame_r17,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "1023")]
+pub struct ServingSatelliteInfo_r17K_Offset_r17(pub u16);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "1", ub = "512")]
+pub struct ServingSatelliteInfo_r17K_Mac_r17(pub u16);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
+pub enum ServingSatelliteInfo_v1820ReferenceLocation_r18 {
+    #[asn(key = 0, extended = false)]
+    FixedReferenceLocation_r18(ReferenceLocation_r18),
+    #[asn(key = 1, extended = false)]
+    MovingReferenceLocation_r18(ReferenceLocation_r18),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "65535")]
+pub struct ServingSatelliteInfo_v1820DistanceThresh_r18(pub u16);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "BOOLEAN")]
+pub struct SharedSpectrumMeasNR_r17Nr_RSSI_ChannelOccupancyReporting_r17(pub bool);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "NULL")]
@@ -53525,6 +57185,13 @@ impl SupportedBand_NB_r13PowerClassNB_20dBm_r13 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct SupportedBand_NB_v1710Npusch_16QAM_r17(pub u8);
+impl SupportedBand_NB_v1710Npusch_16QAM_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "BOOLEAN")]
 pub struct SupportedBandEUTRAHalfDuplex(pub bool);
 
@@ -53564,6 +57231,15 @@ impl SupportedBandEUTRA_v1320Ue_PowerClass_N_r13 {
     pub const CLASS2: u8 = 1u8;
     pub const CLASS4: u8 = 2u8;
 }
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "256"
+)]
+pub struct SupportedBandEUTRA_v1800LowerMSD_MRDC_r18(pub Vec<LowerMSD_MRDC_r18>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "0")]
@@ -53655,6 +57331,12 @@ pub enum SystemInformation_NB_r13_IEsSib_TypeAndInfo_r13_Entry {
     Sib23_v1530(SystemInformationBlockType23_NB_r15),
     #[asn(key = 4, extended = true)]
     Sib27_v1610(SystemInformationBlockType27_NB_r16),
+    #[asn(key = 5, extended = true)]
+    Sib31_v1700(SystemInformationBlockType31_NB_r17),
+    #[asn(key = 6, extended = true)]
+    Sib32_v1700(SystemInformationBlockType32_NB_r17),
+    #[asn(key = 7, extended = true)]
+    Sib33_v1800(SystemInformationBlockType33_NB_r18),
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -53728,6 +57410,14 @@ pub enum SystemInformation_r8_IEsSib_TypeAndInfo_Entry {
     Sib28_v1610(SystemInformationBlockType28_r16),
     #[asn(key = 16, extended = true)]
     Sib29_v1610(SystemInformationBlockType29_r16),
+    #[asn(key = 17, extended = true)]
+    Sib30_v1700(SystemInformationBlockType30_r17),
+    #[asn(key = 18, extended = true)]
+    Sib31_v1700(SystemInformationBlockType31_r17),
+    #[asn(key = 19, extended = true)]
+    Sib32_v1700(SystemInformationBlockType32_r17),
+    #[asn(key = 20, extended = true)]
+    Sib33_v1800(SystemInformationBlockType33_r18),
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -54006,8 +57696,27 @@ pub struct SystemInformationBlockType1_NB_v1610CellAccessRelatedInfo_5GC_r16 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "1")]
+pub struct SystemInformationBlockType1_NB_v1700CellAccessRelatedInfo_NTN_r17CellBarred_NTN_r17(
+    pub u8,
+);
+impl SystemInformationBlockType1_NB_v1700CellAccessRelatedInfo_NTN_r17CellBarred_NTN_r17 {
+    pub const BARRED: u8 = 0u8;
+    pub const NOT_BARRED: u8 = 1u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct SystemInformationBlockType1_NB_v1700CellAccessRelatedInfo_NTN_r17 {
+    pub cell_barred_ntn_r17:
+        SystemInformationBlockType1_NB_v1700CellAccessRelatedInfo_NTN_r17CellBarred_NTN_r17,
+    #[asn(optional_idx = 0)]
+    pub plmn_identity_list_v1700: Option<PLMN_IdentityList_NB_v1700>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct SystemInformationBlockType1_NB_v1610NonCriticalExtension {}
+pub struct SystemInformationBlockType1_NB_v1700NonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING")]
@@ -54324,8 +58033,27 @@ impl SystemInformationBlockType1_v1610_IEsCampingAllowedInCE_r16 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "1")]
+pub struct SystemInformationBlockType1_v1700_IEsCellAccessRelatedInfo_NTN_r17CellBarred_NTN_r17(
+    pub u8,
+);
+impl SystemInformationBlockType1_v1700_IEsCellAccessRelatedInfo_NTN_r17CellBarred_NTN_r17 {
+    pub const BARRED: u8 = 0u8;
+    pub const NOT_BARRED: u8 = 1u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false, optional_fields = 1)]
+pub struct SystemInformationBlockType1_v1700_IEsCellAccessRelatedInfo_NTN_r17 {
+    pub cell_barred_ntn_r17:
+        SystemInformationBlockType1_v1700_IEsCellAccessRelatedInfo_NTN_r17CellBarred_NTN_r17,
+    #[asn(optional_idx = 0)]
+    pub plmn_identity_list_v1700: Option<PLMN_IdentityList_v1700>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct SystemInformationBlockType1_v1610_IEsNonCriticalExtension {}
+pub struct SystemInformationBlockType1_v1800_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING")]
@@ -54996,6 +58724,90 @@ pub struct SystemInformationBlockType3_NB_r13LateNonCriticalExtension(pub Vec<u8
 pub struct SystemInformationBlockType3_v10l0_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "6")]
+pub struct SystemInformationBlockType30_r17CommonPLMNsWithDisasterCondition_r17(
+    pub Vec<PLMN_Identity>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "6")]
+pub struct SystemInformationBlockType30_r17ApplicableDisasterInfoList_r17(
+    pub Vec<ApplicableDisasterInfo_r17>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OCTET-STRING")]
+pub struct SystemInformationBlockType30_r17LateNonCriticalExtension(pub Vec<u8>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OCTET-STRING")]
+pub struct SystemInformationBlockType31_NB_r17LateNonCriticalExtension(pub Vec<u8>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OCTET-STRING")]
+pub struct SystemInformationBlockType31_r17LateNonCriticalExtension(pub Vec<u8>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OCTET-STRING")]
+pub struct SystemInformationBlockType32_NB_r17LateNonCriticalExtension(pub Vec<u8>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OCTET-STRING")]
+pub struct SystemInformationBlockType32_r17LateNonCriticalExtension(pub Vec<u8>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "15")]
+pub struct SystemInformationBlockType33_NB_r18NeighValidityDuration_r18(pub u8);
+impl SystemInformationBlockType33_NB_r18NeighValidityDuration_r18 {
+    pub const S5: u8 = 0u8;
+    pub const S10: u8 = 1u8;
+    pub const S15: u8 = 2u8;
+    pub const S20: u8 = 3u8;
+    pub const S25: u8 = 4u8;
+    pub const S30: u8 = 5u8;
+    pub const S35: u8 = 6u8;
+    pub const S40: u8 = 7u8;
+    pub const S45: u8 = 8u8;
+    pub const S50: u8 = 9u8;
+    pub const S55: u8 = 10u8;
+    pub const S60: u8 = 11u8;
+    pub const S120: u8 = 12u8;
+    pub const S180: u8 = 13u8;
+    pub const S240: u8 = 14u8;
+    pub const S900: u8 = 15u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OCTET-STRING")]
+pub struct SystemInformationBlockType33_NB_r18LateNonCriticalExtension(pub Vec<u8>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "15")]
+pub struct SystemInformationBlockType33_r18NeighValidityDuration_r18(pub u8);
+impl SystemInformationBlockType33_r18NeighValidityDuration_r18 {
+    pub const S5: u8 = 0u8;
+    pub const S10: u8 = 1u8;
+    pub const S15: u8 = 2u8;
+    pub const S20: u8 = 3u8;
+    pub const S25: u8 = 4u8;
+    pub const S30: u8 = 5u8;
+    pub const S35: u8 = 6u8;
+    pub const S40: u8 = 7u8;
+    pub const S45: u8 = 8u8;
+    pub const S50: u8 = 9u8;
+    pub const S55: u8 = 10u8;
+    pub const S60: u8 = 11u8;
+    pub const S120: u8 = 12u8;
+    pub const S180: u8 = 13u8;
+    pub const S240: u8 = 14u8;
+    pub const S900: u8 = 15u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OCTET-STRING")]
+pub struct SystemInformationBlockType33_r18LateNonCriticalExtension(pub Vec<u8>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING")]
 pub struct SystemInformationBlockType4_NB_r13LateNonCriticalExtension(pub Vec<u8>);
 
@@ -55325,6 +59137,42 @@ pub struct TDM_PatternConfig_r15_setup {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "2097151")]
+pub struct TLE_EphemerisParameters_r17Inclination_r17(pub u32);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "4194303")]
+pub struct TLE_EphemerisParameters_r17ArgumentPerigee_r17(pub u32);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "4194303")]
+pub struct TLE_EphemerisParameters_r17RightAscension_r17(pub u32);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "4194303")]
+pub struct TLE_EphemerisParameters_r17MeanAnomaly_r17(pub u32);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "16777215")]
+pub struct TLE_EphemerisParameters_r17Eccentricity_r17(pub u32);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "17179869183")]
+pub struct TLE_EphemerisParameters_r17MeanMotion_r17(pub u64);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "-99999", ub = "99999")]
+pub struct TLE_EphemerisParameters_r17BStarDecimal_r17(pub i32);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "-9", ub = "9")]
+pub struct TLE_EphemerisParameters_r17BStarExponent_r17(pub i8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "-1048575", ub = "1048575")]
+pub struct TLE_EphemerisParameters_r17EpochStar_r17(pub i32);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "1", ub = "6")]
 pub struct TMGI_r9Plmn_Id_r9_plmn_Index_r9(pub u8);
 
@@ -55482,6 +59330,28 @@ impl UAC_BarringInfoSet_r15Uac_BarringTime_r15 {
 pub struct UAC_BarringInfoSet_r15Uac_BarringForAccessIdentity_r15(
     pub bitvec::vec::BitVec<u8, bitvec::order::Msb0>,
 );
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "15")]
+pub struct UAC_BarringInfoSet_v1700Uac_BarringFactorForAI3_r17(pub u8);
+impl UAC_BarringInfoSet_v1700Uac_BarringFactorForAI3_r17 {
+    pub const P00: u8 = 0u8;
+    pub const P05: u8 = 1u8;
+    pub const P10: u8 = 2u8;
+    pub const P15: u8 = 3u8;
+    pub const P20: u8 = 4u8;
+    pub const P25: u8 = 5u8;
+    pub const P30: u8 = 6u8;
+    pub const P40: u8 = 7u8;
+    pub const P50: u8 = 8u8;
+    pub const P60: u8 = 9u8;
+    pub const P70: u8 = 10u8;
+    pub const P75: u8 = 11u8;
+    pub const P80: u8 = 12u8;
+    pub const P85: u8 = 13u8;
+    pub const P90: u8 = 14u8;
+    pub const P95: u8 = 15u8;
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "1", ub = "63")]
@@ -55647,6 +59517,41 @@ impl UE_BasedNetwPerfMeasParameters_v1610Ul_PDCP_AvgDelay_r16 {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct UE_BasedNetwPerfMeasParameters_v1700LoggedMeasIdleEventL1_r17(pub u8);
+impl UE_BasedNetwPerfMeasParameters_v1700LoggedMeasIdleEventL1_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct UE_BasedNetwPerfMeasParameters_v1700LoggedMeasIdleEventOutOfCoverage_r17(pub u8);
+impl UE_BasedNetwPerfMeasParameters_v1700LoggedMeasIdleEventOutOfCoverage_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct UE_BasedNetwPerfMeasParameters_v1700LoggedMeasUncomBarPre_r17(pub u8);
+impl UE_BasedNetwPerfMeasParameters_v1700LoggedMeasUncomBarPre_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct UE_BasedNetwPerfMeasParameters_v1700ImmMeasUncomBarPre_r17(pub u8);
+impl UE_BasedNetwPerfMeasParameters_v1700ImmMeasUncomBarPre_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct UE_BasedNetwPerfMeasParameters_v1800SigBasedEUTRA_LoggedMeasOverrideProtect_r18(pub u8);
+impl UE_BasedNetwPerfMeasParameters_v1800SigBasedEUTRA_LoggedMeasOverrideProtect_r18 {
+    pub const SUPPORTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
 pub struct UE_Capability_NB_Ext_r14_IEsUe_Category_NB_r14(pub u8);
 impl UE_Capability_NB_Ext_r14_IEsUe_Category_NB_r14 {
     pub const NB2: u8 = 0u8;
@@ -55701,11 +59606,18 @@ impl UE_Capability_NB_v1610_IEsEarlyData_UP_5GC_r16 {
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING")]
-pub struct UE_Capability_NB_v16f0_IEsLateNonCriticalExtension(pub Vec<u8>);
+pub struct UE_Capability_NB_v16x0_IEsLateNonCriticalExtension(pub Vec<u8>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct UE_Capability_NB_v1700_IEsCoverageBasedPaging_r17(pub u8);
+impl UE_Capability_NB_v1700_IEsCoverageBasedPaging_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct UE_Capability_NB_v16f0_IEsNonCriticalExtension {}
+pub struct UE_Capability_NB_v1800_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING")]
@@ -55930,20 +59842,34 @@ impl UE_EUTRA_Capability_v1630_IEsEarlySecurityReactivation_r16 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
-#[asn(type = "SEQUENCE", extensible = false)]
-pub struct UE_EUTRA_Capability_v1690_IEsNonCriticalExtension {}
-
-#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING")]
 pub struct UE_EUTRA_Capability_v16c0_IEsLateNonCriticalExtension(pub Vec<u8>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct UE_EUTRA_Capability_v16c0_IEsNonCriticalExtension {}
+pub struct UE_EUTRA_Capability_v16f0_IEsNonCriticalExtension {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct UE_EUTRA_Capability_v1710_IEsSidelinkRequested_r17(pub u8);
+impl UE_EUTRA_Capability_v1710_IEsSidelinkRequested_r17 {
+    pub const TRUE: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct UE_EUTRA_Capability_v17b0_IEsUl_RRC_MaxCapaSegments_r17(pub u8);
+impl UE_EUTRA_Capability_v17b0_IEsUl_RRC_MaxCapaSegments_r17 {
+    pub const SUPPORTED: u8 = 0u8;
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct UE_EUTRA_Capability_v16f0_IEsNonCriticalExtension {}
+pub struct UE_EUTRA_Capability_v17b0_IEsNonCriticalExtension {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct UE_EUTRA_Capability_v1840_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", lb = "0", ub = "0")]
@@ -56259,8 +60185,23 @@ pub struct UEAssistanceInformation_v1530_IEsSps_AssistanceInformation_v1530 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct UEAssistanceInformation_v1700_IEsUplinkData_r17(pub u8);
+impl UEAssistanceInformation_v1700_IEsUplinkData_r17 {
+    pub const TRUE: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "1")]
+pub struct UEAssistanceInformation_v1700_IEsScg_DeactivationPreference_r17(pub u8);
+impl UEAssistanceInformation_v1700_IEsScg_DeactivationPreference_r17 {
+    pub const SCG_DEACTIVATION_PREFERRED: u8 = 0u8;
+    pub const NO_PREFERENCE: u8 = 1u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct UEAssistanceInformation_v1610_IEsNonCriticalExtension {}
+pub struct UEAssistanceInformation_v1710_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "NULL")]
@@ -56401,8 +60342,19 @@ impl UECapabilityEnquiry_v1610_IEsRrc_SegAllowed_r16 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct UECapabilityEnquiry_v1710_IEsSidelinkRequest_r17(pub u8);
+impl UECapabilityEnquiry_v1710_IEsSidelinkRequest_r17 {
+    pub const TRUE: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "2", ub = "16")]
+pub struct UECapabilityEnquiry_v17b0_IEsRrc_MaxCapaSegAllowed_r17(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct UECapabilityEnquiry_v1610_IEsNonCriticalExtension {}
+pub struct UECapabilityEnquiry_v17b0_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING")]
@@ -56613,8 +60565,22 @@ impl UEInformationRequest_v1530_IEsIdleModeMeasurementReq_r15 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct UEInformationRequest_v1710_IEsCoarseLocationReq_r17(pub u8);
+impl UEInformationRequest_v1710_IEsCoarseLocationReq_r17 {
+    pub const TRUE: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct UEInformationRequest_v1800_IEsRach_ReportReqNR_r18(pub u8);
+impl UEInformationRequest_v1800_IEsRach_ReportReqNR_r18 {
+    pub const TRUE: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct UEInformationRequest_v1530_IEsNonCriticalExtension {}
+pub struct UEInformationRequest_v1800_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING")]
@@ -56682,8 +60648,12 @@ pub enum UEInformationResponse_r9CriticalExtensions {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OCTET-STRING")]
+pub struct UEInformationResponse_v1710_IEsCoarseLocationInfo_r17(pub Vec<u8>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct UEInformationResponse_v1610_IEsNonCriticalExtension {}
+pub struct UEInformationResponse_v1800_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING")]
@@ -56802,8 +60772,12 @@ pub enum UEPagingCoverageInformation_NBCriticalExtensions {
 pub struct UEPagingCoverageInformation_NB_IEsNpdcch_NumRepetitionPaging_r13(pub u16);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "1", ub = "2")]
+pub struct UEPagingCoverageInformation_NB_v1700_IEsCbp_Index_r17(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct UEPagingCoverageInformation_NB_IEsNonCriticalExtension {}
+pub struct UEPagingCoverageInformation_NB_v1700_IEsNonCriticalExtension {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "1", ub = "256")]
@@ -57981,6 +61955,14 @@ pub struct UplinkPowerControlDedicatedPSRS_Offset(pub u8);
 pub struct UplinkPowerControlDedicated_NB_r13P0_UE_NPUSCH_r13(pub i8);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "1")]
+pub struct UplinkPowerControlDedicated_NB_v1700DeltaMCS_Enabled_r17(pub u8);
+impl UplinkPowerControlDedicated_NB_v1700DeltaMCS_Enabled_r17 {
+    pub const EN0: u8 = 0u8;
+    pub const EN1: u8 = 1u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "0", ub = "15")]
 pub struct UplinkPowerControlDedicated_v1020PSRS_OffsetAp_r10(pub u8);
 
@@ -58143,12 +62125,23 @@ pub struct V2X_BandParametersEUTRA_NR_v1630_nr {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OCTET-STRING")]
+pub struct V2X_BandParametersEUTRA_NR_v1710V2x_BandParametersEUTRA_NR_v1710(pub Vec<u8>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "0", ub = "95")]
 pub struct VarANR_MeasReport_NB_r16RelativeTimeStamp_r16(pub u8);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "2")]
 pub struct VarANR_MeasReport_NB_r16MeasResultList_r16(pub Vec<ANR_MeasResult_NB_r16>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct VarLogMeasConfig_r17MeasUncomBarPre_r17(pub u8);
+impl VarLogMeasConfig_r17MeasUncomBarPre_r17 {
+    pub const TRUE: u8 = 0u8;
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING", sz_extensible = false, sz_lb = "2", sz_ub = "2")]
@@ -58165,6 +62158,13 @@ pub struct VarLogMeasReport_r11TraceRecordingSessionRef_r10(pub Vec<u8>);
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING", sz_extensible = false, sz_lb = "1", sz_ub = "1")]
 pub struct VarLogMeasReport_r11Tce_Id_r10(pub Vec<u8>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", lb = "0", ub = "0")]
+pub struct VarLogMeasReport_r11SigLoggedMeasType_r18(pub u8);
+impl VarLogMeasReport_r11SigLoggedMeasType_r18 {
+    pub const TRUE: u8 = 0u8;
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "-140", ub = "-44")]
@@ -58658,10 +62658,6 @@ impl WUS_Config_v1610NumDRX_CyclesRelaxed_r16 {
     pub const N4: u8 = 2u8;
     pub const N8: u8 = 3u8;
 }
-
-#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
-#[asn(type = "INTEGER", lb = "1", ub = "32")]
-pub struct WhiteCellsToAddMod_r13CellIndex_r13(pub u8);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "BOOLEAN")]

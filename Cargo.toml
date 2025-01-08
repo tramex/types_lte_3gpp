@@ -1,6 +1,6 @@
 [package]
 name = "types_lte_3gpp"
-version = "1.0.4"
+version = "1.0.5"
 edition = "2021"
 license = "MIT"
 authors = [
@@ -23,8 +23,8 @@ m2ap = []
 lppa = []
 
 [dependencies]
-asn1-codecs = "0.6.1"
-asn1_codecs_derive = "0.6.1"
+asn1-codecs = "0.7.0"
+asn1_codecs_derive = "0.7.0"
 bitvec = { version = "1.0.1", features = ["serde"] }
 env_logger = "0.11.2"
 hex = "0.4.3"

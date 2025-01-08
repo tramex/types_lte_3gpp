@@ -10,6 +10,10 @@ pub const ID_ACTIVATION_ID: u16 = 256;
 
 pub const ID_ADDITION_LOCATION_INFORMATION: u16 = 409;
 
+pub const ID_ADDITIONAL_MEASUREMENT_TIMING_CONFIGURATION_LIST: u16 = 433;
+
+pub const ID_ADDITIONAL_LISTOF_FORWARDING_GTP_TUNNEL_ENDPOINT: u16 = 441;
+
 pub const ID_ADDITIONAL_RRM_PRIORITY_INDEX: u16 = 340;
 
 pub const ID_ADDITIONAL_SPECIAL_SUBFRAME_INFO: u16 = 97;
@@ -38,11 +42,37 @@ pub const ID_CHO_DC_EARLY_DATA_FORWARDING: u16 = 407;
 
 pub const ID_CHO_DC_INDICATOR: u16 = 368;
 
+pub const ID_CHO_TIME_BASED_INFORMATION: u16 = 446;
+
 pub const ID_CH_OINFORMATION_ACK: u16 = 362;
+
+pub const ID_CH_OINFORMATION_ADD_REQ: u16 = 420;
+
+pub const ID_CH_OINFORMATION_MOD_REQ: u16 = 421;
 
 pub const ID_CH_OINFORMATION_REQ: u16 = 361;
 
 pub const ID_CN_TYPE_RESTRICTIONS: u16 = 301;
+
+pub const ID_CPA_CINFORMATION_REQD: u16 = 428;
+
+pub const ID_CP_AINFORMATION_MOD: u16 = 426;
+
+pub const ID_CP_AINFORMATION_MOD_ACK: u16 = 427;
+
+pub const ID_CP_AINFORMATION_REQ: u16 = 424;
+
+pub const ID_CP_AINFORMATION_REQ_ACK: u16 = 425;
+
+pub const ID_CPC_CANCEL: u8 = 59;
+
+pub const ID_CP_CINFORMATION_CONF: u16 = 430;
+
+pub const ID_CP_CINFORMATION_NOTIFY: u16 = 431;
+
+pub const ID_CP_CINFORMATION_REQD: u16 = 429;
+
+pub const ID_CP_CUPDATE_MOD: u16 = 432;
 
 pub const ID_CSG_ID: u16 = 70;
 
@@ -376,11 +406,19 @@ pub const ID_M3_CONFIGURATION: u16 = 85;
 
 pub const ID_M4_CONFIGURATION: u16 = 86;
 
+pub const ID_M4_REPORT_AMOUNT: u16 = 442;
+
 pub const ID_M5_CONFIGURATION: u16 = 87;
+
+pub const ID_M5_REPORT_AMOUNT: u16 = 443;
 
 pub const ID_M6_CONFIGURATION: u16 = 161;
 
+pub const ID_M6_REPORT_AMOUNT: u16 = 444;
+
 pub const ID_M7_CONFIGURATION: u16 = 162;
+
+pub const ID_M7_REPORT_AMOUNT: u16 = 445;
 
 pub const ID_MBMS_SERVICE_AREA_LIST: u16 = 79;
 
@@ -391,6 +429,8 @@ pub const ID_MDT_LOCATION_INFO: u16 = 88;
 pub const ID_MDT_CONFIGURATION: u16 = 72;
 
 pub const ID_MDT_CONFIGURATION_NR: u16 = 375;
+
+pub const ID_MIMOPR_BUSAGE_INFORMATION: u16 = 439;
 
 pub const ID_MAKE_BEFORE_BREAK_INDICATOR: u16 = 181;
 
@@ -424,6 +464,8 @@ pub const ID_MEASUREMENT_INITIATION_RESULT_ITEM: u16 = 66;
 
 pub const ID_MEASUREMENT_INITIATION_RESULT_LIST: u16 = 65;
 
+pub const ID_MEASUREMENT_RESULTFOR_NR_CELLS_POSSIBLY_AGGREGATED: u16 = 417;
+
 pub const ID_MESSAGE_OVERSIZE_NOTIFICATION: u16 = 350;
 
 pub const ID_MOBILITY_INFORMATION: u16 = 82;
@@ -443,6 +485,8 @@ pub const ID_NR_CELL_PRACH_CONFIG: u16 = 390;
 pub const ID_NR_NEIGHBOUR_INFO_TO_ADD: u16 = 327;
 
 pub const ID_NR_NEIGHBOUR_INFO_TO_MODIFY: u16 = 328;
+
+pub const ID_NRRA_REPORT: u16 = 414;
 
 pub const ID_NRS_NSSS_POWER_OFFSET: u16 = 282;
 
@@ -486,6 +530,14 @@ pub const ID_PDCP_CHANGE_INDICATION: u16 = 249;
 
 pub const ID_PRACH_CONFIGURATION: u16 = 55;
 
+pub const ID_PS_CELL_UE_HISTORY_INFORMATION: u16 = 418;
+
+pub const ID_PS_CELL_CHANGE_HISTORY: u16 = 419;
+
+pub const ID_PS_CELL_HISTORY_INFORMATION_RETRIEVE: u16 = 416;
+
+pub const ID_PS_CELL_LIST_CONTAINER: u16 = 448;
+
 pub const ID_PARTIAL_LIST_INDICATOR: u16 = 348;
 
 pub const ID_PARTIAL_SUCCESS_INDICATOR: u16 = 64;
@@ -502,6 +554,8 @@ pub const ID_PROTECTED_EUTRA_RESOURCE_INDICATION: u16 = 284;
 
 pub const ID_QO_S_MAPPING_INFORMATION: u16 = 396;
 
+pub const ID_RAT_RESTRICTIONS: u16 = 437;
+
 pub const ID_RLC_STATUS: u16 = 300;
 
 pub const ID_RLC_MODE_TRANSFERRED: u16 = 317;
@@ -517,6 +571,8 @@ pub const ID_RRC_CONN_SETUP_INDICATOR: u16 = 75;
 pub const ID_RRC_CONTAINER: u16 = 237;
 
 pub const ID_RSRPMR_LIST: u16 = 110;
+
+pub const ID_RA_REPORT_INDICATION_LIST: u16 = 447;
 
 pub const ID_RE_ESTABLISHMENT_CELL_ECGI: u16 = 49;
 
@@ -558,9 +614,17 @@ pub const ID_RESPONSE_INFORMATION_SE_NB_RECONF_COMP: u16 = 123;
 
 pub const ID_RESPONSE_INFORMATION_SG_NB_RECONF_COMP: u16 = 214;
 
+pub const ID_SCG_UE_HISTORY_INFORMATION: u16 = 415;
+
+pub const ID_SCG_ACTIVATION_REQUEST: u16 = 423;
+
+pub const ID_SCG_ACTIVATION_STATUS: u16 = 422;
+
 pub const ID_SCG_CHANGE_INDICATION: u16 = 136;
 
 pub const ID_SCG_CONFIGURATION_QUERY: u16 = 241;
+
+pub const ID_SC_GRECONFIG_NOTIFICATION: u16 = 438;
 
 pub const ID_SFN_OFFSET: u16 = 406;
 
@@ -596,7 +660,15 @@ pub const ID_SECONDARY_RAT_USAGE_REPORT_ITEM: u16 = 266;
 
 pub const ID_SECONDARY_RAT_USAGE_REPORT_LIST: u16 = 265;
 
+pub const ID_SECURITY_INDICATION: u16 = 435;
+
+pub const ID_SECURITY_RESULT: u16 = 436;
+
 pub const ID_SELECTED_PLMN: u16 = 269;
+
+pub const ID_SENSOR_MEASUREMENT_CONFIGURATION: u16 = 440;
+
+pub const ID_SERVED_CELL_SPECIFIC_INFO_REQ_NR: u16 = 434;
 
 pub const ID_SERVED_CELLS: u16 = 20;
 
@@ -764,6 +836,8 @@ pub const ID_WT_UE_CONTEXT_KEPT_INDICATOR: u16 = 183;
 
 pub const ID_X2_REMOVAL_THRESHOLD: u16 = 169;
 
+pub const ID_ACCESS_AND_MOBILITY_INDICATION: u8 = 57;
+
 pub const ID_ADDITIONAL_PLM_NS_ITEM: u16 = 334;
 
 pub const ID_CELL_ACTIVATION: u8 = 15;
@@ -854,9 +928,13 @@ pub const ID_NEW_DRB_ID_REQ: u16 = 325;
 
 pub const ID_PRIVATE_MESSAGE: u8 = 11;
 
+pub const ID_PROCEDURE_CODE_58_NOT_TO_BE_USED: u8 = 58;
+
 pub const ID_R_LF_INDICATION: u8 = 13;
 
 pub const ID_R_RC_TRANSFER: u8 = 35;
+
+pub const ID_RACH_INDICATION: u8 = 60;
 
 pub const ID_RESET: u8 = 7;
 
@@ -966,6 +1044,12 @@ pub const MAXNOOF_BEARERS: i64 = 256;
 
 pub const MAXNOOF_BLUETOOTH_NAME: i64 = 4;
 
+pub const MAXNOOF_CSIR_SCONFIGURATIONS: i64 = 96;
+
+pub const MAXNOOF_CSIR_SNEIGHBOUR_CELLS: i64 = 16;
+
+pub const MAXNOOF_CSIR_SNEIGHBOUR_CELLS_IN_MTC: i64 = 16;
+
 pub const MAXNOOF_CELL_I_DFOR_MDT: i64 = 32;
 
 pub const MAXNOOF_CELL_I_DFOR_QMC: i64 = 32;
@@ -994,6 +1078,8 @@ pub const MAXNOOF_MBSFN: i64 = 8;
 
 pub const MAXNOOF_MDTPLM_NS: i64 = 16;
 
+pub const MAXNOOF_MTC_ITEMS: i64 = 16;
+
 pub const MAXNOOF_NR_PHYSICAL_RESOURCE_BLOCKS: i64 = 275;
 
 pub const MAXNOOF_NRSC_SS: i64 = 5;
@@ -1014,9 +1100,21 @@ pub const MAXNOOF_PLM_NFOR_QMC: i64 = 16;
 
 pub const MAXNOOF_PR_BS: i64 = 110;
 
+pub const MAXNOOF_PS_CELL_CANDIDATES: i64 = 8;
+
+pub const MAXNOOF_PS_CELLS_PER_PRIMARY_CELLIN_UE_HISTORY_INFO: i64 = 8;
+
+pub const MAXNOOF_PS_CELLS_PER_SN: i64 = 8;
+
 pub const MAXNOOF_PROTECTED_RESOURCE_PATTERNS: i64 = 16;
 
+pub const MAXNOOF_RA_REPORTS: i64 = 64;
+
+pub const MAXNOOF_REPORTED_NR_CELLS_POSSIBLY_AGGREGATED: i64 = 16;
+
 pub const MAXNOOF_SSB_AREAS: i64 = 64;
+
+pub const MAXNOOF_SENSOR_NAME: i64 = 3;
 
 pub const MAXNOOF_T_AFOR_MDT: i64 = 8;
 
@@ -1025,6 +1123,12 @@ pub const MAXNOOF_T_AFOR_QMC: i64 = 8;
 pub const MAXNOOF_TL_AS: i64 = 16;
 
 pub const MAXNOOF_TNL_ASSOCIATIONS: i64 = 32;
+
+pub const MAXNOOF_TARGET_SG_N_BS: i64 = 8;
+
+pub const MAXNOOF_TARGET_SG_N_BS_MINUS_ONE: i64 = 7;
+
+pub const MAXNOOF_U_ESFOR_RA_REPORT_INDICATIONS: i64 = 64;
 
 pub const MAXNOOF_WLAN_NAME: i64 = 4;
 
@@ -1086,6 +1190,12 @@ pub struct AS_SecurityInformation {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true)]
+pub struct AccessAndMobilityIndication {
+    pub protocol_i_es: AccessAndMobilityIndicationProtocolIEs,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(
     type = "SEQUENCE-OF",
     sz_extensible = false,
@@ -1128,6 +1238,39 @@ pub struct ActivationID(pub u8);
 pub struct AdditionLocationInformation(pub u8);
 impl AdditionLocationInformation {
     pub const INCLUDE_PS_CELL: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct Additional_Measurement_Timing_Configuration_Item {
+    pub additional_measurement_timing_configuration:
+        Additional_Measurement_Timing_Configuration_ItemAdditionalMeasurementTimingConfiguration,
+    pub csi_rs_mtc_configuration_list: CSI_RS_MTC_Configuration_List,
+    #[asn(optional_idx = 0)]
+    pub ie_extensions: Option<Additional_Measurement_Timing_Configuration_ItemIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
+pub struct Additional_Measurement_Timing_Configuration_List(
+    pub Vec<Additional_Measurement_Timing_Configuration_Item>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "7")]
+pub struct AdditionalListofForwardingGTPTunnelEndpoint(
+    pub Vec<AdditionalListofForwardingGTPTunnelEndpoint_Item>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 3)]
+pub struct AdditionalListofForwardingGTPTunnelEndpoint_Item {
+    #[asn(optional_idx = 0)]
+    pub ul_gt_ptunnel_endpoint: Option<GTPtunnelEndpoint>,
+    #[asn(optional_idx = 1)]
+    pub dl_gt_ptunnel_endpoint: Option<GTPtunnelEndpoint>,
+    #[asn(optional_idx = 2)]
+    pub ie_extensions: Option<AdditionalListofForwardingGTPTunnelEndpoint_ItemIE_Extensions>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -1346,8 +1489,25 @@ impl CHO_DC_Indicator {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "1", ub = "6000")]
+pub struct CHO_HandoverWindowDuration(pub u16);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "1048575")]
+pub struct CHO_HandoverWindowStart(pub u32);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "1", ub = "100")]
 pub struct CHO_Probability(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct CHOTimeBasedInformation {
+    pub cho_ho_window_start: CHO_HandoverWindowStart,
+    pub cho_ho_window_duration: CHO_HandoverWindowDuration,
+    #[asn(optional_idx = 0)]
+    pub ie_extensions: Option<CHOTimeBasedInformationIE_Extensions>,
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = true, optional_fields = 2)]
@@ -1357,6 +1517,29 @@ pub struct CHOinformation_ACK {
     pub max_ch_opreparations: Option<MaxCHOpreparations>,
     #[asn(optional_idx = 1)]
     pub ie_extensions: Option<CHOinformation_ACKIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 3)]
+pub struct CHOinformation_AddReq {
+    pub source_e_nb_id: GlobalENB_ID,
+    pub source_e_nb_ue_x2ap_id: UE_X2AP_ID,
+    #[asn(optional_idx = 0)]
+    pub source_e_nb_ue_x2ap_id_ext: Option<UE_X2AP_ID_Extension>,
+    #[asn(optional_idx = 1)]
+    pub cho_estimated_arrival_probability: Option<CHO_Probability>,
+    #[asn(optional_idx = 2)]
+    pub ie_extensions: Option<CHOinformation_AddReqIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 2)]
+pub struct CHOinformation_ModReq {
+    pub conditional_reconfig: CHOinformation_ModReqConditionalReconfig,
+    #[asn(optional_idx = 0)]
+    pub cho_estimated_arrival_probability: Option<CHO_Probability>,
+    #[asn(optional_idx = 1)]
+    pub ie_extensions: Option<CHOinformation_ModReqIE_Extensions>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -1422,6 +1605,161 @@ pub struct COUNTvaluePDCP_SNlength18 {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct CPACcandidatePSCells_item {
+    pub pscell_id: NRCGI,
+    #[asn(optional_idx = 0)]
+    pub ie_extensions: Option<CPACcandidatePSCells_itemIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct CPACcandidatePSCells_list(pub Vec<CPACcandidatePSCells_item>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct CPACinformation_REQD {
+    pub candidate_pscells: CPACcandidatePSCells_list,
+    #[asn(optional_idx = 0)]
+    pub ie_extensions: Option<CPACinformation_REQDIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 3)]
+pub struct CPAinformation_MOD {
+    #[asn(optional_idx = 0)]
+    pub max_no_of_pscells: Option<CPAinformation_MODMax_no_of_pscells>,
+    #[asn(optional_idx = 1)]
+    pub estimated_arrival_probability: Option<CHO_Probability>,
+    #[asn(optional_idx = 2)]
+    pub ie_extensions: Option<CPAinformation_MODIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct CPAinformation_MOD_ACK {
+    pub candidate_pscells: CPACcandidatePSCells_list,
+    #[asn(optional_idx = 0)]
+    pub ie_extensions: Option<CPAinformation_MOD_ACKIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 2)]
+pub struct CPAinformation_REQ {
+    pub max_no_of_pscells: CPAinformation_REQMax_no_of_pscells,
+    #[asn(optional_idx = 0)]
+    pub estimated_arrival_probability: Option<CHO_Probability>,
+    #[asn(optional_idx = 1)]
+    pub ie_extensions: Option<CPAinformation_REQIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct CPAinformation_REQ_ACK {
+    pub candidate_pscells: CPACcandidatePSCells_list,
+    #[asn(optional_idx = 0)]
+    pub ie_extensions: Option<CPAinformation_REQ_ACKIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true)]
+pub struct CPC_cancel {
+    pub protocol_i_es: CPC_cancelProtocolIEs,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct CPC_target_SgNB_conf_item {
+    pub target_sg_nb_id: GlobalGNB_ID,
+    pub candidate_pscells: CPACcandidatePSCells_list,
+    #[asn(optional_idx = 0)]
+    pub ie_extensions: Option<CPC_target_SgNB_conf_itemIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct CPC_target_SgNB_conf_list(pub Vec<CPC_target_SgNB_conf_item>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct CPC_target_SgNB_mod_item {
+    pub target_sg_nb_id: GlobalGNB_ID,
+    pub candidate_pscells: CPACcandidatePSCells_list,
+    #[asn(optional_idx = 0)]
+    pub ie_extensions: Option<CPC_target_SgNB_mod_itemIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct CPC_target_SgNB_mod_list(pub Vec<CPC_target_SgNB_mod_item>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 2)]
+pub struct CPC_target_SgNB_reqd_item {
+    pub target_sg_nb_id: GlobalGNB_ID,
+    pub cpc_indicator: CPCindicator,
+    pub max_no_of_pscells: CPC_target_SgNB_reqd_itemMax_no_of_pscells,
+    #[asn(optional_idx = 0)]
+    pub estimated_arrival_probability: Option<CHO_Probability>,
+    pub sg_n_bto_me_nb_container: SgNBtoMeNBContainer,
+    #[asn(optional_idx = 1)]
+    pub ie_extensions: Option<CPC_target_SgNB_reqd_itemIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct CPC_target_SgNB_reqd_list(pub Vec<CPC_target_SgNB_reqd_item>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "1")]
+pub struct CPCdataforwarding(pub u8);
+impl CPCdataforwarding {
+    pub const CPC_TRIGGERED: u8 = 0u8;
+    pub const EARLY_DATA_TRANSMISSION_STOP: u8 = 1u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "2")]
+pub struct CPCindicator(pub u8);
+impl CPCindicator {
+    pub const CPC_INITIATION: u8 = 0u8;
+    pub const CPC_MODIFICATION: u8 = 1u8;
+    pub const CPC_CANCEL: u8 = 2u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct CPCinformation_CONF {
+    pub cpc_target_sgnb_list: CPC_target_SgNB_conf_list,
+    #[asn(optional_idx = 0)]
+    pub ie_extensions: Option<CPCinformation_CONFIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct CPCinformation_NOTIFY {
+    pub cpc_indicator: CPCdataforwarding,
+    #[asn(optional_idx = 0)]
+    pub ie_extensions: Option<CPCinformation_NOTIFYIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct CPCinformation_REQD {
+    pub cpc_target_sgnb_list: CPC_target_SgNB_reqd_list,
+    #[asn(optional_idx = 0)]
+    pub ie_extensions: Option<CPCinformation_REQDIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct CPCupdate_MOD {
+    pub cpc_target_sgnb_list: CPC_target_SgNB_mod_list,
+    #[asn(optional_idx = 0)]
+    pub ie_extensions: Option<CPCupdate_MODIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "CHOICE", lb = "0", ub = "1", extensible = true)]
 pub enum CPTransportLayerInformation {
     #[asn(key = 0, extended = false)]
@@ -1445,6 +1783,47 @@ impl CSGMembershipStatus {
     pub const MEMBER: u8 = 0u8;
     pub const NOT_MEMBER: u8 = 1u8;
 }
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 2)]
+pub struct CSI_RS_MTC_Configuration_Item {
+    pub csi_rs_index: CSI_RS_MTC_Configuration_ItemCsi_RS_Index,
+    pub csi_rs_status: CSI_RS_MTC_Configuration_ItemCsi_RS_Status,
+    #[asn(optional_idx = 0)]
+    pub csi_rs_neighbour_list: Option<CSI_RS_Neighbour_List>,
+    #[asn(optional_idx = 1)]
+    pub ie_extensions: Option<CSI_RS_MTC_Configuration_ItemIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "96")]
+pub struct CSI_RS_MTC_Configuration_List(pub Vec<CSI_RS_MTC_Configuration_Item>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct CSI_RS_MTC_Neighbour_Item {
+    pub csi_rs_index: CSI_RS_MTC_Neighbour_ItemCsi_RS_Index,
+    #[asn(optional_idx = 0)]
+    pub ie_extensions: Option<CSI_RS_MTC_Neighbour_ItemIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
+pub struct CSI_RS_MTC_Neighbour_List(pub Vec<CSI_RS_MTC_Neighbour_Item>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 2)]
+pub struct CSI_RS_Neighbour_Item {
+    pub nr_cgi: NRCGI,
+    #[asn(optional_idx = 0)]
+    pub csi_rs_mtc_neighbour_list: Option<CSI_RS_MTC_Neighbour_List>,
+    #[asn(optional_idx = 1)]
+    pub ie_extensions: Option<CSI_RS_Neighbour_ItemIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
+pub struct CSI_RS_Neighbour_List(pub Vec<CSI_RS_Neighbour_Item>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "1")]
@@ -2001,11 +2380,23 @@ pub struct DL_GBR_PRB_usage(pub u8);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "0", ub = "100")]
+pub struct DL_GBR_PRB_usage_for_MIMO(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "100")]
 pub struct DL_Total_PRB_usage(pub u8);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "0", ub = "100")]
+pub struct DL_Total_PRB_usage_for_MIMO(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "100")]
 pub struct DL_non_GBR_PRB_usage(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "100")]
+pub struct DL_non_GBR_PRB_usage_for_MIMO(pub u8);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "0", ub = "100")]
@@ -4158,6 +4549,23 @@ pub enum InitiatingNodeType_EutranrCellResourceCoordination {
 pub struct IntegrityProtectionAlgorithms(pub bitvec::vec::BitVec<u8, bitvec::order::Msb0>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "2")]
+pub struct IntegrityProtectionIndication(pub u8);
+impl IntegrityProtectionIndication {
+    pub const REQUIRED: u8 = 0u8;
+    pub const PREFERRED: u8 = 1u8;
+    pub const NOTNEEDED: u8 = 2u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "1")]
+pub struct IntegrityProtectionResult(pub u8);
+impl IntegrityProtectionResult {
+    pub const PERFORMED: u8 = 0u8;
+    pub const NOTPERFORMED: u8 = 1u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING")]
 pub struct IntendedTDD_DL_ULConfiguration_NR(pub Vec<u8>);
 
@@ -4235,6 +4643,10 @@ pub enum LastVisitedGERANCellInformation {
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING")]
 pub struct LastVisitedNGRANCellInformation(pub Vec<u8>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OCTET-STRING")]
+pub struct LastVisitedPSCell_Item(pub Vec<u8>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING")]
@@ -4395,6 +4807,20 @@ pub struct M4Configuration {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "7")]
+pub struct M4ReportAmountMDT(pub u8);
+impl M4ReportAmountMDT {
+    pub const R1: u8 = 0u8;
+    pub const R2: u8 = 1u8;
+    pub const R4: u8 = 2u8;
+    pub const R8: u8 = 3u8;
+    pub const R16: u8 = 4u8;
+    pub const R32: u8 = 5u8;
+    pub const R64: u8 = 6u8;
+    pub const INFINITY: u8 = 7u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "4")]
 pub struct M4period(pub u8);
 impl M4period {
@@ -4412,6 +4838,20 @@ pub struct M5Configuration {
     pub m5_links_to_log: Links_to_log,
     #[asn(optional_idx = 0)]
     pub ie_extensions: Option<M5ConfigurationIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "7")]
+pub struct M5ReportAmountMDT(pub u8);
+impl M5ReportAmountMDT {
+    pub const R1: u8 = 0u8;
+    pub const R2: u8 = 1u8;
+    pub const R4: u8 = 2u8;
+    pub const R8: u8 = 3u8;
+    pub const R16: u8 = 4u8;
+    pub const R32: u8 = 5u8;
+    pub const R64: u8 = 6u8;
+    pub const INFINITY: u8 = 7u8;
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -4434,6 +4874,20 @@ pub struct M6Configuration {
     pub m6_links_to_log: Links_to_log,
     #[asn(optional_idx = 1)]
     pub ie_extensions: Option<M6ConfigurationIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "7")]
+pub struct M6ReportAmountMDT(pub u8);
+impl M6ReportAmountMDT {
+    pub const R1: u8 = 0u8;
+    pub const R2: u8 = 1u8;
+    pub const R4: u8 = 2u8;
+    pub const R8: u8 = 3u8;
+    pub const R16: u8 = 4u8;
+    pub const R32: u8 = 5u8;
+    pub const R64: u8 = 6u8;
+    pub const INFINITY: u8 = 7u8;
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -4471,6 +4925,20 @@ pub struct M7Configuration {
     pub m7_links_to_log: Links_to_log,
     #[asn(optional_idx = 0)]
     pub ie_extensions: Option<M7ConfigurationIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "7")]
+pub struct M7ReportAmountMDT(pub u8);
+impl M7ReportAmountMDT {
+    pub const R1: u8 = 0u8;
+    pub const R2: u8 = 1u8;
+    pub const R4: u8 = 2u8;
+    pub const R8: u8 = 3u8;
+    pub const R16: u8 = 4u8;
+    pub const R32: u8 = 5u8;
+    pub const R64: u8 = 6u8;
+    pub const INFINITY: u8 = 7u8;
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -4538,6 +5006,19 @@ pub struct MDT_Location_Info(pub bitvec::vec::BitVec<u8, bitvec::order::Msb0>);
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
 pub struct MDTPLMNList(pub Vec<PLMN_Identity>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct MIMOPRBusageInformation {
+    pub dl_gbr_prb_usage_for_mimo: DL_GBR_PRB_usage_for_MIMO,
+    pub ul_gbr_prb_usage_for_mimo: UL_GBR_PRB_usage_for_MIMO,
+    pub dl_non_gbr_prb_usage_for_mimo: DL_non_GBR_PRB_usage_for_MIMO,
+    pub ul_non_gbr_prb_usage_for_mimo: UL_non_GBR_PRB_usage_for_MIMO,
+    pub dl_total_prb_usage_for_mimo: DL_Total_PRB_usage_for_MIMO,
+    pub ul_total_prb_usage_for_mimo: UL_Total_PRB_usage_for_MIMO,
+    #[asn(optional_idx = 0)]
+    pub ie_extensions: Option<MIMOPRBusageInformationIE_Extensions>,
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OCTET-STRING", sz_extensible = false, sz_lb = "1", sz_ub = "1")]
@@ -4639,6 +5120,22 @@ pub struct MeasurementInitiationResult_Item {
     sz_ub = "256"
 )]
 pub struct MeasurementInitiationResult_List(pub Vec<MeasurementInitiationResult_List_Entry>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
+pub struct MeasurementResultforNRCellsPossiblyAggregated(
+    pub Vec<MeasurementResultforNRCellsPossiblyAggregated_Item>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 2)]
+pub struct MeasurementResultforNRCellsPossiblyAggregated_Item {
+    pub cell_id: NRCGI,
+    #[asn(optional_idx = 0)]
+    pub nr_composite_available_capacity_group: Option<NRCompositeAvailableCapacityGroup>,
+    #[asn(optional_idx = 1)]
+    pub ie_extension: Option<MeasurementResultforNRCellsPossiblyAggregated_ItemIE_Extension>,
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "CHOICE", lb = "0", ub = "1", extensible = true)]
@@ -4911,6 +5408,24 @@ pub struct NRNeighbour_Information(pub Vec<NRNeighbour_Information_Entry>);
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "0", ub = "1007")]
 pub struct NRPCI(pub u16);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "64")]
+pub struct NRRAReport(pub Vec<NRRAReportList_Item>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OCTET-STRING")]
+pub struct NRRAReportContainer(pub Vec<u8>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 2)]
+pub struct NRRAReportList_Item {
+    pub nrra_report: NRRAReportContainer,
+    #[asn(optional_idx = 0)]
+    pub ue_assitant_identifier: Option<SgNB_UE_X2AP_ID>,
+    #[asn(optional_idx = 1)]
+    pub ie_extensions: Option<NRRAReportList_ItemIE_Extensions>,
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
@@ -5195,6 +5710,28 @@ pub struct PRACH_Configuration {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct PSCell_UE_HistoryInformation(pub Vec<LastVisitedPSCell_Item>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "0")]
+pub struct PSCellChangeHistory(pub u8);
+impl PSCellChangeHistory {
+    pub const REPORTING_FULL_HISTORY: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "0")]
+pub struct PSCellHistoryInformationRetrieve(pub u8);
+impl PSCellHistoryInformationRetrieve {
+    pub const QUERY: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OCTET-STRING")]
+pub struct PSCellListContainer(pub Vec<u8>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "0", ub = "1000")]
 pub struct Packet_LossRate(pub u16);
 
@@ -5391,6 +5928,19 @@ pub struct QoS_Mapping_Information {
 pub struct RAN_UE_NGAP_ID(pub u32);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "16")]
+pub struct RAT_Restrictions(pub Vec<RAT_RestrictionsItem>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct RAT_RestrictionsItem {
+    pub plmn_identity: PLMN_Identity,
+    pub rat_restriction_information: RAT_RestrictionsItemRAT_RestrictionInformation,
+    #[asn(optional_idx = 0)]
+    pub ie_extensions: Option<RAT_RestrictionsItemIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
 pub struct RLC_Status {
     pub reestablishment_indication: Reestablishment_Indication,
@@ -5496,6 +6046,26 @@ pub struct RSRPMRList(pub Vec<RSRPMRList_Entry>);
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "9")]
 pub struct RSRPMeasurementResult(pub Vec<RSRPMeasurementResult_Entry>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "64")]
+pub struct RaReportIndicationList(pub Vec<RaReportIndicationList_Item>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 2)]
+pub struct RaReportIndicationList_Item {
+    pub me_nb_ue_x2ap_id: UE_X2AP_ID,
+    #[asn(optional_idx = 0)]
+    pub me_nb_ue_x2ap_id_extension: Option<UE_X2AP_ID_Extension>,
+    #[asn(optional_idx = 1)]
+    pub ie_extensions: Option<RaReportIndicationList_ItemIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true)]
+pub struct RachIndication {
+    pub protocol_i_es: RachIndicationProtocolIEs,
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
@@ -5915,6 +6485,26 @@ pub struct S1TNLLoadIndicator {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "8")]
+pub struct SCG_UE_HistoryInformation(pub Vec<LastVisitedPSCell_Item>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "1")]
+pub struct SCGActivationRequest(pub u8);
+impl SCGActivationRequest {
+    pub const ACTIVATE_SCG: u8 = 0u8;
+    pub const DEACTIVATE_SCG: u8 = 1u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "1")]
+pub struct SCGActivationStatus(pub u8);
+impl SCGActivationStatus {
+    pub const SCG_ACTIVATED: u8 = 0u8;
+    pub const SCG_DEACTIVATED: u8 = 1u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "2")]
 pub struct SCGChangeIndication(pub u8);
 impl SCGChangeIndication {
@@ -5928,6 +6518,13 @@ impl SCGChangeIndication {
 pub struct SCGConfigurationQuery(pub u8);
 impl SCGConfigurationQuery {
     pub const TRUE: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "0")]
+pub struct SCGreconfigNotification(pub u8);
+impl SCGreconfigNotification {
+    pub const EXECUTED: u8 = 0u8;
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -6194,6 +6791,60 @@ pub struct SecondaryRATUsageReportList(pub Vec<SecondaryRATUsageReportList_Entry
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct SecurityIndication {
+    pub integrity_protection_indication: IntegrityProtectionIndication,
+    #[asn(optional_idx = 0)]
+    pub ie_extensions: Option<SecurityIndicationIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct SecurityResult {
+    pub integrity_protection_result: IntegrityProtectionResult,
+    #[asn(optional_idx = 0)]
+    pub ie_extensions: Option<SecurityResultIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "0")]
+pub struct SensorMeasConfig(pub u8);
+impl SensorMeasConfig {
+    pub const SETUP: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
+pub struct SensorMeasConfigNameItem {
+    pub sensor_name_config: SensorNameConfig,
+    #[asn(optional_idx = 0)]
+    pub ie_extensions: Option<SensorMeasConfigNameItemIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE-OF", sz_extensible = false, sz_lb = "1", sz_ub = "3")]
+pub struct SensorMeasConfigNameList(pub Vec<SensorMeasConfigNameItem>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 2)]
+pub struct SensorMeasurementConfiguration {
+    pub sensor_meas_config: SensorMeasConfig,
+    #[asn(optional_idx = 0)]
+    pub sensor_meas_config_name_list: Option<SensorMeasConfigNameList>,
+    #[asn(optional_idx = 1)]
+    pub ie_extensions: Option<SensorMeasurementConfigurationIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "CHOICE", lb = "0", ub = "1", extensible = false)]
+pub enum SensorNameConfig {
+    #[asn(key = 0, extended = false)]
+    UncompensatedBarometricConfig(SensorNameConfig_uncompensatedBarometricConfig),
+    #[asn(key = 1, extended = false)]
+    Choice_extension(SensorNameConfig_choice_extension),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 1)]
 pub struct ServedCell_Information {
     pub pci: PCI,
     pub cell_id: ECGI,
@@ -6202,6 +6853,26 @@ pub struct ServedCell_Information {
     pub eutra_mode_info: EUTRA_Mode_Info,
     #[asn(optional_idx = 0)]
     pub ie_extensions: Option<ServedCell_InformationIE_Extensions>,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "16384"
+)]
+pub struct ServedCellSpecificInfoReq_NR(pub Vec<ServedCellSpecificInfoReq_NR_Item>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = true, optional_fields = 2)]
+pub struct ServedCellSpecificInfoReq_NR_Item {
+    pub nrcgi: NRCGI,
+    #[asn(optional_idx = 0)]
+    pub additional_mtc_list_request_indicator:
+        Option<ServedCellSpecificInfoReq_NR_ItemAdditionalMTCListRequestIndicator>,
+    #[asn(optional_idx = 1)]
+    pub ie_extensions: Option<ServedCellSpecificInfoReq_NR_ItemIE_Extensions>,
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -7302,6 +7973,10 @@ pub struct UEsToBeResetList_Item {
 pub struct UL_GBR_PRB_usage(pub u8);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "100")]
+pub struct UL_GBR_PRB_usage_for_MIMO(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "BITSTRING", sz_extensible = true, sz_lb = "1", sz_ub = "110")]
 pub struct UL_HighInterferenceIndication(pub bitvec::vec::BitVec<u8, bitvec::order::Msb0>);
 
@@ -7346,6 +8021,10 @@ impl UL_InterferenceOverloadIndication_Item {
 pub struct UL_Total_PRB_usage(pub u8);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "100")]
+pub struct UL_Total_PRB_usage_for_MIMO(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "2")]
 pub struct UL_UE_Configuration(pub u8);
 impl UL_UE_Configuration {
@@ -7357,6 +8036,10 @@ impl UL_UE_Configuration {
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "0", ub = "100")]
 pub struct UL_non_GBR_PRB_usage(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "100")]
+pub struct UL_non_GBR_PRB_usage_for_MIMO(pub u8);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "INTEGER", lb = "0", ub = "100")]
@@ -7705,6 +8388,33 @@ pub struct AS_SecurityInformationIE_Extensions_Entry {}
 pub struct AS_SecurityInformationIE_Extensions(pub Vec<AS_SecurityInformationIE_Extensions_Entry>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OPEN")]
+pub enum AccessAndMobilityIndicationProtocolIEs_EntryValue {
+    #[asn(key = 414)]
+    Id_NRRAReport(NRRAReport),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct AccessAndMobilityIndicationProtocolIEs_Entry {
+    #[asn(key_field = true)]
+    pub id: ProtocolIE_ID,
+    pub criticality: Criticality,
+    pub value: AccessAndMobilityIndicationProtocolIEs_EntryValue,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "0",
+    sz_ub = "65535"
+)]
+pub struct AccessAndMobilityIndicationProtocolIEs(
+    pub Vec<AccessAndMobilityIndicationProtocolIEs_Entry>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
 pub struct ActivatedCellList_ItemIE_Extensions_Entry {}
 
@@ -7730,6 +8440,42 @@ pub struct ActivatedNRCellList_ItemIE_Extensions_Entry {}
 )]
 pub struct ActivatedNRCellList_ItemIE_Extensions(
     pub Vec<ActivatedNRCellList_ItemIE_Extensions_Entry>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "16")]
+pub struct Additional_Measurement_Timing_Configuration_ItemAdditionalMeasurementTimingConfiguration(
+    pub u8,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct Additional_Measurement_Timing_Configuration_ItemIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct Additional_Measurement_Timing_Configuration_ItemIE_Extensions(
+    pub Vec<Additional_Measurement_Timing_Configuration_ItemIE_Extensions_Entry>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct AdditionalListofForwardingGTPTunnelEndpoint_ItemIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct AdditionalListofForwardingGTPTunnelEndpoint_ItemIE_Extensions(
+    pub Vec<AdditionalListofForwardingGTPTunnelEndpoint_ItemIE_Extensions_Entry>,
 );
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -7846,6 +8592,21 @@ pub struct BluetoothMeasurementConfigurationIE_Extensions(
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
+pub struct CHOTimeBasedInformationIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct CHOTimeBasedInformationIE_Extensions(
+    pub Vec<CHOTimeBasedInformationIE_Extensions_Entry>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
 pub struct CHOinformation_ACKIE_Extensions_Entry {}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -7859,7 +8620,52 @@ pub struct CHOinformation_ACKIE_Extensions(pub Vec<CHOinformation_ACKIE_Extensio
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct CHOinformation_REQIE_Extensions_Entry {}
+pub struct CHOinformation_AddReqIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct CHOinformation_AddReqIE_Extensions(pub Vec<CHOinformation_AddReqIE_Extensions_Entry>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "0")]
+pub struct CHOinformation_ModReqConditionalReconfig(pub u8);
+impl CHOinformation_ModReqConditionalReconfig {
+    pub const INTRA_MN_CHO: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CHOinformation_ModReqIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct CHOinformation_ModReqIE_Extensions(pub Vec<CHOinformation_ModReqIE_Extensions_Entry>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OPEN")]
+pub enum CHOinformation_REQIE_Extensions_EntryExtensionValue {
+    #[asn(key = 446)]
+    Id_CHOTimeBasedInformation(CHOTimeBasedInformation),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CHOinformation_REQIE_Extensions_Entry {
+    #[asn(key_field = true)]
+    pub id: ProtocolIE_ID,
+    pub criticality: Criticality,
+    pub extension_value: CHOinformation_REQIE_Extensions_EntryExtensionValue,
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(
@@ -7930,6 +8736,287 @@ pub struct COUNTvaluePDCP_SNlength18IE_Extensions_Entry {}
 pub struct COUNTvaluePDCP_SNlength18IE_Extensions(
     pub Vec<COUNTvaluePDCP_SNlength18IE_Extensions_Entry>,
 );
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CPACcandidatePSCells_itemIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct CPACcandidatePSCells_itemIE_Extensions(
+    pub Vec<CPACcandidatePSCells_itemIE_Extensions_Entry>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CPACinformation_REQDIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct CPACinformation_REQDIE_Extensions(pub Vec<CPACinformation_REQDIE_Extensions_Entry>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "1", ub = "8")]
+pub struct CPAinformation_MODMax_no_of_pscells(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CPAinformation_MODIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct CPAinformation_MODIE_Extensions(pub Vec<CPAinformation_MODIE_Extensions_Entry>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CPAinformation_MOD_ACKIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct CPAinformation_MOD_ACKIE_Extensions(pub Vec<CPAinformation_MOD_ACKIE_Extensions_Entry>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "1", ub = "8")]
+pub struct CPAinformation_REQMax_no_of_pscells(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CPAinformation_REQIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct CPAinformation_REQIE_Extensions(pub Vec<CPAinformation_REQIE_Extensions_Entry>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CPAinformation_REQ_ACKIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct CPAinformation_REQ_ACKIE_Extensions(pub Vec<CPAinformation_REQ_ACKIE_Extensions_Entry>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OPEN")]
+pub enum CPC_cancelProtocolIEs_EntryValue {
+    #[asn(key = 5)]
+    Id_Cause(Cause),
+    #[asn(key = 111)]
+    Id_MeNB_UE_X2AP_ID(UE_X2AP_ID),
+    #[asn(key = 157)]
+    Id_MeNB_UE_X2AP_ID_Extension(UE_X2AP_ID_Extension),
+    #[asn(key = 207)]
+    Id_SgNB_UE_X2AP_ID(SgNB_UE_X2AP_ID),
+    #[asn(key = 239)]
+    Id_Target_SgNB_ID(GlobalGNB_ID),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CPC_cancelProtocolIEs_Entry {
+    #[asn(key_field = true)]
+    pub id: ProtocolIE_ID,
+    pub criticality: Criticality,
+    pub value: CPC_cancelProtocolIEs_EntryValue,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "0",
+    sz_ub = "65535"
+)]
+pub struct CPC_cancelProtocolIEs(pub Vec<CPC_cancelProtocolIEs_Entry>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CPC_target_SgNB_conf_itemIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct CPC_target_SgNB_conf_itemIE_Extensions(
+    pub Vec<CPC_target_SgNB_conf_itemIE_Extensions_Entry>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CPC_target_SgNB_mod_itemIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct CPC_target_SgNB_mod_itemIE_Extensions(
+    pub Vec<CPC_target_SgNB_mod_itemIE_Extensions_Entry>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "1", ub = "8")]
+pub struct CPC_target_SgNB_reqd_itemMax_no_of_pscells(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CPC_target_SgNB_reqd_itemIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct CPC_target_SgNB_reqd_itemIE_Extensions(
+    pub Vec<CPC_target_SgNB_reqd_itemIE_Extensions_Entry>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CPCinformation_CONFIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct CPCinformation_CONFIE_Extensions(pub Vec<CPCinformation_CONFIE_Extensions_Entry>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CPCinformation_NOTIFYIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct CPCinformation_NOTIFYIE_Extensions(pub Vec<CPCinformation_NOTIFYIE_Extensions_Entry>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CPCinformation_REQDIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct CPCinformation_REQDIE_Extensions(pub Vec<CPCinformation_REQDIE_Extensions_Entry>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CPCupdate_MODIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct CPCupdate_MODIE_Extensions(pub Vec<CPCupdate_MODIE_Extensions_Entry>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "95")]
+pub struct CSI_RS_MTC_Configuration_ItemCsi_RS_Index(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "1")]
+pub struct CSI_RS_MTC_Configuration_ItemCsi_RS_Status(pub u8);
+impl CSI_RS_MTC_Configuration_ItemCsi_RS_Status {
+    pub const ACTIVATED: u8 = 0u8;
+    pub const DEACTIVATED: u8 = 1u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CSI_RS_MTC_Configuration_ItemIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct CSI_RS_MTC_Configuration_ItemIE_Extensions(
+    pub Vec<CSI_RS_MTC_Configuration_ItemIE_Extensions_Entry>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "INTEGER", lb = "0", ub = "95")]
+pub struct CSI_RS_MTC_Neighbour_ItemCsi_RS_Index(pub u8);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CSI_RS_MTC_Neighbour_ItemIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct CSI_RS_MTC_Neighbour_ItemIE_Extensions(
+    pub Vec<CSI_RS_MTC_Neighbour_ItemIE_Extensions_Entry>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct CSI_RS_Neighbour_ItemIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct CSI_RS_Neighbour_ItemIE_Extensions(pub Vec<CSI_RS_Neighbour_ItemIE_Extensions_Entry>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
@@ -8217,6 +9304,8 @@ pub enum CellMeasurementResult_ItemIE_Extensions_EntryExtensionValue {
     Id_CellReportingIndicator(CellReportingIndicator),
     #[asn(key = 42)]
     Id_CompositeAvailableCapacityGroup(CompositeAvailableCapacityGroup),
+    #[asn(key = 417)]
+    Id_MeasurementResultforNRCellsPossiblyAggregated(MeasurementResultforNRCellsPossiblyAggregated),
     #[asn(key = 110)]
     Id_RSRPMRList(RSRPMRList),
 }
@@ -8750,6 +9839,8 @@ pub enum DataForwardingAddressIndicationProtocolIEs_EntryValue {
     Id_CHO_DC_EarlyDataForwarding(CHO_DC_EarlyDataForwarding),
     #[asn(key = 368)]
     Id_CHO_DC_Indicator(CHO_DC_Indicator),
+    #[asn(key = 431)]
+    Id_CPCinformation_NOTIFY(CPCinformation_NOTIFY),
     #[asn(key = 307)]
     Id_E_RABs_DataForwardingAddress_List(E_RABs_DataForwardingAddress_List),
     #[asn(key = 9)]
@@ -9222,6 +10313,8 @@ pub struct E_RABs_Admitted_ToBeAdded_SgNBAddReqAck_Item_SgNBPDCPnotpresentIE_Ext
 #[asn(type = "OPEN")]
 pub enum E_RABs_Admitted_ToBeAdded_SgNBAddReqAck_Item_SgNBPDCPpresentIE_Extensions_EntryExtensionValue
 {
+    #[asn(key = 436)]
+    Id_SecurityResult(SecurityResult),
     #[asn(key = 412)]
     Id_SourceDLForwardingIPAddress(TransportLayerAddress),
     #[asn(key = 311)]
@@ -9312,6 +10405,8 @@ pub struct E_RABs_Admitted_ToBeAdded_SgNBModAck_Item_SgNBPDCPnotpresentIE_Extens
 #[asn(type = "OPEN")]
 pub enum E_RABs_Admitted_ToBeAdded_SgNBModAck_Item_SgNBPDCPpresentIE_Extensions_EntryExtensionValue
 {
+    #[asn(key = 436)]
+    Id_SecurityResult(SecurityResult),
     #[asn(key = 412)]
     Id_SourceDLForwardingIPAddress(TransportLayerAddress),
     #[asn(key = 311)]
@@ -10105,6 +11200,8 @@ pub enum E_RABs_ToBeAdded_SgNBAddReq_Item_SgNBPDCPpresentIE_Extensions_EntryExte
     Id_Ethernet_Type(Ethernet_Type),
     #[asn(key = 317)]
     Id_RLCMode_transferred(RLCMode),
+    #[asn(key = 435)]
+    Id_SecurityIndication(SecurityIndication),
     #[asn(key = 412)]
     Id_SourceDLForwardingIPAddress(TransportLayerAddress),
     #[asn(key = 413)]
@@ -10213,6 +11310,8 @@ pub enum E_RABs_ToBeAdded_SgNBModReq_Item_SgNBPDCPpresentIE_Extensions_EntryExte
     Id_Ethernet_Type(Ethernet_Type),
     #[asn(key = 317)]
     Id_RLCMode_transferred(RLCMode),
+    #[asn(key = 435)]
+    Id_SecurityIndication(SecurityIndication),
     #[asn(key = 412)]
     Id_SourceDLForwardingIPAddress(TransportLayerAddress),
 }
@@ -10711,8 +11810,21 @@ pub struct E_RABs_ToBeReleased_SgNBChaConf_Item_SgNBPDCPnotpresentIE_Extensions(
 );
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OPEN")]
+pub enum E_RABs_ToBeReleased_SgNBChaConf_Item_SgNBPDCPpresentIE_Extensions_EntryExtensionValue {
+    #[asn(key = 441)]
+    Id_AdditionalListofForwardingGTPTunnelEndpoint(AdditionalListofForwardingGTPTunnelEndpoint),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct E_RABs_ToBeReleased_SgNBChaConf_Item_SgNBPDCPpresentIE_Extensions_Entry {}
+pub struct E_RABs_ToBeReleased_SgNBChaConf_Item_SgNBPDCPpresentIE_Extensions_Entry {
+    #[asn(key_field = true)]
+    pub id: ProtocolIE_ID,
+    pub criticality: Criticality,
+    pub extension_value:
+        E_RABs_ToBeReleased_SgNBChaConf_Item_SgNBPDCPpresentIE_Extensions_EntryExtensionValue,
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(
@@ -11034,6 +12146,8 @@ pub enum E_RABs_ToBeSetup_ItemIE_Extensions_EntryExtensionValue {
     Id_DAPSRequestInfo(DAPSRequestInfo),
     #[asn(key = 369)]
     Id_Ethernet_Type(Ethernet_Type),
+    #[asn(key = 435)]
+    Id_SecurityIndication(SecurityIndication),
     #[asn(key = 412)]
     Id_SourceDLForwardingIPAddress(TransportLayerAddress),
 }
@@ -11093,6 +12207,8 @@ pub struct E_RABs_ToBeSetup_ListRetrieve_Entry {
 pub enum E_RABs_ToBeSetupRetrieve_ItemIE_Extensions_EntryExtensionValue {
     #[asn(key = 369)]
     Id_Ethernet_Type(Ethernet_Type),
+    #[asn(key = 435)]
+    Id_SecurityIndication(SecurityIndication),
     #[asn(key = 412)]
     Id_SourceDLForwardingIPAddress(TransportLayerAddress),
     #[asn(key = 306)]
@@ -12218,8 +13334,20 @@ pub struct FDD_InfoIE_Extensions_Entry {
 pub struct FDD_InfoIE_Extensions(pub Vec<FDD_InfoIE_Extensions_Entry>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OPEN")]
+pub enum FDD_InfoNeighbourServedNRCell_InformationIE_Extensions_EntryExtensionValue {
+    #[asn(key = 387)]
+    Id_ULCarrierList(NRCarrierList),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct FDD_InfoNeighbourServedNRCell_InformationIE_Extensions_Entry {}
+pub struct FDD_InfoNeighbourServedNRCell_InformationIE_Extensions_Entry {
+    #[asn(key_field = true)]
+    pub id: ProtocolIE_ID,
+    pub criticality: Criticality,
+    pub extension_value: FDD_InfoNeighbourServedNRCell_InformationIE_Extensions_EntryExtensionValue,
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(
@@ -12755,6 +13883,8 @@ pub enum HandoverRestrictionListIE_Extensions_EntryExtensionValue {
     Id_NRrestrictionin5GS(NRrestrictionin5GS),
     #[asn(key = 202)]
     Id_NRrestrictioninEPSasSecondaryRAT(NRrestrictioninEPSasSecondaryRAT),
+    #[asn(key = 437)]
+    Id_RAT_Restrictions(RAT_Restrictions),
     #[asn(key = 358)]
     Id_UnlicensedSpectrumRestriction(UnlicensedSpectrumRestriction),
 }
@@ -12815,10 +13945,14 @@ pub struct HandoverSuccessProtocolIEs(pub Vec<HandoverSuccessProtocolIEs_Entry>)
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OPEN")]
 pub enum InitiatingMessageValue {
+    #[asn(key = 59)]
+    Id_CPC_cancel(CPC_cancel),
     #[asn(key = 42)]
     Id_SgNBActivityNotification(SgNBActivityNotification),
     #[asn(key = 56)]
     Id_UERadioCapabilityIDMapping(UERadioCapabilityIDMappingRequest),
+    #[asn(key = 57)]
+    Id_accessAndMobilityIndication(AccessAndMobilityIndication),
     #[asn(key = 15)]
     Id_cellActivation(CellActivationRequest),
     #[asn(key = 52)]
@@ -12883,6 +14017,8 @@ pub enum InitiatingMessageValue {
     Id_rLFIndication(RLFIndication),
     #[asn(key = 35)]
     Id_rRCTransfer(RRCTransfer),
+    #[asn(key = 60)]
+    Id_rachIndication(RachIndication),
     #[asn(key = 7)]
     Id_reset(ResetRequest),
     #[asn(key = 10)]
@@ -13182,6 +14318,8 @@ pub struct InitiatingNodeType_EutranrCellResourceCoordination_initiate_en_gNB(
 pub enum LastVisitedEUTRANCellInformationIE_Extensions_EntryExtensionValue {
     #[asn(key = 80)]
     Id_HO_cause(Cause),
+    #[asn(key = 418)]
+    Id_PSCell_UE_HistoryInformation(PSCell_UE_HistoryInformation),
     #[asn(key = 77)]
     Id_Time_UE_StayedInCell_EnhancedGranularity(Time_UE_StayedInCell_EnhancedGranularity),
 }
@@ -13338,8 +14476,20 @@ pub struct M3ConfigurationIE_Extensions_Entry {}
 pub struct M3ConfigurationIE_Extensions(pub Vec<M3ConfigurationIE_Extensions_Entry>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OPEN")]
+pub enum M4ConfigurationIE_Extensions_EntryExtensionValue {
+    #[asn(key = 442)]
+    Id_M4ReportAmount(M4ReportAmountMDT),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct M4ConfigurationIE_Extensions_Entry {}
+pub struct M4ConfigurationIE_Extensions_Entry {
+    #[asn(key_field = true)]
+    pub id: ProtocolIE_ID,
+    pub criticality: Criticality,
+    pub extension_value: M4ConfigurationIE_Extensions_EntryExtensionValue,
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(
@@ -13351,8 +14501,20 @@ pub struct M4ConfigurationIE_Extensions_Entry {}
 pub struct M4ConfigurationIE_Extensions(pub Vec<M4ConfigurationIE_Extensions_Entry>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OPEN")]
+pub enum M5ConfigurationIE_Extensions_EntryExtensionValue {
+    #[asn(key = 443)]
+    Id_M5ReportAmount(M5ReportAmountMDT),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct M5ConfigurationIE_Extensions_Entry {}
+pub struct M5ConfigurationIE_Extensions_Entry {
+    #[asn(key_field = true)]
+    pub id: ProtocolIE_ID,
+    pub criticality: Criticality,
+    pub extension_value: M5ConfigurationIE_Extensions_EntryExtensionValue,
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(
@@ -13364,8 +14526,20 @@ pub struct M5ConfigurationIE_Extensions_Entry {}
 pub struct M5ConfigurationIE_Extensions(pub Vec<M5ConfigurationIE_Extensions_Entry>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OPEN")]
+pub enum M6ConfigurationIE_Extensions_EntryExtensionValue {
+    #[asn(key = 444)]
+    Id_M6ReportAmount(M6ReportAmountMDT),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct M6ConfigurationIE_Extensions_Entry {}
+pub struct M6ConfigurationIE_Extensions_Entry {
+    #[asn(key_field = true)]
+    pub id: ProtocolIE_ID,
+    pub criticality: Criticality,
+    pub extension_value: M6ConfigurationIE_Extensions_EntryExtensionValue,
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(
@@ -13377,8 +14551,20 @@ pub struct M6ConfigurationIE_Extensions_Entry {}
 pub struct M6ConfigurationIE_Extensions(pub Vec<M6ConfigurationIE_Extensions_Entry>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OPEN")]
+pub enum M7ConfigurationIE_Extensions_EntryExtensionValue {
+    #[asn(key = 445)]
+    Id_M7ReportAmount(M7ReportAmountMDT),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct M7ConfigurationIE_Extensions_Entry {}
+pub struct M7ConfigurationIE_Extensions_Entry {
+    #[asn(key_field = true)]
+    pub id: ProtocolIE_ID,
+    pub criticality: Criticality,
+    pub extension_value: M7ConfigurationIE_Extensions_EntryExtensionValue,
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(
@@ -13419,6 +14605,8 @@ pub enum MDT_ConfigurationIE_Extensions_EntryExtensionValue {
     Id_M7Configuration(M7Configuration),
     #[asn(key = 88)]
     Id_MDT_Location_Info(MDT_Location_Info),
+    #[asn(key = 440)]
+    Id_SensorMeasurementConfiguration(SensorMeasurementConfiguration),
     #[asn(key = 90)]
     Id_SignallingBasedMDTPLMNList(MDTPLMNList),
     #[asn(key = 304)]
@@ -13442,6 +14630,21 @@ pub struct MDT_ConfigurationIE_Extensions_Entry {
     sz_ub = "65535"
 )]
 pub struct MDT_ConfigurationIE_Extensions(pub Vec<MDT_ConfigurationIE_Extensions_Entry>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct MIMOPRBusageInformationIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct MIMOPRBusageInformationIE_Extensions(
+    pub Vec<MIMOPRBusageInformationIE_Extensions_Entry>,
+);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "BITSTRING", sz_extensible = true, sz_lb = "6", sz_ub = "4400")]
@@ -13545,6 +14748,21 @@ pub struct MeasurementInitiationResult_List_Entry {
     pub criticality: Criticality,
     pub value: MeasurementInitiationResult_List_EntryValue,
 }
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct MeasurementResultforNRCellsPossiblyAggregated_ItemIE_Extension_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct MeasurementResultforNRCellsPossiblyAggregated_ItemIE_Extension(
+    pub Vec<MeasurementResultforNRCellsPossiblyAggregated_ItemIE_Extension_Entry>,
+);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
@@ -13897,8 +15115,16 @@ pub enum NRNeighbour_Information_EntryNRNeighbourModeInfo {
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OPEN")]
 pub enum NRNeighbour_Information_EntryIE_Extensions_EntryExtensionValue {
+    #[asn(key = 433)]
+    Id_Additional_Measurement_Timing_Configuration_List(
+        Additional_Measurement_Timing_Configuration_List,
+    ),
     #[asn(key = 380)]
     Id_CSI_RSTransmissionIndication(CSI_RSTransmissionIndication),
+    #[asn(key = 390)]
+    Id_NRCellPRACHConfig(NRCellPRACHConfig),
+    #[asn(key = 389)]
+    Id_SSB_PositionsInBurst(SSB_PositionsInBurst),
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -13938,8 +15164,45 @@ pub struct NRNeighbour_Information_Entry {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OPEN")]
+pub enum NRRAReportList_ItemIE_Extensions_EntryExtensionValue {
+    #[asn(key = 448)]
+    Id_PSCellListContainer(PSCellListContainer),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct NRRadioResourceStatusIE_Extensions_Entry {}
+pub struct NRRAReportList_ItemIE_Extensions_Entry {
+    #[asn(key_field = true)]
+    pub id: ProtocolIE_ID,
+    pub criticality: Criticality,
+    pub extension_value: NRRAReportList_ItemIE_Extensions_EntryExtensionValue,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct NRRAReportList_ItemIE_Extensions(pub Vec<NRRAReportList_ItemIE_Extensions_Entry>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OPEN")]
+pub enum NRRadioResourceStatusIE_Extensions_EntryExtensionValue {
+    #[asn(key = 439)]
+    Id_MIMOPRBusageInformation(MIMOPRBusageInformation),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct NRRadioResourceStatusIE_Extensions_Entry {
+    #[asn(key_field = true)]
+    pub id: ProtocolIE_ID,
+    pub criticality: Criticality,
+    pub extension_value: NRRadioResourceStatusIE_Extensions_EntryExtensionValue,
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(
@@ -14311,6 +15574,25 @@ pub struct QoS_Mapping_InformationIE_Extensions(
 );
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "BITSTRING", sz_extensible = true, sz_lb = "8", sz_ub = "8")]
+pub struct RAT_RestrictionsItemRAT_RestrictionInformation(
+    pub bitvec::vec::BitVec<u8, bitvec::order::Msb0>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct RAT_RestrictionsItemIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct RAT_RestrictionsItemIE_Extensions(pub Vec<RAT_RestrictionsItemIE_Extensions_Entry>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
 pub struct RLC_StatusIE_Extensions_Entry {}
 
@@ -14474,6 +15756,46 @@ pub struct RSRPMeasurementResult_Entry {
     #[asn(optional_idx = 0)]
     pub ie_extensions: Option<RSRPMeasurementResult_EntryIE_Extensions>,
 }
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct RaReportIndicationList_ItemIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct RaReportIndicationList_ItemIE_Extensions(
+    pub Vec<RaReportIndicationList_ItemIE_Extensions_Entry>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OPEN")]
+pub enum RachIndicationProtocolIEs_EntryValue {
+    #[asn(key = 447)]
+    Id_RaReportIndicationList(RaReportIndicationList),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct RachIndicationProtocolIEs_Entry {
+    #[asn(key_field = true)]
+    pub id: ProtocolIE_ID,
+    pub criticality: Criticality,
+    pub value: RachIndicationProtocolIEs_EntryValue,
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "0",
+    sz_ub = "65535"
+)]
+pub struct RachIndicationProtocolIEs(pub Vec<RachIndicationProtocolIEs_Entry>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OPEN")]
@@ -16012,6 +17334,73 @@ pub struct SecondaryRATUsageReportList_Entry {
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct SecurityIndicationIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct SecurityIndicationIE_Extensions(pub Vec<SecurityIndicationIE_Extensions_Entry>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct SecurityResultIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct SecurityResultIE_Extensions(pub Vec<SecurityResultIE_Extensions_Entry>);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct SensorMeasConfigNameItemIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct SensorMeasConfigNameItemIE_Extensions(
+    pub Vec<SensorMeasConfigNameItemIE_Extensions_Entry>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct SensorMeasurementConfigurationIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct SensorMeasurementConfigurationIE_Extensions(
+    pub Vec<SensorMeasurementConfigurationIE_Extensions_Entry>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "0")]
+pub struct SensorNameConfig_uncompensatedBarometricConfig(pub u8);
+impl SensorNameConfig_uncompensatedBarometricConfig {
+    pub const TRUE: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct SensorNameConfig_choice_extension {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OPEN")]
 pub enum ServedCell_InformationIE_Extensions_EntryExtensionValue {
     #[asn(key = 336)]
@@ -16059,10 +17448,34 @@ pub struct ServedCell_InformationIE_Extensions_Entry {
 pub struct ServedCell_InformationIE_Extensions(pub Vec<ServedCell_InformationIE_Extensions_Entry>);
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "ENUMERATED", extensible = true, lb = "0", ub = "0")]
+pub struct ServedCellSpecificInfoReq_NR_ItemAdditionalMTCListRequestIndicator(pub u8);
+impl ServedCellSpecificInfoReq_NR_ItemAdditionalMTCListRequestIndicator {
+    pub const ADDITIONAL_MTC_LIST_REQUESTED: u8 = 0u8;
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "SEQUENCE", extensible = false)]
+pub struct ServedCellSpecificInfoReq_NR_ItemIE_Extensions_Entry {}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(
+    type = "SEQUENCE-OF",
+    sz_extensible = false,
+    sz_lb = "1",
+    sz_ub = "65535"
+)]
+pub struct ServedCellSpecificInfoReq_NR_ItemIE_Extensions(
+    pub Vec<ServedCellSpecificInfoReq_NR_ItemIE_Extensions_Entry>,
+);
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OPEN")]
 pub enum ServedCells_EntryIE_Extensions_EntryExtensionValue {
     #[asn(key = 327)]
     Id_NRNeighbourInfoToAdd(NRNeighbour_Information),
+    #[asn(key = 434)]
+    Id_ServedCellSpecificInfoReq_NR(ServedCellSpecificInfoReq_NR),
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -16204,6 +17617,10 @@ pub struct ServedNRCell_InformationMeasurementTimingConfiguration(pub Vec<u8>);
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OPEN")]
 pub enum ServedNRCell_InformationIE_Extensions_EntryExtensionValue {
+    #[asn(key = 433)]
+    Id_Additional_Measurement_Timing_Configuration_List(
+        Additional_Measurement_Timing_Configuration_List,
+    ),
     #[asn(key = 337)]
     Id_BPLMN_ID_Info_NR(BPLMN_ID_Info_NR),
     #[asn(key = 380)]
@@ -16269,8 +17686,20 @@ pub struct ServedNRCellsToModify_ItemIE_Extensions(
 );
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
+#[asn(type = "OPEN")]
+pub enum ServedNRcellsENDCX2ManagementList_EntryIE_Extensions_EntryExtensionValue {
+    #[asn(key = 434)]
+    Id_ServedCellSpecificInfoReq_NR(ServedCellSpecificInfoReq_NR),
+}
+
+#[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "SEQUENCE", extensible = false)]
-pub struct ServedNRcellsENDCX2ManagementList_EntryIE_Extensions_Entry {}
+pub struct ServedNRcellsENDCX2ManagementList_EntryIE_Extensions_Entry {
+    #[asn(key_field = true)]
+    pub id: ProtocolIE_ID,
+    pub criticality: Criticality,
+    pub extension_value: ServedNRcellsENDCX2ManagementList_EntryIE_Extensions_EntryExtensionValue,
+}
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(
@@ -16331,6 +17760,10 @@ pub struct SgNBActivityNotificationProtocolIEs(pub Vec<SgNBActivityNotificationP
 pub enum SgNBAdditionRequestProtocolIEs_EntryValue {
     #[asn(key = 340)]
     Id_AdditionalRRMPriorityIndex(AdditionalRRMPriorityIndex),
+    #[asn(key = 420)]
+    Id_CHOinformation_AddReq(CHOinformation_AddReq),
+    #[asn(key = 424)]
+    Id_CPAinformation_REQ(CPAinformation_REQ),
     #[asn(key = 329)]
     Id_DesiredActNotificationLevel(DesiredActNotificationLevel),
     #[asn(key = 205)]
@@ -16363,10 +17796,14 @@ pub enum SgNBAdditionRequestProtocolIEs_EntryValue {
     Id_MeNBtoSgNBContainer(MeNBtoSgNBContainer),
     #[asn(key = 248)]
     Id_NRUESecurityCapabilities(NRUESecurityCapabilities),
+    #[asn(key = 419)]
+    Id_PSCellChangeHistory(PSCellChangeHistory),
     #[asn(key = 343)]
     Id_RequestedFastMCGRecoveryViaSRB3(RequestedFastMCGRecoveryViaSRB3),
     #[asn(key = 208)]
     Id_RequestedSplitSRBs(SplitSRBs),
+    #[asn(key = 423)]
+    Id_SCGActivationRequest(SCGActivationRequest),
     #[asn(key = 278)]
     Id_SGNB_Addition_Trigger_Ind(SGNB_Addition_Trigger_Ind),
     #[asn(key = 269)]
@@ -16381,6 +17818,10 @@ pub enum SgNBAdditionRequestProtocolIEs_EntryValue {
     Id_SubscriberProfileIDforRFP(SubscriberProfileIDforRFP),
     #[asn(key = 13)]
     Id_TraceActivation(TraceActivation),
+    #[asn(key = 15)]
+    Id_UE_HistoryInformation(UE_HistoryInformation),
+    #[asn(key = 105)]
+    Id_UE_HistoryInformationFromTheUE(UE_HistoryInformationFromTheUE),
     #[asn(key = 359)]
     Id_UEContextReferenceatSourceNGRAN(RAN_UE_NGAP_ID),
     #[asn(key = 378)]
@@ -16414,6 +17855,8 @@ pub enum SgNBAdditionRequestAcknowledgeProtocolIEs_EntryValue {
     Id_AdmittedSplitSRBs(SplitSRBs),
     #[asn(key = 344)]
     Id_AvailableFastMCGRecoveryViaSRB3(AvailableFastMCGRecoveryViaSRB3),
+    #[asn(key = 425)]
+    Id_CPAinformation_REQ_ACK(CPAinformation_REQ_ACK),
     #[asn(key = 17)]
     Id_CriticalityDiagnostics(CriticalityDiagnostics),
     #[asn(key = 410)]
@@ -16430,6 +17873,8 @@ pub enum SgNBAdditionRequestAcknowledgeProtocolIEs_EntryValue {
     Id_MeNB_UE_X2AP_ID_Extension(UE_X2AP_ID_Extension),
     #[asn(key = 272)]
     Id_RRCConfigIndication(RRC_Config_Ind),
+    #[asn(key = 422)]
+    Id_SCGActivationStatus(SCGActivationStatus),
     #[asn(key = 207)]
     Id_SgNB_UE_X2AP_ID(SgNB_UE_X2AP_ID),
     #[asn(key = 258)]
@@ -16496,6 +17941,8 @@ pub struct SgNBAdditionRequestRejectProtocolIEs(
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OPEN")]
 pub enum SgNBChangeConfirmProtocolIEs_EntryValue {
+    #[asn(key = 430)]
+    Id_CPCinformation_CONF(CPCinformation_CONF),
     #[asn(key = 17)]
     Id_CriticalityDiagnostics(CriticalityDiagnostics),
     #[asn(key = 229)]
@@ -16504,6 +17951,8 @@ pub enum SgNBChangeConfirmProtocolIEs_EntryValue {
     Id_MeNB_UE_X2AP_ID(UE_X2AP_ID),
     #[asn(key = 157)]
     Id_MeNB_UE_X2AP_ID_Extension(UE_X2AP_ID_Extension),
+    #[asn(key = 206)]
+    Id_MeNBtoSgNBContainer(MeNBtoSgNBContainer),
     #[asn(key = 207)]
     Id_SgNB_UE_X2AP_ID(SgNB_UE_X2AP_ID),
 }
@@ -16562,12 +18011,16 @@ pub struct SgNBChangeRefuseProtocolIEs(pub Vec<SgNBChangeRefuseProtocolIEs_Entry
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OPEN")]
 pub enum SgNBChangeRequiredProtocolIEs_EntryValue {
+    #[asn(key = 429)]
+    Id_CPCinformation_REQD(CPCinformation_REQD),
     #[asn(key = 5)]
     Id_Cause(Cause),
     #[asn(key = 111)]
     Id_MeNB_UE_X2AP_ID(UE_X2AP_ID),
     #[asn(key = 157)]
     Id_MeNB_UE_X2AP_ID_Extension(UE_X2AP_ID_Extension),
+    #[asn(key = 415)]
+    Id_SCG_UE_HistoryInformation(SCG_UE_HistoryInformation),
     #[asn(key = 207)]
     Id_SgNB_UE_X2AP_ID(SgNB_UE_X2AP_ID),
     #[asn(key = 211)]
@@ -16700,6 +18153,12 @@ pub struct SgNBModificationRefuseProtocolIEs(pub Vec<SgNBModificationRefuseProto
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OPEN")]
 pub enum SgNBModificationRequestProtocolIEs_EntryValue {
+    #[asn(key = 421)]
+    Id_CHOinformation_ModReq(CHOinformation_ModReq),
+    #[asn(key = 426)]
+    Id_CPAinformation_MOD(CPAinformation_MOD),
+    #[asn(key = 432)]
+    Id_CPCupdate_MOD(CPCupdate_MOD),
     #[asn(key = 5)]
     Id_Cause(Cause),
     #[asn(key = 329)]
@@ -16722,6 +18181,8 @@ pub enum SgNBModificationRequestProtocolIEs_EntryValue {
     Id_MeNBResourceCoordinationInformation(MeNBResourceCoordinationInformation),
     #[asn(key = 206)]
     Id_MeNBtoSgNBContainer(MeNBtoSgNBContainer),
+    #[asn(key = 416)]
+    Id_PSCellHistoryInformationRetrieve(PSCellHistoryInformationRetrieve),
     #[asn(key = 343)]
     Id_RequestedFastMCGRecoveryViaSRB3(RequestedFastMCGRecoveryViaSRB3),
     #[asn(key = 345)]
@@ -16730,6 +18191,8 @@ pub enum SgNBModificationRequestProtocolIEs_EntryValue {
     Id_RequestedSplitSRBs(SplitSRBs),
     #[asn(key = 280)]
     Id_RequestedSplitSRBsrelease(SplitSRBs),
+    #[asn(key = 423)]
+    Id_SCGActivationRequest(SCGActivationRequest),
     #[asn(key = 241)]
     Id_SCGConfigurationQuery(SCGConfigurationQuery),
     #[asn(key = 379)]
@@ -16740,6 +18203,8 @@ pub enum SgNBModificationRequestProtocolIEs_EntryValue {
     Id_SgNB_UE_X2AP_ID(SgNB_UE_X2AP_ID),
     #[asn(key = 215)]
     Id_UE_ContextInformation_SgNBModReq(UE_ContextInformation_SgNBModReq),
+    #[asn(key = 105)]
+    Id_UE_HistoryInformationFromTheUE(UE_HistoryInformationFromTheUE),
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
@@ -16769,6 +18234,8 @@ pub enum SgNBModificationRequestAcknowledgeProtocolIEs_EntryValue {
     Id_AdmittedSplitSRBsrelease(SplitSRBs),
     #[asn(key = 344)]
     Id_AvailableFastMCGRecoveryViaSRB3(AvailableFastMCGRecoveryViaSRB3),
+    #[asn(key = 427)]
+    Id_CPAinformation_MOD_ACK(CPAinformation_MOD_ACK),
     #[asn(key = 17)]
     Id_CriticalityDiagnostics(CriticalityDiagnostics),
     #[asn(key = 219)]
@@ -16789,6 +18256,10 @@ pub enum SgNBModificationRequestAcknowledgeProtocolIEs_EntryValue {
     Id_RRCConfigIndication(RRC_Config_Ind),
     #[asn(key = 346)]
     Id_ReleaseFastMCGRecoveryViaSRB3(ReleaseFastMCGRecoveryViaSRB3),
+    #[asn(key = 415)]
+    Id_SCG_UE_HistoryInformation(SCG_UE_HistoryInformation),
+    #[asn(key = 422)]
+    Id_SCGActivationStatus(SCGActivationStatus),
     #[asn(key = 207)]
     Id_SgNB_UE_X2AP_ID(SgNB_UE_X2AP_ID),
     #[asn(key = 258)]
@@ -16855,6 +18326,8 @@ pub struct SgNBModificationRequestRejectProtocolIEs(
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OPEN")]
 pub enum SgNBModificationRequiredProtocolIEs_EntryValue {
+    #[asn(key = 428)]
+    Id_CPACinformation_REQD(CPACinformation_REQD),
     #[asn(key = 5)]
     Id_Cause(Cause),
     #[asn(key = 226)]
@@ -16871,6 +18344,12 @@ pub enum SgNBModificationRequiredProtocolIEs_EntryValue {
     Id_PDCPChangeIndication(PDCPChangeIndication),
     #[asn(key = 272)]
     Id_RRCConfigIndication(RRC_Config_Ind),
+    #[asn(key = 415)]
+    Id_SCG_UE_HistoryInformation(SCG_UE_HistoryInformation),
+    #[asn(key = 423)]
+    Id_SCGActivationRequest(SCGActivationRequest),
+    #[asn(key = 438)]
+    Id_SCGreconfigNotification(SCGreconfigNotification),
     #[asn(key = 207)]
     Id_SgNB_UE_X2AP_ID(SgNB_UE_X2AP_ID),
     #[asn(key = 258)]
@@ -17015,6 +18494,8 @@ pub enum SgNBReleaseRequestAcknowledgeProtocolIEs_EntryValue {
     Id_MeNB_UE_X2AP_ID(UE_X2AP_ID),
     #[asn(key = 157)]
     Id_MeNB_UE_X2AP_ID_Extension(UE_X2AP_ID_Extension),
+    #[asn(key = 415)]
+    Id_SCG_UE_HistoryInformation(SCG_UE_HistoryInformation),
     #[asn(key = 207)]
     Id_SgNB_UE_X2AP_ID(SgNB_UE_X2AP_ID),
 }
@@ -17083,6 +18564,8 @@ pub enum SgNBReleaseRequiredProtocolIEs_EntryValue {
     Id_MeNB_UE_X2AP_ID(UE_X2AP_ID),
     #[asn(key = 157)]
     Id_MeNB_UE_X2AP_ID_Extension(UE_X2AP_ID_Extension),
+    #[asn(key = 415)]
+    Id_SCG_UE_HistoryInformation(SCG_UE_HistoryInformation),
     #[asn(key = 207)]
     Id_SgNB_UE_X2AP_ID(SgNB_UE_X2AP_ID),
     #[asn(key = 211)]
@@ -17464,8 +18947,12 @@ pub struct TDD_InfoIE_Extensions(pub Vec<TDD_InfoIE_Extensions_Entry>);
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
 #[asn(type = "OPEN")]
 pub enum TDD_InfoNeighbourServedNRCell_InformationIE_Extensions_EntryExtensionValue {
+    #[asn(key = 386)]
+    Id_CarrierList(NRCarrierList),
     #[asn(key = 399)]
     Id_IntendedTDD_DL_ULConfiguration_NR(IntendedTDD_DL_ULConfiguration_NR),
+    #[asn(key = 385)]
+    Id_TDDULDLConfigurationCommonNR(TDDULDLConfigurationCommonNR),
 }
 
 #[derive(asn1_codecs_derive :: UperCodec, serde :: Serialize, serde :: Deserialize, Debug)]
