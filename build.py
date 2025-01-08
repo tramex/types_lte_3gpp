@@ -188,6 +188,7 @@ def main():
     with open("src/" + file, "w", encoding="utf-8") as f:
         for one_code in codecs:
             f.write(f"pub mod {one_code};\n")
+        f.write("pub mod export;\n")  # for re-export
 
 
 if __name__ == "__main__":
